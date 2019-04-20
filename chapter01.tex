@@ -1,0 +1,450 @@
+\chapter{Introduction}
+
+In the cultural heritage section there is a long tradition of building catalogs. During the centuries museums, archives and libraries developed different systems to record their collections.
+
+There is no a good definition for the quality, but the literature agree that quality should somehow be in line with the `fitness for purpose'. The primary purposes of these data are registering the collection and helping users in discovery. The famous functional analysis of MARC 21 format (the most popular metadata  schema for bibliographic records) goes further and sets up functional groups, such as search, identity, select, manage, process and classifies the underlying schema elements to these categories~\cite{frbr1998, loc2006}. So by analyzing the fields of the individual records, we can more precisely tell which aspects of the quality are good or bad.
+
+These records are not only for registration and helping discovery of the materials, they are also the sources of additional researches in the Humanities. The catalogue contains lots of factual information, which are not available in other sources (or not in organized way), and therefore you can find the printed catalogs of important collections in the reading rooms of research institutions. In the past two decades several research projects attached existing library metadata to different types of full text datasets (character recognized or XML encoded versions), to provide additional facets for the analysis process such as personal or institutional names (creators, publishers), geographical information (places of publication), timespan and so on.
+
+Just a few examples: KOLIMO (Corpus of Literary Modernism)\footnote{\url{https://kolimo.uni-goettingen.de/index.html}} uses TEI headers to contain catalog information as well as other metadata, extracting literature and language features specific to a given time period, or to a particular author. OmniArt is research project~\cite{strezoski2017}, based on the metadata of Rijksmuseum, Met and the Web Gallery of Art. They collected 432,217 digital images with curated metadata, which is the largest collection of that kind. Benjamin Schmidt uses the HathiTrust digital library and its metadata records to test machine learning classification algorithms, where he can compare the results with the Library of Congress subject headings available in the metadata records~\cite{smith2017}. The common features of these project is that they use the cultural heritage institutions’ catalog data as primary sources in their own research. It is self evident, that quality of those data might have effect on the conclusions of the research, and on the other hand it is over the task and possibilities of a researcher (or even a research group) to validate the records one by one, and fix them as needed.
+
+This third use case of cultural heritage data become so frequent recently, that two years ago it lead to coining a new phrase: ``collections as data''. As the Santa Barbara Statement on Collections as Data~\cite{santabarbarastatement2017} summarizes: ``For decades, cultural heritage institutions have been building digital collections. Simultaneously, researchers have drawn upon computational means to ask questions and look for patterns. This work goes under a wide variety of names including but not limited to text mining, data visualization, mapping, image analysis, audio analysis, and network analysis. With notable exceptions [...], cultural heritage institutions have rarely built digital collections or designed access with the aim to support computational use. Thinking about collections as data signals an intention to change that.'' While collections as data movement emphasizes the importance of re-usability of cultural heritage data, and we expect that this great and important movement will help organizations to think more about the scientific usage or their metadata,\footnote{A 2016 report which analyses the usage of two important British cultural heritage collections mentions that ``The citation evidence that is available shows a growing literature that mentions using EEBO or HCPP'' (the abbreviations of the two database), and ``Shifts to humanities data science and data-driven research are of growing interest to scholars''.~\cite{meyer2016}} their principles are focusing on access, and get rid of current barriers, and misses the aspects of quality. The quality assessment aspect we propose in this project would be a complementary element next to the other principles.
+
+%%%
+\section{Metadata quality}
+
+\quote{``We know [metadata quality] when we see it, but conveying the full bundle of assumptions and experience that allow us to identify it is a different matter.'' (Bruce and Hillmann)~\cite{bruce-hillmann2004}.}
+
+The (American) National Information Standards Organization (NISO) provides a definition for metadata, which is ``structured information that describes, explains, locates, or otherwise represents something else.''~\cite{framework2007} The interesting thing in this definition is the list of verbs. It is not a static entity, the metadata has multiple different functions and should be in context of other entities! That is in harmony with the famous the quality assurance slogan `fitness for purpose'. There are different definitions of the slogan, some of them are
+
+\begin{itemize}
+ \setlength{\parskip}{0pt}
+ \setlength{\itemsep}{0pt plus 1pt}
+ \item fulfillment of a specification or stated outcomes
+ \item measured against what is seen to be the goal of the unit
+ \item achieving institutional mission and objectives
+\end{itemize}
+
+From these definitions we can draw two important conclusions: 
+
+1) an object's quality is not an absolute value, it depends on the context of the object, what goal(s) the agents in the current context would like to achieve with the help of the object
+
+2) the quality is a multi-faceted value. As the object might have different functions, we should evaluate the fulfillments of them independently.
+
+NISO's definition of metadata nicely fits into this framework, as it highlights the multi-faceted and contextual nature of metadata.
+
+In an aggregated metadata collection such as Europeana, the main purpose of the metadata is to provide access points to the objects which the metadata describe (and stored in the providing cultural heritage institutions, outside of Europeana). If the metadata stored in Europeana is of low quality or missing, the service will not be able to provide access points, and the user will not use the object.
+
+% more explanation:
+% Data on the Web Best Practices
+% W3C Working Draft, https://www.w3.org/TR/dwbp/
+
+As Bruce and Hillmann states, an expert could recognize if a given metadata record is ``good'' or ``bad'', but what we would like to achieve is to formalize this knowledge by setting up the dimensions of the quality, and establishing metrics and measurment methods.
+
+
+\section{Measuring the Quality of Individual Objects}
+
+The main types of data quality measurement that we can run on metadata records are the following:
+
+\emph{General structural and semantic metrics}. These measurements are the most well known in the literature, and following the seminal articles of this research domain~\cite{bruce-hillmann2004, ochoa-duval2009} several projects reported to measure the metrics of \emph{completeness} (the existence of the defined fields in the records), \emph{accuracy} (comparison of a full data object and its metadata), \emph{conformance to expectations} (schema rule validation and information value), \emph{logical consistency and coherence}, \emph{accessibility} (how easy is to understand the text of the record), \emph{timeliness} (the metadata quality change over time) and \emph{provenance} (the relationship between other metrics and the creator of the data).
+
+\emph{Support of functional requirements}. Each data schema is created for supporting a set of functionalities, such as searching, identifying or describing objects. The data elements support one or more of these functionalities, and their existence and content has an impact of these functionalities. An example: a timeline widget expects a specific date format; if the field value is in another format the widget will ignore it. This family of metrics gives measures the scale of support of the functional requirement. To apply these metrics we should take the functional requirement analysis of the data schema and map the individual data elements (classes and properties) to the functionalities. The result will be a report which tells how the data support the intended functions. Following the terminology established in~\cite{gavrilis2015} we call these scores `sub-dimensions’. The Europeana Data Quality Committee defined a number of sub-dimensions (such as searchability, descriptiveness, identification, contextualization, browsing etc.) which could be reused in other metadata domains.
+
+\emph{Existence of known data patterns}. These are schema- and domain-specific patterns which occur frequently in the datasets. There are good patterns which detect good data creation practices, and anti-patterns, which should be avoided (such as data repetition, meaningless data etc.). For some domains there are existing pattern catalogs (e.g. the Europeana Data Quality Committee works on a Europeana specific pattern catalog, while~\cite{suominen2012}  examined three SKOS validation criteria catalogs).
+
+\emph{Multilinguality}. RDF provides an easily adaptable technique to add a language tag to literal values, and multilinguality has become a key aspect in the Linked Open Data world. In cultural heritage databases the translation of the descriptive fields (such as title, description) might be quite a resource-intensive task. On the other hand reusing existing multilingual dictionaries for subject headings is a relatively simple and cheap process. On the measurement side the nice thing is that generally the multilingual layer in metadata schemas (even in those not built on top of RDF) are similar, so the implementation can be abstracted. The big problem is how to handle the biases generated by the different cardinality and importance of the data elements. Imagine that we have a subject heading which is accessible in several language, but it is attached to a great portion of records, so its information value or distinctive power is low. See more about multilinguality in Chapter 3.
+
+The common point in these metrics is that they can be implemented as generic functions where input parameters are specific elements of a data schema. The functions themselves should not know about the details of the schema; that is to say they should be schema-independent. In other words: the only thing we should need to create on a schema by schema basis is a method which takes care of mapping the schema elements and measurement functions and feeds these generic functions with the appropriate metadata elements.
+
+\section{Metrics in the literature}
+
+In cultural heritage context~\cite{bruce-hillmann2004} defines the data quality metrics as the following:
+
+\emph{Completeness}: Number of metadata elements filled out by the annotator in comparison to the total number of elements in the AP
+
+\emph{Accuracy}: In an accurate metadata record, the data contained in the fields, correspond to the resource that is being described
+
+\emph{Consistency}: Consistency measures the degree to which the metadata values provided are compliant to what is defined by the metadata AP
+
+\emph{Objectiveness}: Degree in which the metadata values provided, describe the resource in an unbiased way, without undermining or promoting the resource
+
+\emph{Appropriateness}: Degree to which the metadata values provided are facilitating the deployment of search mechanisms on top of the repositories
+
+\emph{Correctness}: The degree to which the language used in the metadata is syntactically and grammatically correct
+
+Nikos Palavitsinis in his recent PhD thesis~\cite{palavitsinis2014} analyzing the metadata quality literature -- focusing on the Learning Object Repositories metadata -- lists the following additional dimensions proposed by different authors: accessibility, conformance, correctness, currency, intelligibility, objectiveness, presentation, provenance, relevancy and timeliness. He also repeats \cite{lee2002}’s categorization regarding to the quality dimensions:
+
+Intrinsic Metadata Quality: Represents dimensions that recognize that metadata may have innate correctness regardless of the context in which it is being used. For example, metadata for a digital object may be more or less ‘accurate’ or ‘unbiased’ in its own right,
+
+Contextual Metadata Quality: Recognizes that perceived quality may vary according to the particular task at hand, and that quality must be relevant, timely, complete, and appropriate in terms of amount, so as to add value to the purpose for which the information will be used,
+
+Representational Metadata Quality: Addresses the degree to which the metadata being assessed is easy to understand and is presented in a clear manner that is concise and consistent,
+
+Accessibility Metadata Quality: References the ease with which the metadata is obtained, including the availability of the metadata and timeliness of its receipt.
+
+Zaveri Amrapali and her colleagues surveyed the Linked Data Quality literature in 2015~\cite{zaveri2015}. They used the same categorization and grouped individual metrics into these dimensions.
+
+accessibility dimensions
+
+Availability -- the extent to which data (or some portion of it) is present, obtainable, and ready for use
+\begin{itemize}
+ \setlength{\parskip}{0pt}
+ \setlength{\itemsep}{0pt plus 1pt}
+ \item A1 accessibility of the SPARQL endpoint and the server
+ \item A2 accessibility of the RDF dumps
+ \item A3 dereferenceability of the URI
+ \item A4 no misreported content types
+ \item A5 dereferenced forward-links
+\end{itemize}
+
+Licensing -- the granting of permission for a customer to reuse a dataset under defined conditions
+\begin{itemize}
+ \setlength{\parskip}{0pt}
+ \setlength{\itemsep}{0pt plus 1pt}
+ \item L1 machine-readable indication of a license
+ \item L2 human-readable indication of a license
+ \item L3 specifying the correct license
+\end{itemize}
+
+Interlinking -- the degree to which entities that represent the same concept are linked to each other, be it within or between two or more data sources
+\begin{itemize}
+ \setlength{\parskip}{0pt}
+ \setlength{\itemsep}{0pt plus 1pt}
+ \item I1 detection of good quality interlinks
+ \item I2 existence of links to external data providers
+ \item I3 dereferenced back-links
+\end{itemize}
+
+Security -- the extent to which data is protected against alteration and misuse
+\begin{itemize}
+ \setlength{\parskip}{0pt}
+ \setlength{\itemsep}{0pt plus 1pt}
+ \item S1 usage of digital signatures
+ \item S2 authenticity of the dataset
+\end{itemize}
+
+Performance -- the efficiency of a system that binds to a large dataset
+\begin{itemize}
+ \setlength{\parskip}{0pt}
+ \setlength{\itemsep}{0pt plus 1pt}
+ \item P1 usage of slash-URIs
+ \item P2 low latency
+ \item P3 high throughput
+ \item P4 scalability of a data source
+\end{itemize}
+
+intrinsic dimensions
+
+Syntactic validity -- the degree to which an RDF document conforms to the specification of the serialization format
+\begin{itemize}
+ \setlength{\parskip}{0pt}
+ \setlength{\itemsep}{0pt plus 1pt}
+ \item SV1 no syntax errors of the documents
+ \item SV2 syntactically accurate values
+ \item SV3 no malformed datatype literals
+\end{itemize}
+
+Semantic accuracy -- the degree to which data values correctly represent the real-world facts
+\begin{itemize}
+ \setlength{\parskip}{0pt}
+ \setlength{\itemsep}{0pt plus 1pt}
+ \item SA1 no outliers
+ \item SA2 no inaccurate values
+ \item SA3 no inaccurate annotations, labellings or classifications
+ \item SA4 no misuse of properties
+ \item SA5 detection of valid rules
+\end{itemize}
+
+Consistency -- a knowledge base is free of (logical/formal) contradictions with respect to particular knowledge representation and inference mechanisms
+\begin{itemize}
+ \setlength{\parskip}{0pt}
+ \setlength{\itemsep}{0pt plus 1pt}
+ \item CS1 no use of entities as members of disjoint classes
+ \item CS2 no misplaced classes or properties
+ \item CS3 no misuse of owl:DatatypeProperty or owl:ObjectProperty
+ \item CS4 members of owl:DeprecatedClass or owl:DeprecatedProperty not used
+ \item CS5 valid usage of inverse-functional properties
+ \item CS6 absence of ontology hijacking
+ \item CS7 no negative dependencies/correlation among properties
+ \item CS8 no inconsistencies in spatial data
+ \item CS9 correct domain and range definition
+ \item CS10 no inconsistent values
+\end{itemize}
+
+Conciseness -- the minimization of redundancy of entities at the schema and the data level
+\begin{itemize}
+ \setlength{\parskip}{0pt}
+ \setlength{\itemsep}{0pt plus 1pt}
+ \item CN1 high intensional conciseness
+ \item CN2 high extensional conciseness
+ \item CN3 usage of unambiguous annotations/labels
+\end{itemize}
+
+Completeness -- the degree to which all required information is present in a particular dataset
+\begin{itemize}
+ \setlength{\parskip}{0pt}
+ \setlength{\itemsep}{0pt plus 1pt}
+ \item CM1 schema completeness
+ \item CM2 property completeness
+ \item CM3 population completeness
+ \item CM4 interlinking completeness
+\end{itemize}
+
+contextual dimensions
+
+Relevancy -- the provision of information which is in accordance with the task at hand and important to the users’ query
+\begin{itemize}
+ \setlength{\parskip}{0pt}
+ \setlength{\itemsep}{0pt plus 1pt}
+ \item R1 relevant terms within metainformation attributes
+ \item R2 coverage
+\end{itemize}
+
+Trustworthiness -- the degree to which the information is accepted to be correct, true, real, and credible
+\begin{itemize}
+ \setlength{\parskip}{0pt}
+ \setlength{\itemsep}{0pt plus 1pt}
+ \item T1 trustworthiness of statements
+ \item T2 trustworthiness through reasoning
+ \item T3 trustworthiness of statements, datasets and rules
+ \item T4 trustworthiness of a resource
+ \item T5 trustworthiness of the information provider
+ \item T6 trustworthiness of information provided (content trust)
+ \item T7 reputation of the dataset
+\end{itemize}
+
+Understandability -- the ease with which data can be comprehended without ambiguity and be used by a human information consumer
+\begin{itemize}
+ \setlength{\parskip}{0pt}
+ \setlength{\itemsep}{0pt plus 1pt}
+ \item U1 human-readable labelling of classes, properties and entities as well as presence of metadata
+ \item U2 indication of one or more exemplary URIs
+ \item U3 indication of a regular expression that matches the URIs of a dataset
+ \item U4 indication of an exemplary SPARQL query
+ \item U5 indication of the vocabularies used in the dataset
+ \item U6 provision of message boards and mailing lists
+\end{itemize}
+
+Timeliness -- how up-to-date data is relative to a specific task
+\begin{itemize}
+ \setlength{\parskip}{0pt}
+ \setlength{\itemsep}{0pt plus 1pt}
+ \item TI1 freshness of datasets based on currency and volatility
+ \item TI2 freshness of datasets based on their data source
+\end{itemize}
+
+representational dimensions
+
+Representational conciseness -- the representation of the data, which is compact and well formatted on the one hand and clear and complete on the other hand
+\begin{itemize}
+ \setlength{\parskip}{0pt}
+ \setlength{\itemsep}{0pt plus 1pt}
+ \item RC1 keeping URIs short
+ \item RC2 no use of prolix RDF features
+\end{itemize}
+
+Interoperability -- the degree to which the format and structure of the information conform to previously returned information as well as data from other sources
+\begin{itemize}
+ \setlength{\parskip}{0pt}
+ \setlength{\itemsep}{0pt plus 1pt}
+ \item IO1 re-use of existing terms
+ \item IO2 re-use of existing vocabularies
+\end{itemize}
+
+Interpretability -- technical aspects of the data, that is, whether information is represented using an appropriate notation and whether the machine is able to process the data
+\begin{itemize}
+ \setlength{\parskip}{0pt}
+ \setlength{\itemsep}{0pt plus 1pt}
+ \item IN1 use of self-descriptive formats
+ \item IN2 detecting the interpretability of data
+ \item IN3 invalid usage of undefined classes and properties
+ \item IN4 no misinterpretation of missing values
+\end{itemize}
+
+Versatility -- the availability of the data in different representations and in an internationalized way
+\vspace{0mm}
+\begin{itemize}
+ \setlength{\parskip}{0pt}
+ \setlength{\itemsep}{0pt plus 1pt}
+ \item V1 provision of the data in different serialization formats
+ \item V2 provision of the data in various languages
+\end{itemize}
+
+
+we would like to achieve metrics like this:
+
+general metrics
+
+completeness: number of metadata elements filled out
+accuracy: data correspond to the resource that is being described
+consistency: values compliant to what is defined by the metadata scheme
+objectiveness: values describe the resource in an unbiased way
+appropriateness: values are facilitating the deployment of search
+correctness: syntactically and grammatically correct language
+
+Bruce and Hillman (2004); Ochoa and Duval (2009); Palavitsinis (2014)
+
+linked data dimensions and metrics
+
+accessibility
+Availability
+Licensing
+Interlinking
+Security
+Performance
+
+intrinsic
+
+Syntactic validity
+Semantic accuracy
+Consistency
+Conciseness
+Completeness
+
+contextual
+
+Relevancy
+Trustworthiness
+Understandability
+Timeliness
+
+representational
+
+Representational conciseness
+Interoperability
+Interpretability
+Versatility
+
+Stvilia et al. (2007); Zaveri et al. (2015)
+
+\subsection{FAIR metrics}
+
+One of the main recent developments regarding to research data management was the formulation of FAIR principles.~\cite{wilkinson2016}. ``The FAIR Principles provide guidelines for the publication of digital resources such as datasets, code, workflows, and research objects, in a manner that makes them Findable, Accessible, Interoperable, and Reusable.'' It became the starting point of many different projects which either implement the principles, or investigate further extensions. One of the is FAIRMetrics~\cite{wilkinson2018, fairmetrics}. It concentrates on the measurement aspects of the FAIR principles: how can we set up metrics upon which we can validate the ``fairness'' or research data.
+
+They suggested, that good metrics in general should have the following properties
+\begin{itemize}
+ \setlength{\parskip}{0pt}
+ \setlength{\itemsep}{0pt plus 1pt}
+ \item clear
+ \item realistic
+ \item discriminating
+ \item measurable
+ \item universal
+\end{itemize}
+
+There are 14 FAIR principle, and for each there is a metric. Each metric should have an answer to questions, such as `What is being measured?', `Why should we measure it?', `How do we measure it?', `What is a valid result?', `For which digital resource(s) is this relevant?' etc.
+
+The creators published the individual metrics as nanopublications and they are working on an implementation. There are `Maturity Indicator tests' which are available as REST API backed by a Ruby based software called FAIR Evaluator. Maturity Indicators are an open set of metrics. Above the core set (which presented by the FAIRMetrics), the creators invited the research communities to create their own indicators. As they emphasise: ``we view FAIR as a continuum of `behaviors' exhibited by a data resource that increasingly enable machine discoverability and (re)use.''
+
+\subsection{Validating Linked Data}
+
+The domain of Linked Data (or semantic web) is based on `Open World assumption', which means that objects (entities) and statements about them are separated, different agents could create a statement about an object. Practically it means that there is no concept as ``record'', since the object does not have clear boundaries. The traditional record based systems have schemas, which describe what kind of statements could be done about an entity. For example the Doblin Core Metadata Element Set consists of 15 metadata element. If we would like to record a color of a book in this schema, we can not do it directly. Of course we can put this information into a semantically more generic field, such as ``format'', but then we will loose the specificity. In Linked Data context the situation is different: we can easily introduce a new property, and create a statement, however we loose the control of the schema. We can not tell if the new property is valid or not.
+
+To solve this problem W3C set up RDF Data Shapes working group ``to produce a language for defining structural constraints on RDF graphs''\footnote{\url{https://www.w3.org/2014/data-shapes/charter}}. One of the results came from this approach is Shapes Constraint Language ( SHACL)\footnote{\url{https://www.w3.org/TR/shacl/}. We should note that there is another approach for the same problem: Shape Expressions (ShEx) available at \url{http://shex.io}.}
+
+SHACL defined a vocabulary (see Table \ref{table:shacl}) upon which one can create validation rules. It does not set metrics directly, but these constraint definitions are very useful building block of data quality measurement system. The implementation of SHACL is based on Linked Data, but the definitions are meaningful in other contexts as well.
+
+\begin{table}[h]
+\caption{Core constraints in SHACL}
+\label{table:shacl}
+\centering
+\begin{tabular}{l|l}
+category & constrains \\
+\hline
+Cardinality & minCount, maxCount \\
+Types of values & class, datatype, nodeKind \\
+Shapes & node, property, in, hasValue \\
+Range of values & minInclusive, maxInclusive,\\
+ &  minExclusive, maxExclusive  \\
+String based & minLength, maxLength, pattern, stem,\\
+ & uniqueLang \\
+Logical constraints & not, and, or, xone \\
+Closed shapes & closed, ignoredProperties \\
+Property pair constraints & equals, disjoint, lessThan,\\
+ & lessThanOrEquals \\
+Non-validating constraints & name, value, defaultValue \\
+Qualified shapes & qualifiedValueShape, qualifiedMinCount,\\  & qualifiedMaxCount \\
+\end{tabular}
+\end{table}
+
+\subsection{Organizing issues per responsible actors}
+
+Christopher Groskopf writing a guide for data journalist how to recognize data issues~\cite{groskopf2015} followed a different approach. He wrote a practical guide, not an academic paper, so he organized issues based on who could fix them. His main take-away messages are
+\begin{itemize}
+ \setlength{\parskip}{0pt}
+ \setlength{\itemsep}{0pt plus 1pt}
+ \item be skeptic about the data
+ \item check it with exploratory data analysis
+ \item check it early, check it often
+\end{itemize}
+
+Issues that your source should solve
+
+\begin{itemize}
+ \setlength{\parskip}{0pt}
+ \setlength{\itemsep}{0pt plus 1pt}
+ \item Values are missing
+ \item Zeros replace missing values
+ \item Data are missing you know should be there
+ \item Rows or values are duplicated
+ \item Spelling is inconsistent
+ \item Name order is inconsistent
+ \item Date formats are inconsistent
+ \item Units are not specified
+ \item Categories are badly chosen
+ \item Field names are ambiguous
+ \item Provenance is not documented
+ \item Suspicious numbers are present
+ \item Data are too coarse
+ \item Totals differ from published aggregates
+ \item Spreadsheet has 65536 rows
+ \item Spreadsheet has dates in 1900 or 1904
+ \item Text has been converted to numbers
+\end{itemize}
+
+Issues that you should solve
+\begin{itemize}
+ \setlength{\parskip}{0pt}
+ \setlength{\itemsep}{0pt plus 1pt}
+ \item Text is garbled
+ \item Data are in a PDF
+ \item Data are too granular
+ \item Data was entered by humans
+ \item Aggregations were computed on missing values
+ \item Sample is not random
+ \item Margin-of-error is too large
+ \item Margin-of-error is unknown
+ \item Sample is biased
+ \item Data has been manually edited
+ \item Inflation skews the data
+ \item Natural/seasonal variation skews the data
+ \item Timeframe has been manipulated
+ \item Frame of reference has been manipulated
+\end{itemize}
+
+Issues a third-party expert should help you solve
+\begin{itemize}
+ \setlength{\parskip}{0pt}
+ \setlength{\itemsep}{0pt plus 1pt}
+ \item Author is untrustworthy
+ \item Collection process is opaque
+ \item Data asserts unrealistic precision
+ \item There are inexplicable outliers
+ \item An index masks underlying variation
+ \item Results have been p-hacked
+ \item Benford’s Law fails
+ \item It’s too good to be true
+\end{itemize}
+
+Issues a programmer should help you solve
+\begin{itemize}
+ \setlength{\parskip}{0pt}
+ \setlength{\itemsep}{0pt plus 1pt}
+ \item Data are aggregated to the wrong categories or geographies
+ \item Data are in scanned documents
+\end{itemize}
+
+\section{Related community based work}
+
+In 2016 two important groups formed in the Cultural Heritage sector which started a deep investigation of data quality in particular segments: the Europeana Data Quality Committee\footnote{\url{http://pro.europeana.eu/page/data-quality-committee}} (DQC) and DLF Metadata Assessment Working Group\footnote{\url{https://dlfmetadataassessment.github.io/}} (MAWG). DQC examines the metadata issues specific to the Europeana\footnote{Europeana is the main portal for the European culture, founded by the European Commission. It aggregates metadata from more that 3500 organizations all across Europe. Available at \url{http://europeana.eu}} collection, and creates the measuring framework we plan to extend in this proposal. The MAWG does not focus on a particular service and metadata schema, they collect relevant literature, use cases, a aims to form a set of recommendations on metadata assessment. In 2017 a Belgian project, ADOCHS\footnote{\url{http://adochs.be/}} (Auditing Digitalization Outputs in the Cultural Heritage Sector) started to improve the quality control process concerning the digitized heritage collections. The author of the current dissertation is participating in the work of all these groups. He is a member of DQC and participated in the environmental scan task of MAWG. He presented his results in a MAWG virtual seminar, and he is board member of the ADOCHS follow up committee.
+

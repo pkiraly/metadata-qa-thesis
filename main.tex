@@ -1,0 +1,90 @@
+\documentclass[
+% a4paper, fontsize=10pt, BCOR=5mm, % reviewed version
+  paper=6.69in:9.61in, fontsize=10pt, BCOR=9mm, DIV=15,
+  pagesize=pdftex,
+  headings=openright,
+  headsepline,
+  chapterprefix,
+  appendixprefix=false,
+  draft=false,
+  listof=totoc,
+  listof=leveldown
+]{scrbook}
+
+\usepackage[utf8]{inputenc}
+\usepackage{graphicx}
+\usepackage{url}
+\usepackage{csquotes}
+\usepackage{booktabs}
+\usepackage{listings}
+\usepackage[ngerman,english]{babel}
+\usepackage{hyperref, bookmark}
+% textrightarrow U+2192
+\usepackage{textcomp}
+%\usepackage{enumitem}
+%\setlist{nolistsep}
+
+\title{Measuring Metadata Quality}
+\author{Péter Király}
+
+\newcommand{\chapterauthor}[1]{%
+  {\parindent0pt\vspace*{0pt}%
+  \linespread{1.1}\large\scshape#1%
+  \par\nobreak\vspace*{35pt}}
+}
+
+
+% \input{metadata}
+
+\begin{document}
+
+% \maketitle
+%\renewcommand{\thepage}{\roman{page}}
+
+\frontmatter
+
+\makeatletter
+
+\begin{titlepage}
+  \thispagestyle{empty}
+  \begin{center}
+
+  {\bfseries{\Huge\strut\@title\par}}
+  \vspace{24pt}
+  Thesis\\
+in order to acquire the Doctoral Degree in Philosophy\\
+at the Faculty of Humanities of the Georg-August-Universität Göttingen\\
+  \vspace{24pt}
+  submitted by\\
+  \@author \\ from Debrecen\\
+  \vspace{12pt}
+  Göttingen 2019
+  \end{center}
+\end{titlepage}
+
+\makeatother
+%\input{titlepage}
+\input{abstract_en}
+
+\begin{otherlanguage}{ngerman}
+\input{abstract_de}
+\end{otherlanguage}
+
+\input{frontmatter}
+
+\mainmatter
+
+\input{chapter01}
+\input{chapter02}
+\input{chapter03}
+\input{chapter04}
+\input{chapter05}
+\input{chapter06}
+\input{chapter07}
+
+%\input{backmatter}
+
+\bibliographystyle{acm}
+\bibliography{bibliography-for-papers}
+
+\end{document}

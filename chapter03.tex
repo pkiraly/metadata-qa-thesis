@@ -1,0 +1,645 @@
+\chapter[Evaluating Data Quality in Europeana: Metrics for Multilinguality]{Evaluating Data Quality in Europeana: Metrics for Multilinguality\footnote{This chapter has been published as \cite{kiraly-et-al2018}.}}
+\chapterauthor{Péter Király, Juliane Stiller, Charles Valentine, Werner Bailer, and Nuno Freire}
+
+
+\emph{Abstract}: Europeana.eu aggregates metadata describing more than 50 million cultural heritage objects from libraries, museums, archives and audiovisual archives across Europe. The need for quality of metadata is particularly motivated by its impact on user experience, information retrieval and data re-use in other contexts. One of the key goals of Europeana is to enable users to retrieve cultural heritage resources irrespective of their origin and the material's metadata language. The presence of multilingual metadata description is therefore essential to successful cross-language retrieval. Quantitatively determining Europeana's cross-lingual reach is a prerequisite for enhancing the quality of metadata in various languages.
+% * <nfreire@gmail.com> 2018-06-11T17:47:34.061Z:
+% 
+% > quality
+% availability
+% 
+% ^ <nfreire@gmail.com> 2018-06-11T17:47:54.531Z.
+Capturing multilingual aspects of the data requires us to take into account the full lifecycle of data aggregation including data enhancement processes such as automatic data enrichment.The paper presents an approach for assessing multilinguality as part of data quality dimensions, namely completeness, consistency, conformity and accessibility. We describe the measures defined and implemented, and provide initial results and recommendations. 
+
+%\keywords{metadata quality, multilinguality, digital cultural heritage, Europeana, data quality dimensions}
+
+%\end{abstract}
+%
+\section{Introduction}
+Europeana.eu\footnote{\url{http://www.europeana.eu/}} is Europe's digital platform for cultural heritage. It aggregates metadata describing more than 50 million cultural heritage objects from a wide variety of institutions (libraries, museums, archives and audiovisual archives) across Europe. 
+The need for high-quality metadata is particularly motivated by its impact on search, the overall Europeana user experience, and on data re-use in other contexts such as the creative industries, education and research. One of the key goals of Europeana is to enable users to find the cultural heritage objects that are relevant to their information needs irrespective of their national or institutional origin and the material's metadata language. 
+
+As highlighted in the White Paper on Best Practices for Multilingual Access to Digital Libraries~\cite{stiller2016}, most digital cultural heritage objects do not have a specific language, i.e., as they are not in textual form, and can only be searched through their metadata, which is text in a particular language. The presence of multilingual metadata description is therefore essential to improving the retrieval of these objects across language spaces. Quantitatively determining Europeana's cross-lingual reach is a prerequisite for enhancing the quality of metadata in various languages.
+
+%In the Data Quality Committee (DQC), a body formed at Europeana's initiative, we specify functional requirements that define the purpose of the metadata and guide data-quality evaluation -- following a core principle for metadata assessment (e.g.~\cite{guy2004}). Europeana's international scope means that multilinguality is an inherent aspect of these requirements.  
+
+In this paper, we present multilinguality as a 
+measurable component of different data quality dimensions: completeness, consistency, conformity and accessibility. We capture data quality by defining and implementing quality measures along the full data-aggregation lifecycle, taking also into account the impact of data enhancement processes such as semantic enrichment. The model the data is represented in, namely the Europeana Data Model (EDM)\footnote{\url{http://pro.europeana.eu/edm-documentation}}, is also a key element of our work. 
+
+In the next section, we present data quality frameworks, dimensions and criteria that are commonly referred to in the context of data quality measurement. Section 3 describes how multilingual metadata is presented in Europeana's data model and the data quality dimensions we use are also introduced. In Section 4, we describe the implementation of the different measures as well as the calculation of the scores. Section 5 describes first results and measures that were taken to improve metadata along the different quality dimensions and the first recommendations we have been able to identify based on the results from the metrics. We conclude this paper with an outline of future work. 
+
+\section{State of the art}
+
+Addressing data quality requires the identification of the data features that need to be improved and this is closely linked to the purpose the metadata is serving. Libraries have always highlighted that bibliographic metadata enables users to find material, to identify an item and to select and obtain an entity~\cite{frbr1998}. Based on this, Park~\cite{park2009} expands functional requirements of bibliographic data to discovery, use, provenance, currency, authentication and administration, and related quality dimensions. The approach to metadata assessment for cultural heritage repositories presented in~\cite{bellini2013} also starts from use for a specific purpose. While the work mentions the issue of multilinguality, it does not propose specific metrics to measure it.
+
+Different sets of dimensions have been proposed for classifying metadata quality measures. Bruce and Hillmann~\cite{bruce-hillmann2004} define the following measures for quality: completeness, accuracy, provenance, conformance, logical consistency and coherence, timeliness and accessibility,
+%, grouped in three tiers. However, 
+multilinguality is not addressed in this work. %Shreeves et al.~\cite{shreeves2005} focus on three quality dimensions (completeness, consistency and ambiguity) for their explorative study of four collections, which included metadata from several institutions. 
+%Not surprisingly, they found greater variances for collections aggregated from multiple sources as well as inconsistencies in the encoding scheme -- a result also experienced by Europeana. They also report very low use of language elements in the collections they analysed. 
+%Designing an information quality framework, Stvilia et al.~\cite{stvilia_2007} have proposed a taxonomy of 22 measures, grouped into three categories: intrinsic, relational/contextual and reputational information quality. 
+%In this taxonomy, completeness/precision exists both in the intrinsic (e.g.\ the number of elements, the non-empty elements) and in the relational/contextual categories (completeness wrt.\ a recommended set of elements). Although multilinguality is not explicitly mentioned in this paper, it fits in this model as part of contextual completeness.
+The existing works that consider multilinguality assign it to different quality dimensions, depending on the purpose of the measurement. Zaveri et al.~\cite{zaveri2015} propose dimensions for quality assessment for linked data.
+%, grouped into the accessibility, intrinsic, contextual and representational categories.
+Completeness is listed as an intrinsic criterion, while multilinguality is covered by versatility, which is considered a representational criterion. The ISO/IEC 25012 standard~\cite{iso25012} defines a data quality model with 15 characteristics, discriminating between inherent and system-dependent ones, but putting many of the criteria in the overlap between the two classes. Completeness is defined as an inherent criterion, while accessibility and compliance (conformity) are in the overlapping area. Multilinguality could be seen as being compliant to providing a certain number of elements in a certain number of languages, and as enabling access to users who are able to search and understand results in certain languages.
+Radulovi\'c et al.~\cite{radulovic2017} propose a metadata quality model for linked data, and define multiple languages as an indicator for the quality dimension availability, i.e., can it be accessed by users with the requirement to get the data in a specific language. Ellefi et al.~\cite{ellefi2017} propose a taxonomy of features for profiling RDF datasets, of which one part discusses quality. %Similar to Zaveri et al.~\cite{zaveri_2015}, t
+They define representativity as one dimension of quality in their model, under which they see versatility (including multilinguality) as one measure.
+%A slightly different but related topic is measuring multilinguality of vocabularies or thesauri. Mader et al.~\cite{mader2012} include issues related to multilinguality, such as incompleteness of language coverage and missing language tags, in their analysis of SKOS vocabularies. Multilinguality is covered by Dr\"oge \cite{droge2012} as part of the eight classes of criteria defined for assessing the quality of vocabularies. However, no metric is developed in detail.
+% this paragraph was commented in the TPDL paper, as it is not on the core topic of the paper
+%Apart from measuring quality, the representation of quality analysis results in an interoperable way is an important question. \cite{debattista2016} propose an extensible framework for assessing quality of Linked Open Data called Luzzu. One important contribution of their work is a data quality ontology (daQ), which was also used an input to W3C’s recent work on a vocabulary to describe data quality \cite{albertoni_isaac_2016}.
+To the best of the authors' knowledge, the only resource which actually measured multilingual features in metadata is~\cite{vogias2013}, cited in \cite{palavitsinis2014}. %Here language attributions across a collection were counted. However, this work only considers multilinguality of free text fields, but not the use of multilingual controlled vocabularies. 
+Albertoni et al.~\cite{albertoni2015} also include multilinguality in a scoring function, although in the context of importing other linked data vocabularies. %They propose a scoring scheme in which additional alternative labels and labels in other languages increase the quality score given to a SKOS vocabulary. In the context of measuring the quality of Wikipedia articles, multilinguality has also been considered as input to scoring~\cite{hammwohner2007}. However, this work rather focuses on the existence of links between different language versions and the consistency between them. 
+
+It becomes apparent that while multilinguality is considered in some works, it is usually not treated as a separate quality dimension, but rather as part of other criteria or dimensions existing at quite different levels in different quality models. %Palavitsinis~\cite{palavitsinis_2014} provides a detailed overview of the dimensions used in the literature of more than a decade (this list also containing obviously strongly overlapping dimensions such as ``accuracy'' and ``correctness''). This work also compares definitions of (meta)data quality, of which many agree that quality is driven by satisfying specific need, while other focus on a accurate and complete representation. This indicates the same discrepancy as the assignment of multilinguality to a specific quality dimension, either as an enabler of an application or for ensuring the completeness and accuracy of the description.
+We use the measures based on the frequency of language tags described in~\cite{vogias2013} as a basis, and following the conclusion from the literature, consider multilinguality in the context of different quality dimensions. Our work started with the development of metrics to measure the multilingual quality of metadata in Europeana within the EU-funded project Europeana DSI-2\footnote{\url{https://pro.europeana.eu/project/europeana-dsi-2}}. 
+%Following a theoretical framework described in the project deliverable~\cite{stiller2017}, 
+A first iteration of a multilingual saturation score that counted language tags across metadata fields in the Europeana collections as well as the existence of links to multilingual vocabularies was introduced by Stiller and Király~\cite{stiller-kiraly2017}. The score was extended in~\cite{charles2017} by including measures that define multilinguality as part of different quality dimensions. 
+%The further development of these metrics as well as the integration of measures for all aspects of multilingual data is described in this paper. The implementation and operationalisation of the measures into the metadata quality assurance framework \cite{kiraly_2017} will be presented as well as results.
+\section{Approach}
+Firstly, to determine the multilingual degree of metadata across several quality dimensions, we have to understand the different ways multilingual information is expressed in Europeana's data model. Secondly, the structure of multilingual data informs the criteria and metrics that enable us to measure multilinguality across several metadata quality dimensions.
+\subsection{Multilingual information in Europeana's metadata}
+\label{sec:multilingualinfo}
+
+Multilinguality in Europeana's metadata has two perspectives: concerning the language of the object itself, and the language of the metadata that describes this object. First, the described cultural object, insofar as it is textual, audiovisual or in any other way a linguistic artefact, has a language. The data providers are urged to indicate the language of the object in the \textit{dc:language} field in the Europeana Data Model (EDM) in this way: \texttt{<dc:language>de</dc:language>}. If used consistently and in accordance with standards for language codes, this information could then be used to populate a language facet allowing users to filter result-sets by language of objects. The language information is essential for users who want to use objects in their preferred language. 
+Second, the language of metadata is essential for retrieving items and determining their relevance. Metadata descriptions are textual and therefore have a language. Each value in the metadata fields can be provided with a language tag (or language attribute). Ideally, the language is known and indicated by this tag for every literal in each field. If several language tags in different languages exist, the multilingual value can be considered to be higher. For instance, consider as an example this data provided by an institution:
+
+\begingroup
+   \fontsize{8pt}{10pt}\selectfont
+\begin{verbatim}
+<#example> a ore:Proxy ;  # data from provider
+  dc:subject "Ballet",    # literal
+  dc:subject "Opera"@en . # literal with language tag
+\end{verbatim}
+\endgroup
+
+The first \textit{dc:subject} statement is without language information, whereas the second tells us that the literal is in English. Multilingual information is not only provided by the institutions but can also be introduced by Europeana.
+Europeana assesses metadata in particular fields to enrich it automatically with controlled and multilingual vocabularies as defined in the Europeana Semantic Enrichment Framework.\footnote{\url{https://docs.google.com/document/d/1JvjrWMTpMIH7WnuieNqcT0zpJAXUPo6x4uMBj1pEx0Y/edit}} As shown in the following example, the dereferencing of the link (i.e., retrieving all the multilingual data attached to concepts defined in a linked data service) allows Europeana to add the language variants for this particular keyword to its search index.
+
+\begingroup
+   \fontsize{8pt}{10pt}\selectfont
+\begin{verbatim}
+<#example> a ore:Proxy ; edm:europeanaProxy true ;
+  # enrichment by Europeana with multilingual vocabulary
+  dc:subject <http://data.europeana.eu/concept/base/264> . 
+ 
+<http://data.europeana.eu/concept/base/264> a skos:Concept ;
+  # language variants are added to index
+  skos:prefLabel "Ballett"@no, "Ballett"@de, "Balé"@pt, 
+                 "Baletas"@lt, "Balet"@hr, "Balets"@lv .
+\end{verbatim}
+\endgroup
+The record now has more multilingual information than at the time of ingestion into Europeana. The labels are added to the search index and this particular record can be retrieved with various language variants of the term \textit{ballet}. The different language versions from multilingual vocabularies are likely to be translation variants. This distinction between the provided metadata and the metadata created by Europeana needs to be taken into account for measuring multilinguality as defined in Section~4. 
+
+%\subsection{Functional requirements for multilingual services}
+%The definition of multilingual services requires to better understand the impact of multilinguality on the search and discovery of resources as well as on the overall user experience. We have therefore identified multilingual aspects in several functional requirements relevant to Europeana. Note that these requirements are also crucial to better communicating the results of our measures to Europeana's data providers, and hence to motivating improvement of the data.
+
+%\noindent\textbf{Cross-language recall:} when a user wants to search for a document or documents relevant to her needs, and to do so irrespective of the language of the documents and/or their metadata, multilingual metadata is a necessity. This requirement is fundamental for Europeana as users should be able to find what they are looking for, based on their informational needs. This use case can be supported by two different search scenarios: 
+%\begin{enumerate}
+%\item Topical (or informational) search - in this context, the user's query is motivated by a problem. 
+%\item Known-item search - the user's query is concrete looking for a particular item. 
+%\end{enumerate}
+
+%\noindent For those two scenarios, answers to user queries will be supported by metadata elements providing topical and contextual information. Therefore we consider that the metadata quality for all metadata description must be as high as possible in terms of:
+%\begin{itemize}
+% \setlength{\parskip}{0pt}
+% \setlength{\itemsep}{0pt plus 1pt}
+%\item [$-$] Completeness: all relevant metadata elements should be supplied with values. 
+%\item [$-$] Consistency: Metadata values must be correct and appropriate to their metadata elements and consistently used across a dataset or a collection.
+%\item [$-$] Conformity: Metadata should be ideally taken from a controlled vocabulary or encoded according to a given standard. 
+%\item [$-$] Accessibility: all relevant metadata elements should be supplied in the user's preferred language.
+%\end{itemize}
+%However, in order to fulfil our requirement all these dimensions should be applied to multilinguality. Our scenario requires not only that that all searchable free-text metadata elements are present\footnote{ \url{https://docs.google.com/spreadsheets/d/1f6vbeo4mt0stl0yAbVCyp_-5bzBBCq4Dy6p7xhMcjSI/}}, consistent and in accordance with standards but also that they are tagged with their language.\footnote{ For instance, in accordance with the ISO 639-1 or 632-2 (\url{https://www.loc.gov/standards/iso639-2/php/code_list.php}) list, the IANA language tag registry (\url{http://www.iana.org/assignments/language-subtag-registry/language-subtag-registry}), or the Languages Name Authority List (NAL) (\url{https://open-data.europa.eu/en/data/dataset/language})}
+
+%\noindent\textbf{Language based facets:} these facets allow users to filter results sets either by the language of the object or by the language of the describing metadata. In this requirement, a clear distinction needs to be made between the language that refers to the language of the metadata and the language of the digital representation of the work. While the language of the metadata will be measured against the presence of language tags, the language of the content will be captured in the \textit{dc:language} field in EDM. The existence of multilingual metadata records in Europeana demands that language-tagging occurs at the level of the metadata element rather than the record as a whole. Europeana needs language tags to be applied consistently to avoid the dominance of some languages over others. In the Europeana context, the completeness of language based facets would require the presence of all the official languages of the European Union \footnote{ \url{https://europa.eu/european-union/about-eu/figures/administration_en\#goto_2}}. 
+%The presence of additional languages would facilitate the accessibility of the Europeana collection. 
+
+%\noindent\textbf{Entity-based facets:} these facets allow users to refine their results by people, places, concepts and periods associated with Cultural Heritage Objects (CHO). The search performed in this context returns more accurate results and therefore decreases the number of results a user is confronted with in Europeana. This requirement involves the presence of relationships between a CHO and one or more entities represented as a fully-fledged resource (Agents, Places, Concepts, etc.). 
+%While users will be primarily searching for entities in their own language (e.g. the city of \textit{Paris}), they will need to access results in different languages (\textit{Parijs, Parigi, ...}). To support this scenario, we will rely on the translated labels provided by data providers as part of their metadata or on multilingual vocabularies to which monolingual metadata can be linked. In both cases, it is crucial to quantify multilinguality to identify language gaps.
+
+\subsection{Multilinguality as a facet of quality dimensions}
+For measuring multilinguality, we identify four quality dimensions: completeness, consistency, conformity and accessibility. Each of these dimensions assesses multilinguality from a different perspective. 
+
+\noindent\textbf{Completeness.}
+Completeness is a basic quality measure, expressing the number (proportion) of fields present in a dataset, and identifying non-empty values in a record or (sub-)collection. For a fixed set of fields completeness is thus straightforward to measure, and can be expressed as the absolute number or fraction of the fields present and not empty. However, the measure becomes non-trivial when data is represented using a data model with optional fields (that may e.g., only be applicable for certain types of objects), or with certain fields for which the cardinality is unlimited (e.g., allowing zero to many subjects or keywords). These characteristics apply to EDM. In such cases the measure becomes unbounded, and a few fields with high cardinality may outweigh or swamp other fields. 
+
+In the context of measuring multilingual completeness, the metric is two-fold. First, the concept of completeness can be applied to measuring the presence of fields with language tags. This measure of multilinguality must be seen in relation to the results of measuring completeness. Only fields both present and non-empty can be said to have or lack language tags and translations. A record which is 80\% complete can still reach 100\% multilingual completeness if all present and non-empty fields have a language tag.
+Second, the completeness measure can reflect the presence of the \textit{dc:language} field that identifies the language of the described object.
+
+\noindent \textbf{Consistency.}
+Consistency describes the logical coherence of the metadata across fields and within a collection. With regard to multilinguality, the dimension assesses the variety of language values in the \textit{dc:language} field and the language tags that specify the language in a given field. Consistent values should be used to describe the same language.
+
+In Europeana, the consistency measure for the \textit{dc:language} field is mainly relevant for the language based facet. The more consistent languages are expressed, the more useful language facets become. Ideally, inconsistencies in expressing languages through language codes should be fixed through normalization (see Section~\ref{sec:results}).
+
+\noindent \textbf{Conformity.}
+Conformity refers to the accordance of values to a given standard or a set of rules. Here, the language values in the \textit{dc:language} field and the language tags in any given field can be assessed with regard to their conformity to a given standard such as ISO-639-2\footnote{ \url{https://www.loc.gov/standards/iso639-2/php/code_list.php}}.
+The conformity measure for the \textit{dc:language} field influences the usefulness of a language facet. 
+
+\noindent\textbf{Accessibility.}
+Accessibility describes the degree to which multilingual information is present in the data, and allows us to understand how easy or hard it is for users with different language backgrounds to access information. So far, Europeana has little knowledge about the distribution of linguistic information in its metadata -- especially within single records. To quantify the multilingual degree of data and measure cross-lingual accessibility, the language tag is crucial. The more language tags representing different languages are present, the higher is the multilingual reach. Resulting metrics can be scaled to the field, record and collection levels. In practical terms, the accessibility measure serves to gauge cross-language recall and entity-based facet performance.
+To summarize: with regard to multilinguality, we identified the dimensions, quality criteria and measures presented in Table~\ref{Tab:dimensions}.
+
+\begin{table}[tb]
+\caption{Dimensions, criteria and measures for assessing multilinguality in metadata.}
+\centering
+\begin{tabular}{ l p{4.5cm} p{5.5cm} }
+\hline\noalign{\smallskip}
+\multicolumn{1}{l}{\bfseries Dimension} &
+\multicolumn{1}{l}{\bfseries Criteria} &
+\multicolumn{1}{l}{\bfseries Measures} \\
+%\noalign{\smallskip}
+% \hline
+\hline
+%\noalign{\bigskip}
+Completeness & Presence or absence of values in fields relating to the language of the object or the metadata &
+\begin{minipage}[t]{\linewidth}
+\begin{itemize}
+ \setlength{\parskip}{0pt}
+ \setlength{\itemsep}{0pt plus 1pt}
+\renewcommand{\labelitemi}{$\bullet$}
+\item Share of multilingual fields to overall fields
+\item Presence or absence of \textit{dc:language} field 
+\end{itemize}
+\end{minipage} \\
+%\noalign{\bigskip}
+ \hline
+ %\noalign{\bigskip}
+Consistency & Variance in language notation &
+\begin{minipage}[t]{\linewidth}
+\begin{itemize}
+ \setlength{\parskip}{0pt}
+ \setlength{\itemsep}{0pt plus 1pt}
+\renewcommand{\labelitemi}{$\bullet$}
+\item Distinct language notations 
+\end{itemize}
+\end{minipage} \\
+%\noalign{\bigskip}
+ \hline
+ %\noalign{\bigskip}
+Conformity & Compliance to ISO-639-2 &
+\begin{minipage}[t]{\linewidth}
+\begin{itemize}
+ \setlength{\parskip}{0pt}
+ \setlength{\itemsep}{0pt plus 1pt}
+\renewcommand{\labelitemi}{$\bullet$}
+\item 
+Binary or share of values that comply or not comply
+\end{itemize}
+\end{minipage} \\
+%\noalign{\bigskip}
+ \hline
+ %\noalign{\bigskip}
+Accessibility & Multilingual Saturation & 
+\begin{minipage}[t]{\linewidth}
+\begin{itemize}
+ \setlength{\parskip}{0pt}
+ \setlength{\itemsep}{0pt plus 1pt}
+\renewcommand{\labelitemi}{$\bullet$}
+\item Numbers of distinct languages
+\item Number of language tagged literals
+\item Tagged literals per language
+\end{itemize}
+\end{minipage} \\
+%\noalign{\bigskip}
+\hline
+%\noalign{\bigskip}
+\end{tabular}
+\label{Tab:dimensions}
+\end{table}
+
+\section{Operationalizing the metrics for multilinguality}
+The different metrics for the assessment of multilinguality in metadata are implemented in the metadata quality assurance framework of Europeana.\footnote{ \url{http://144.76.218.178/europeana-qa/multilinguality.php?id=all}}
+Implementation of the metrics requires a good understanding of the data aggregation workflows which can contribute to the increase of multilingual labels (such as machine learning and natural language processing techniques for language detection, automatic tagging, or semantic enrichment) in the metadata. Before being displayed in Europeana, the source data goes through several levels of data aggregation. EDM doesn't represent the different data processes that take place at each of these levels but captures the different data outputs. EDM allows us to distinguish between (a) values provided by the data provider(s) and (b) information (automatically) added by Europeana (for instance by semantic enrichment) by leveraging on the proxy mechanism from the Object Re-use and Exchange (ORE) model. The metadata provided to Europeana are captured under a \texttt {ore:Proxy} while the metadata created by Europeana are captured under a \texttt{edm:EuropeanaProxy}. The examples in Section~\ref{sec:multilingualinfo} demonstrate how the mechanism enables the representation of resources in the context of different aggregations of the same resource~\cite{isaac2013}. Any implementation of quality measures, and in particular of multilingual ones, needs to take into account this distinction. For instance, the score for accessibility might be higher if we only consider the Europeana proxy where a value was enriched with a multilingual vocabulary (e.g. DBpedia) leading to more language tags than initially provided by an institution. 
+
+\subsection{Measurement workflow}
+The process for assessing the multilinguality of metadata is based on the metadata quality assurance framework, which has four phases:
+\begin{enumerate}
+\item Data collection and preparation: the {EDM} records are collected via Europeana's OAI-PMH service\footnote{ \url{https://pro.europeana.eu/resources/apis/oai-pmh-service}. Our client library: \url{https://github.com/pkiraly/europeana-oai-pmh-client/}.}, transformed to JSON where each record is stored in a separate line, and stored in Hadoop Distributed File System\footnote{ We made two data snapshots available: 2015 December (46 million records, 392 GB): \url{https://hdl.handle.net/21.11101/EAEA0-826A-2D06-1569-0}, 2018 March (55 million records, 1,1 TB): \url{http://hdl.handle.net/21.11101/e7cf0a0-1922-401b-a1ae-6ec9261484c0}}.
+\item Record-level measurement: the Java applications\footnote{ Source code and binaries: \url{ http://pkiraly.github.io/about/\#source-code}.} measuring different features of the records run as Apache Spark jobs, allowing them to scale readily. The process generates CSV files which record the results of the measurements such as the number of field instances, or complex multilingual metrics.
+\item Statistical analysis: the CSV files are analyzed using statistical methods implemented in R and Scala. The purpose of this phase is to calculate statistical tendencies on the dataset level and create graphical representations (histograms, boxplots). The results are stored in JSON and PNG files. 
+\item User interface: interactive HTML and SVG representations of the results such as tables, heat maps, and spider charts. We use PHP, jQuery, d3.js and highchart.js to generate them.
+\end{enumerate} 
+
+
+% \begin{equation}
+% languages_{pp}
+% \end{equation}
+
+% \begin{equation}
+% languages_{ep}
+% \end{equation}
+
+% \begin{equation}
+% taggedLiterals_{pp} = \sum_{i=1}^n taggedLiterals(PP_i)
+% \end{equation}
+
+% \begin{equation}
+% taggedLiterals_{ep}  = \sum_{i=1}^n taggedLiterals(EP_i)
+% \end{equation}
+
+% Tagged properties.  \textcolor{red}{waht is meant by tagged properties as opposed to taggued literals. An explanation is needed. }This calculation takes once again the difference per proxies. 
+
+% \begin{equation}
+% taggedProperties_{PP}
+% \end{equation}
+
+% \begin{equation}
+% taggedProperties_{EP}
+% \end{equation}
+
+% Object level summaries:
+
+% \begin{equation}
+% taggedLiteralsInObject = taggedLiterals_{PP} + taggedLiterals_{EP}
+% \end{equation}
+
+% \begin{equation}
+% taggedPropertiesInObject = taggedProperties_{PP} \ + \ taggedProperties_{EP}
+% \end{equation}
+
+% How data is flowing in the system, what proportion of the data (record vs dataset level)
+
+% Where is the information in the model and how we go about extracted it
+Since we intend to measure multilingual saturation of the provided and enriched metadata separately, we perform measurements for the following objects: the provider (source) created proxy $S$, the Europeana created proxy $E$ (containing enrichments) and the whole EDM record $O$. Each proxy has several properties, such as \textit{dc$:$title}, \textit{dc$:$subject}, etc. These properties might have multiple instances. Each instance might have either a string only, a tagged literal or a URI. We suppose that if the URI is resolvable then a contextual object was created, so we check only whether a contextual entity exists within the same object. If we found one, we use its \textit{skos$:$prefLabel} property to check whether it is a string or tagged literal.
+
+For each property we define the following quantities: $nt_p$, the number of tagged literals of a property $p$, $l_p$, the list of language tags of $p$ and $d_p$, the set of distinct language tags of $p$, thus $|d_p| \leq |l_p|$.
+
+% \vspace{2mm}
+% \begin{tabular}{lp{8cm}}
+% \vspace{2mm}
+% $taggedLiterals_p$ & the number of tagged literals of a property $p$ \\
+% \vspace{2mm}
+% $languages_p$ & the list of language tags of a property $p$ \\
+% \vspace{2mm}
+%  and \\
+% \end{tabular}
+% \vspace{2mm}
+
+% \begin{algorithm}[ht]
+%  taggedProperties $\leftarrow$ 0\;
+%  taggedLiterals $\leftarrow$ 0\;
+%  languages $\leftarrow$ 0\;
+%  distinctLanguages = \{\}\;
+%  \For{p in properties of a proxy} {
+%   \eIf{p has $\geq$ 1 tagged literal}{
+%     taggedProperties $\leftarrow$ taggedProperties + 1\;
+%     taggedLiterals $\leftarrow$ taggedLiterals + $|\mathrm{nt}_p|$\;
+%     languages $\leftarrow$ languages + $|\mathrm{d}_p|$\;
+%     distinctLanguages $\leftarrow$ distinctLanguages $\cup$ $\mathrm{d}_p$\;
+%    }{
+%    skip p % go back to the beginning of current section\;
+%   }
+%  } 
+%  \caption{Calculating the basic scores of a proxy object.}
+%  \label{alg:basicscores}
+
+% \end{algorithm}
+
+% TaggedLiterals_in_ProviderProxy "TaggedLiteralsInProviderProxy",
+% DistinctLanguages_in_ProviderProxy "DistinctLanguageCountInProviderProxy",
+
+\noindent We calculate the basic scores for both proxies. % with Algorithm~\ref{alg:basicscores}. 
+We denote the four resulting values for the proxies as $tp_S, tp_E$, the number of tagged properties in provider and Europeana proxies, $tl_S, tl_E$, the number of tagged literals, $dl_S, dl_E$, the set of distinct language tags, and $nl$, the number of distinct languages. 
+
+% \vspace{2mm}
+% \begin{tabular}{lp{5.5cm}}
+% \vspace{2mm}
+% $taggedProperties_S, taggedProperties_E$ & number of tagged properties in provider and Europeana proxies \\
+% \vspace{2mm}
+% $taggedLiterals_S, taggedLiterals_E$ & number of tagged literals \\
+% \vspace{2mm}
+% $distinctLanguages_S, distinctLanguages_E$ & set of distinct language tags \\
+% \vspace{2mm}
+% $languages_S, languages_E$ & number of distinct languages \\
+%\end{tabular}
+%\vspace{2mm}
+
+% TaggedLiterals_in_EuropeanaProxy "TaggedLiteralsInEuropeanaProxy",
+% DistinctLanguages_in_EuropeanaProxy "DistinctLanguageCountInEuropeanaProxy",
+
+On object level, these values are aggregated from the proxies by summation/union, i.e., $tp_O = tp_S + tp_E$, $tl_O = tl_S + tl_E$, $dl_O = dl_S \cup dl_E$, and $nl_O = |dl_O|$.
+
+% \begin{equation}
+% \begin{tabular}{rl}
+% \vspace{2mm}
+% $taggedProperties_O$ & $= taggedProperties_S + taggedProperties_E$,\\
+% \vspace{2mm}
+% $taggedLiterals_O$ & $= taggedLiterals_S + taggedLiterals_E$,\\
+% \vspace{2mm}
+% $distinctLanguages_O$ & $= distinctLanguages_S \cup distinctLanguages_E$,\\
+% \vspace{2mm}
+% $languages_O$ & $= |distinctLanguages_O|$.
+% \end{tabular}
+% \end{equation}
+
+\noindent Note that $l_O \leq (l_S + l_E)$, as the provider and Europeana proxy typically contain overlapping languages. In many practical cases, it is likely that $l_O = \mathrm{max}(l_S, l_E)$.
+
+\subsection{Deriving metrics from basic scores}
+In this section, we discuss how we derive metrics from these scores that relate to the different quality dimensions concerning multilingual saturation.
+
+\paragraph{Completeness} The number of languages present can be used to measure completeness, in particular, when the resulting score is also checked against a target value. A basic metric is the fraction of properties and literals that have language tags, i.e., $fp_S = \frac{tp_S}{|p \in S| }$ and $fl_S = \frac{tl_S}{\sum_{p \in S} l_p}$,
+%
+% \begin{equation}
+% \begin{tabular}{rl}
+% \vspace{2mm}
+% $fracTaggedProperties_S$ & $= \frac{taggedProperties_S}{|p \in S| }$,\\
+% \vspace{2mm}
+% $fracTaggedLiterals_S$ & $= \frac{taggedLiterals_S}{\sum_{p \in S} literals_p}$,\\
+% \end{tabular}
+% \end{equation}
+%
+%\noindent 
+where $p \in S$ is the set of properties of $S$. The same calculation can be applied to $E$ and $O$. The languages per property for the proxies and the object are defined as the normalized number of languages, i.e., $lpp_S = \frac{l_S}{tp_S}$ (and analogously for $E$ and $O$).
+
+% \begin{equation}
+% \begin{tabular}{rl}
+% \vspace{2mm}
+% $languagesPerProp_S$ & $= \frac{languages_S}{taggedProperties_S}$,\\
+% \vspace{2mm}
+% $languagesPerProp_E$ & $= \frac{languages_E}{taggedProperties_E}$,\\
+% \vspace{2mm}
+% $languagesPerProp_O$ & $= \frac{languages_O}{taggedProperties_O}$.\\ 
+% \end{tabular}
+% \end{equation}
+
+\paragraph{Consistency}
+
+We assess consistency of the language tags used throughout the dataset, such as standard vs.\ non-standard codes, two vs.\ three letter codes for the same language, short vs.\ extended language tags, etc. In order to determine a metric for consistency of language tags, we need external information that groups synonymous language identifications. The Languages Name Authority List (NAL) published in the European Union Open Data Portal\footnote{\url{https://open-data.europa.eu/en/data/dataset/language}} provides synonyms for languages. This vocabulary was used for language normalization as reported in Section~\ref{sec:results}.
+
+We denote the set of languages as $L=\{l_1, \ldots, l_n\}$, and the language tag for language $l_i$ in vocabulary $v$ as $t_{l_i}^v$. Examples for $v$ could be the two letter tags from ISO-639-1 or the different three letter tags from ISO-639-2/T and ISO-639-2/B. For each of the languages $l_i$ we can thus define a set of tags $T_i$.
+For the standards, it is well defined which tags denote the same language, and using the syntactic rules of extended language tags those can be included as well (e.g., associate ``en-gb'' with ``en''). In addition there may be custom tags, (e.g., ``british english'') .
+
+We can then determine the consistency as
+
+\begin{equation}
+cs_S = \frac{1}{l_S} \sum_{l_i \in dl_S} 1 - \frac{|\{t_{Sj}| j=1, \ldots, tl_S \} \cup T_i| -1}{\sum_{k=1}^{|T_i|} |\{t_{Sj}| j=1, \ldots, tl_S \} \cup {t^k_i}| },
+\end{equation}
+
+\noindent where $t_{Sj}$ is the language tag of literal $j$ in $S$, and $\{t_{Sj}| j=1, \ldots, tl_S \}$ is the set of language tags of the literals. This score is 1 if a single language tag is used for all literals, and close to 0 if each literal uses a different language tag. For $E$ and $O$ the score can be determined analogously.
+
+\paragraph{Conformity}
+
+We assess whether the language tags used are from a standard set of tags, such as one of the parts of ISO-639. Similar as for consistency, we define a set of possible standard tags of a language $l_i$, denoted as $T'_i$. We determine a conformity metric as the fraction of language tags from this set. 
+
+\begin{equation}
+cf_S = \frac{1}{l_S} \sum_{l_i \in dl_S} \frac{\sum_{j=1}^{tl_S} |t_{Sj} \cup {T'_i}| }{tl_S},
+\end{equation}
+
+\noindent where $t_Sj$ is the language tag of literal $j$ in $S$. For $E$ and $O$ the score can be determined analogously.
+
+\paragraph{Accessibility} The richness of metadata in a particular language is a metric for how easily the object can be found and interpreted in that language. Next to the number of distinct languages and the number of language tagged literals, we use the average number of tagged literals per language as a metric, and determine it as $tll_S = \frac{tl_S}{l_S}$ (an analogously for $E$ and $O$).
+
+% \begin{equation}
+% \begin{tabular}{rl}
+% \vspace{2mm}
+% $taggedLiteralsPerLanguage_S$ & $= \frac{taggedLiterals_S}{languages_S}$,\\
+% \vspace{2mm}
+% $taggedLiteralsPerLanguage_E$ & $= \frac{taggedLiterals_E}{languages_E}$,\\
+% \vspace{2mm}
+% $taggedLiteralsPerLanguage_O$ & $= \frac{taggedLiterals_O}{languages_O}$.\\ 
+% \end{tabular}
+% \end{equation}
+
+\section{Results}
+\label{sec:results}
+
+The metrics are implemented in the metadata quality assurance framework using a snapshot of the data from March 2018. In table \ref{Tab:results}, we report on some of the results from various dimensions and describe some of the developments they initiated. The data quality issues observed in the results lead to a series of best practices beneficial for further improvement. 
+\begin{table}[tb]
+\caption{Results for the measures in the different dimensions.}
+\centering
+\begin{tabular}{ l p{4.5cm} p{5.5cm} }
+\hline\noalign{\smallskip}
+\multicolumn{1}{l}{\bfseries Dimension} &
+\multicolumn{1}{l}{\bfseries Measures} &
+\multicolumn{1}{l}{\bfseries Results} \\
+%\noalign{\smallskip}
+% \hline
+\hline
+%\noalign{\bigskip}
+Completeness & 
+\begin{minipage}[t]{\linewidth}
+\begin{itemize}
+ \setlength{\parskip}{0pt}
+ \setlength{\itemsep}{0pt plus 1pt}
+\renewcommand{\labelitemi}{$\bullet$}
+\item Share of multilingual fields to overall fields
+\item Presence or absence of \textit{dc:language} field 
+\end{itemize}
+\end{minipage} & 
+\begin{minipage}[t]{\linewidth}
+\begin{itemize}
+ \setlength{\parskip}{0pt}
+ \setlength{\itemsep}{0pt plus 1pt}
+\renewcommand{\labelitemi}{$\bullet$}
+\item Measureable for each field per dataset
+\item 25,5\% of datasets (35,14\% of records) have no \textit{dc:language} field 
+\end{itemize}
+\end{minipage}\\
+%\noalign{\bigskip}
+ \hline
+ %\noalign{\bigskip}
+Consistency & 
+\begin{minipage}[t]{\linewidth}
+\begin{itemize}
+ \setlength{\parskip}{0pt}
+ \setlength{\itemsep}{0pt plus 1pt}
+\renewcommand{\labelitemi}{$\bullet$}
+\item Distinct language notations
+\end{itemize}
+\end{minipage} &
+\begin{minipage}[t]{\linewidth}
+\begin{itemize}
+\renewcommand{\labelitemi}{$\bullet$}
+\item Over 400 distinct language notation across all fields
+\end{itemize}
+\end{minipage}\\
+%\noalign{\bigskip}
+ \hline
+ %\noalign{\bigskip}
+Conformity & 
+\begin{minipage}[t]{\linewidth}
+\begin{itemize}
+ \setlength{\parskip}{0pt}
+ \setlength{\itemsep}{0pt plus 1pt}
+\renewcommand{\labelitemi}{$\bullet$}
+\item 
+Binary or share of values that comply or not comply
+\end{itemize}
+\end{minipage} &
+\begin{minipage}[t]{\linewidth}
+\begin{itemize}
+ \setlength{\parskip}{0pt}
+ \setlength{\itemsep}{0pt plus 1pt}
+\renewcommand{\labelitemi}{$\bullet$}
+\item See Table \ref{Tab:iso} for statistics on conformity with ISO-639
+\end{itemize}
+\end{minipage}\\
+%\noalign{\bigskip}
+ \hline
+ %\noalign{\bigskip}
+Accessibility & 
+\begin{minipage}[t]{\linewidth}
+\begin{itemize}
+ \setlength{\parskip}{0pt}
+ \setlength{\itemsep}{0pt plus 1pt}
+\renewcommand{\labelitemi}{$\bullet$}
+\item Numbers of distinct languages
+\item Number of language tagged literals
+\item Tagged literals per language
+\end{itemize}
+\end{minipage} &
+\begin{minipage}[t]{\linewidth}
+\begin{itemize}
+ \setlength{\parskip}{0pt}
+ \setlength{\itemsep}{0pt plus 1pt}
+\renewcommand{\labelitemi}{$\bullet$}
+\item median of 6.0 (mean 41.2$\pm$53.65) per object 
+\item median of 15.0 (mean 73.3$\pm$111.17) per object
+\item median of 1.6 (mean 2.3$\pm$3.46) per object
+\end{itemize}
+\end{minipage}\\
+%\noalign{\bigskip}
+\hline
+%\noalign{\bigskip}
+\end{tabular}
+\label{Tab:results}
+\end{table}
+
+\noindent\textbf{Completeness.}
+With regard to the presence of the \textit{dc:language} field, the measure indicates that 905 out of 3,548 
+datasets have no value in the \textit{dc:language} field, which shows the field is missing. On a record level, 64.86\% of the records have a \textit{dc:language} field.\footnote{ http://144.76.218.178/europeana-qa/frequency.php}
+%Another pattern one can detect in the metadata relates to the misuse of fields. For example, the metric "cardinality" allows us to identify collections that have metadata fields with more than 3 instances of \textit{dc:language}. In one example, as many as 153 language values were found associated with this field, owing to duplication of the language tag. One recommendation to avoid this in future would be to check the field for duplicated entries and reduce them to a single language tag.
+Furthermore, we can determine the share of multilingual fields across all records for given fields. For example, 97.05\% of all records have a \textit{dc:title} field. The great majority of these fields have no language indicated for their values. Approximately a fourth  of the \textit{dc:title} fields have values with a language. Titles in German, English, Dutch, Polish and Italian contribute to more than half of the \textit{dc:title} values that have a language tag. The metric allows to investigate the share of fields with multilingual tags across specific datasets or Europeana as a whole. It is also possible to compare different versions of the Europeana dataset to track progress and improvements.  
+%The richest and complete descriptive information are for a record, the better the results for completeness will be. In order to increase the completeness of multilingual information and motivate data providers to provide it, we have identified a series of "enabling elements"- a list of elements from the Europeana Data Model (EDM) which would support particular desirable but optional functionalities from a specific (set of) functional requirements. These "enabling elements" are defined as: 
+%\begin{enumerate}
+%\item [$-$]Elements whose mandatory-ness is 'qualified' by a specific (set of) functional requirements;
+%\item [$-$]Elements that enable functions and improve services in Europeana or from third parties;
+%\item [$-$]Elements that are highly desirable as they increase user satisfaction.
+%\end{enumerate}
+In a multilingual context, the completeness of the metadata is improved by the presence of languages for metadata elements supporting literals (\textit{dc:subject, dc:description, dc:title}), or by the presence of links to contextual entities with multilingual features.
+
+\noindent\textbf{Consistency.}
+Next to measuring the consistency in the language tag notation, we specifically measured the consistency in the \textit{dc:language} field. This revealed that over 400 different language variants are present in the field. 
+To ensure consistent use of language codes over the whole collection, they need to be normalized and standards applied within the \textit{dc:language} field. This element must be provided when a resource is of \textit{edm:type} TEXT and should be provided for these other types (AUDIO, IMAGE, VIDEO, 3D). Identifying the absence of language is also needed to properly assess the degree of multilinguality. We therefore recommend the use of the ISO 639-2 code for non-linguistic content (i.e. "zxx").
+
+\noindent\textbf{Conformity.}
+After determining the heterogeneity of values in \textit{dc:language} (dimension: consistency), we normalize the values in this field. \textit{Dc:language} values are predominantly normalized in ISO-639-1 or ISO-639-3, but, in contrast, values nevertheless sometimes occur in natural language sentences that cannot be processed automatically. We also find language ISO codes without their reference to the ISO standard in use, or references to languages by their name.
+A language normalization operation was implemented consisting of a mix of operations, comprising cleaning, normalization and enrichment of data. 
+Table \ref{Tab:iso} presents some general statistics about the presence of ISO-639 codes in the values of \textit{dc:language} in the Europeana dataset.
+The metric helps us to design further language normalization rules which in turn can be used to improve the results of the quality measures. 
+Tackling the heterogeneity of languages tags in other fields is still an open issue that needs to be tackled in future. 
+
+\begin{table}[tb]
+\caption{Presence of ISO-639 codes in the values of the dc:language field.}
+\centering
+\begin{tabular}{ l r }
+\hline\noalign{\smallskip}
+Total values in the Europeana dataset & 33,070,941 \\
+Total values already normalized
+(ISO-639-1, 2 letter codes)           & 23,634,661 \\
+Total values already normalized
+ (ISO-639-3, three letter codes)      &  4,831,534 \\ \hline
+\end{tabular}
+\label{Tab:iso}
+\end{table}
+
+
+%\begin{table}
+%\caption{Different operations to normalize the output in the dc:language field.}
+%\centering
+%\begin{tabular}{ l r }
+%\hline\noalign{\smallskip}
+%\textbf{Input value} & \textbf{Normalization output 
+%(ISO 639-1)} \\
+%"English" & "en" \\
+%"eng" & "en" \\
+%"English and Latin" & "en", "la" \\
+%"Greek; Latin" & "el", "la" \\ \hline
+%\end{tabular}
+%\label{Tab:elements}
+%\end{table}
+
+%The output of the normalization algorithm is a value from any of several authoritative language vocabulary. The algorithms work based on a core vocabulary, the Languages Name Authority List (NAL) already mentioned in this paper. All normalization operations are internally performed using the core vocabulary and the alignments to other vocabularies it contains\footnote{ NAL is aligned with ISO 639-1 (currently in use at Europeana), ISO 639-2/T, ISO 639-2/B and ISO 639-3, providing human-readable labels in all European languages}. The final output can be given in any of the aligned vocabularies and can be configured to use URIs from the NAL vocabulary or any of the aligned ISO code-sets. % Table \ref{Tab:langcodes} exemplify some cases of the different types of operations.
+
+
+% \begin{table}
+% \caption{Different operations to normalize the output in the dc:language field.}
+% \centering
+% \begin{tabular}{p{2cm} p{1cm} p{1cm} p{1cm} p{1cm}}
+% \hline\noalign{\smallskip}
+% \multicolumn{1}{l}{\bfseries Input value} &
+% \multicolumn{1}{l}{"English"} &
+% \multicolumn{1}{l}{"eng"} &
+% \multicolumn{1}{l}{"English and Latin"} &
+% \multicolumn{1}{c}{"Greek; Latin"} \\
+% \noalign{\smallskip}
+% \hline 
+% \textbf{Normalization output 
+% (ISO 639-1)} & \vspace{0.1cm} "en" & \vspace{0.1cm} "en" & \vspace{0.1cm} "en", "la" & \vspace{0.1cm} "el", "la" \vspace{0.1cm} \\
+% \hline\noalign{\smallskip}
+% \end{tabular}
+% \label{Tab:langcodes}
+% \end{table}
+
+\noindent\textbf{Accessibility.}
+As noted earlier, our approach to measuring multilingual saturation in metadata allows us not only to measure the data's quality as it is provided by contributing institutions, but also provides us with insight into the effectiveness of Europeana's data enhancement processes, such as semantic enrichment. The measures for accessibility allow us to determine the number of distinct language tags per dataset or specific fields revealing which languages are covered and can be exploited for display and retrieval. For example, the Europeana collection after applying its automatic data enhancement workflow to its datasets has a median of 6 distinct languages per object where the maximum of distinct languages in an object is 182. Per object, there are 15 language tagged literals (median) with 14.5\% or the records do not have any tagged literals and one object having as many as 62997 tagged literals.
+Delving into datasets, we can determine the amount of objects with particular language tags per field, as well as whether these language tags were coming from providers' data or are added by Europeana automatically.
+%rijksmuseum numbers: mean of 91.8 distinct language per object and as many as 188.8 tagged literals per object. Looking at the field level, one can see that many of the language tags come from Europeana's automatic enrichments with multilingual vocabularies for places in \textit{dcterms:spatial}. Investigating another field such as \textit{dc:subject}, we can see that 5,395 (out of 180,458) records have no language tag, where as 378,502 of the records have French tags and 42,486 of the records have English ones. 
+The results enable metadata experts to determine the multilingual reach of a dataset on field level and allow them to develop strategies for increasing the multilingul saturation. Being able to track progression over time by comparing different snapshots of the data is another valuable asset of the framework. 
+
+In summary, the results obtained for the dimensions above focus on the multilingual quality of the metadata with the sole objective to improve the accessibility of the cultural heritage objects available in Europeana. 
+
+%\begin{figure}[]
+%\includegraphics[width=1.0\textwidth]{img/Language_interface.jpg}
+%\caption{Language of the metadata vs.\ language of the interface in Europeana.}
+%\label{Fig:interface1}
+%\end{figure}
+
+
+
+%\section {Best practices}
+%\begin{table}
+%\caption{List of enabling elements identified for each functional requirements}
+%\centering
+%\begin{tabular}{p{3cm} p{4cm} p{3cm}}
+%\hline\noalign{\smallskip}
+%\multicolumn{1}{l}{\bfseries Functional requirements} &
+%\multicolumn{1}{l}{\bfseries Recommendations} &
+%\multicolumn{1}{l}{\bfseries Enabling elements} \\
+%\noalign{\smallskip}
+%\hline
+%\vspace{0.1cm}
+%Cross language recall & \vspace{0.1cm} All the EDM elements supporting literals SHOULD be provided with language tags. And using EDM elements in combination with (i.e. which link to ) a contextual entity with multilingual features is RECOMMENDED.\\ \hline
+%\vspace{0.1cm}
+%Language based facets: language of metadata & \vspace{0.1cm} All the EDM elements supporting literals SHOULD be provided with language tags or it is RECOMMENDED using EDM elements in combination with (i.e. which link to ) a contextual entity (with link to a multilingual features) & \\
+%\vspace{0.1cm}
+%Language based facets: language of content & \vspace{0.1cm} \textit{dc:language} element MUST be provided when a resource is of edm:type TEXT and SHOULD be provided for this other types (AUDIO, IMAGE, VIDEO, 3D). We RECOMMEND the use of the ISO 639-2 code for non linguistic content (ZXX).& 
+%\vspace{0.1cm} edm:ProvidedCHO|\textit {dc:language} \\\hline
+%\vspace{0.1cm}
+%Entity based facets & \vspace{0.1cm} It relies on the EDM elements that can accommodate an entity and contain a link to an entity. It excludes any elements used with literal values. Any linked entity SHOULD also have at least one Preferred Label with a language tag. & \vspace{0.1cm} edm:ProvidedCHO|\textit{dc:contributor, dc:creator, dc:format, dc:publisher, dc:subject, dc:type, dcterms:medium, dcterms:spatial and edm:currentLocation}
+%edm:Place|\textit{edm:PrefLabel}
+%edm:Agent|\textit{edm:PrefLabel}
+%edm:Concept|\textit{edm:PrefLabel} \\\hline
+%\end{tabular}
+%\label{Tab:elements}
+%\end{table}
+
+
+%\begin{figure}[]
+%\includegraphics[width=1.0\textwidth]{img/Controlled_vocabularies.jpg}
+%\caption{Additional translations brought the linking to controlled vocabularies}
+%\label{Fig:interface2}
+%\end{figure}
+
+\section{Conclusion and future work}
+
+In this paper we present our approach for assessing the multilingual quality of data in the context of Europeana. This approach is the result of a long term research activity of Europeana, providing essential conclusions for the establishment of a reliable multilingual quality measurement for its services and data providers. The measures for multilinguality are embedded into the data dimensions of completeness, consistency, conformity, and accessibility. Results of these measures allow Europeana to define and implement language normalization rules and several recommendations for data providers.
+
+We identify several potential improvements on the quality measures, which should be further elaborated in future iterations of this activity at Europeana. We also conclude that improvements of the metrics can be achieved if they consider more the needs of users providing data to Europeana or re-using it for building their own applications. Refining visualization reports will help interpreting the measurements and to adjust our metrics. For instance, in order to get a comprehensive view of the quality of data, the different metrics will need to be presented together (e.g. multilinguality on top of completeness) so that the interrelation between the different metrics is made visible. 
+
+The metrics proposed in this paper are potentially applicable to a wider range of applications, beyond providing multilingual access to cultural assets, as stated in the Strategic Research Agenda for Multilingual Europe 2020\footnote{http://www.meta-net.eu/sra/}. One other important application is research data, for which multilinguality may also be relevant. The FAIR principles~\cite{wilkinson2016} include findability and accessibility by both humans and machines --- for which multilinguality is one component. 
+We intend to publish the metrics in a way that can be consumed by third parties interested in the Europeana data, as well as applying them to their data. The recently published W3C Data Quality vocabulary\footnote{ \url{https://www.w3.org/TR/vocab-dqv/}} is a good candidate for a machine-readable representation of our metrics and the measurement results.
+
+\subsubsection{Acknowledgments.} This work was partially supported by Portuguese national funds through Fundação para a Ciência e a Tecnologia (FCT) with reference UID/CEC/
+50021/2013.
+
+% \bibliographystyle{acm}
+% \bibliography{bibliography-for-papers}
