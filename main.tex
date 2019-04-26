@@ -5,7 +5,7 @@
   headings=openright,
   headsepline,
   chapterprefix,
-  appendixprefix=false,
+  appendixprefix,
   draft=false,
   listof=totoc,
   listof=leveldown
@@ -13,28 +13,90 @@
 
 \usepackage[utf8]{inputenc}
 \usepackage{graphicx}
-\usepackage{url}
 \usepackage{csquotes}
 \usepackage{booktabs}
 \usepackage{listings}
 \usepackage[ngerman,english]{babel}
-\usepackage{hyperref, bookmark}
+\usepackage[hyphens]{url}
+\PassOptionsToPackage{hyphens}{url}
+\usepackage[hyperindex,breaklinks]{hyperref}
+\usepackage{bookmark}
+\usepackage{breakurl}
 % textrightarrow U+2192
 \usepackage{textcomp}
 %\usepackage{enumitem}
 %\setlist{nolistsep}
 
+% for rotate tables
+\usepackage{adjustbox}
+\usepackage{pdflscape}
+\usepackage{afterpage}
+
+% \begin{Verbatim}[samepage=true]
+\usepackage{fancyvrb}
+
 \title{Measuring Metadata Quality}
 \author{Péter Király}
 
+% defining \chapterautor
 \newcommand{\chapterauthor}[1]{%
   {\parindent0pt\vspace*{0pt}%
   \linespread{1.1}\large\scshape#1%
   \par\nobreak\vspace*{35pt}}
 }
 
+% show "Appendix" before appendices
+\usepackage{xpatch}
+\xapptocmd{\appendix}{%
+  \addtocontents{toc}{%
+    \RedeclareSectionCommand[
+      tocdynnumwidth,
+      tocentrynumberformat=\tocappendixnumber
+    ]{chapter}%
+  }%
+}{}{\PatchFailed}
+\newcommand\tocappendixnumber[1]{\chapapp~#1}
 
+% JSON highlight
+\usepackage{xcolor}
+\colorlet{punct}{red!60!black}
+\definecolor{background}{HTML}{EEEEEE}
+\definecolor{delim}{RGB}{20,105,176}
+\colorlet{numb}{magenta!60!black}
+
+% numbers=left,
+% numberstyle=\scriptsize,
+% stepnumber=1,
+% numbersep=8pt,
+% backgroundcolor=\color{background},
+% frame=lines,
+%     literate=
+%      *{0}{{{\color{numb}0}}}{1}
+%       {1}{{{\color{numb}1}}}{1}
+%       {2}{{{\color{numb}2}}}{1}
+%       {3}{{{\color{numb}3}}}{1}
+%       {4}{{{\color{numb}4}}}{1}
+%       {5}{{{\color{numb}5}}}{1}
+%       {6}{{{\color{numb}6}}}{1}
+%       {7}{{{\color{numb}7}}}{1}
+%       {8}{{{\color{numb}8}}}{1}
+%       {9}{{{\color{numb}9}}}{1}
+%       {:}{{{\color{punct}{:}}}}{1}
+%       {,}{{{\color{punct}{,}}}}{1}
+%       {\{}{{{\color{delim}{\{}}}}{1}
+%       {\}}{{{\color{delim}{\}}}}}{1}
+%       {[}{{{\color{delim}{[}}}}{1}
+%       {]}{{{\color{delim}{]}}}}{1},
+
+\lstdefinelanguage{json}{
+    basicstyle=\normalfont\ttfamily,
+    showstringspaces=false,
+    breaklines=true,
+}
 % \input{metadata}
+
+% \usepackage[natbib]{biblatex}
+% \addbibresource{bibliography-for-papers.bib}
 
 \begin{document}
 
@@ -82,9 +144,15 @@ at the Faculty of Humanities of the Georg-August-Universität Göttingen\\
 \input{chapter06}
 \input{chapter07}
 
+\appendix
+\input{appendix01}
+\input{appendix02}
+
 %\input{backmatter}
 
 \bibliographystyle{acm}
 \bibliography{bibliography-for-papers}
+
+% \printbibliography
 
 \end{document}

@@ -23,7 +23,8 @@ While this paper can not give a full encounter of MARC, it just provides the mos
 
 An example record (excerpt):
 
-\begin{verbatim}
+\begin{small}
+\begin{Verbatim}[samepage=true]
 01136cnm a2200253ui 4500
 001 002032820
 005 20150224114135.0
@@ -41,64 +42,101 @@ An example record (excerpt):
 700 1 $aEckert, Jörn
 852 4 $xRE$bRE55$cRBIB$jRBIB.BUR 011 DE 021
       $p000000800147
-\end{verbatim}
+\end{Verbatim}
+\end{small}
 
-MARC is a semi-binary format, it uses some delimiter characters and fixed length fields to separate content parts. What we can see here is a widely accepted representation. 
-The first line is the leader, it is a fixed length field and a component of individual ``portions''. We should split the content this way (here `|' characters represent the boundaries between the portions, the first two lines denote character positions):
+The above example is a widely accepted representation of a MARC record however MARC is stored differently in MARC files. It has a semi-binary format, it uses some delimiter characters and fixed length fields to separate content parts. 
 
-\begin{verbatim}
+The first line is the leader (sometimes abbreviated as LDR), it is a fixed length field and a component of individual ``portions''. We should split the content this way (here `\texttt{|}' characters represent the boundaries between the portions, the first two lines denote character positions):
+
+\begin{small}
+\begin{Verbatim}[samepage=true]
 0               1                2
 01234 5 6 7 8 9 0 1 2345 6 7 8 9 0 1 2 3
-00928|n|a|m| |a|2|2|0026|5| |c| |4|5|0|0
-\end{verbatim}
+01136|c|n|m| |a|2|2|0025|3|u|i| |4|5|0|0
+\end{Verbatim}
+\end{small}
 
 Using the positions as the key, the meaning of the individual portions should be read as
 \begin{itemize}
  \setlength{\parskip}{0pt}
  \setlength{\itemsep}{0pt plus 1pt}
- \item $0-4$: Record length. `00928’ -- is a number padding with 0-s (max. value: 99999) denoting the length of the record, so this record is 928 byte long. 
- \item $5$: Record status. `n’ is a dictionary term, means ``new''
- \item $6$: Type of record: `a’ means ``Language material''
- \item $7$: Bibliographic level. `m’ means ``Monograph/Item''
+ \item \texttt{LDR/0-4}: Record length. `01136’ -- is a number padding with zeros (max. value: 99999) denoting the length of the record, so this record is 1136 byte long. 
+ \item \texttt{LDR/5}: Record status. `c’ is a dictionary term, means ``Corrected or revised''
+ \item \texttt{LDR/6}: Type of record: `n’ is not among the defined types, this is an error
+ \item \texttt{LDR/7}: Bibliographic level. `m’ means ``Monograph/Item''
  \item ...
 \end{itemize}
 
+In this document I will use the term `subfield' for these information (the standard does not have a term for this).
+
 Different library materials require different descriptive element sets, however in MARC -- maybe due to the necessity of compressing information -- there is not a single ``record type'' field. Instead its value comes from the combination of two subfields of the Leader: the Type of Record, and the Bibliographic level (see Table \ref{tab:record_type}). Several other elements of the schema depend on the value of this combination, however -- as we will see -- there are examples where the combination returns an undefined value.
 
+\afterpage{%
+ \clearpage% Flush earlier floats
+    \thispagestyle{empty}% empty page style (?)
+    \begin{landscape}% Landscape page
 \begin{table}
   \caption{Record type}
   \label{tab:record_type}
-  \begin{tabular}{ccl}
+  \hspace{-2cm}
+  \begin{minipage}{\textwidth}
+  \begin{tabular}{lllllll}
     \toprule
-    Type of record&Bibliographic level&type\\
+    \multicolumn{2}{c}{Type of record (LDR/05)}&\multicolumn{2}{c}{Bibliographic level (LDR/06)}&type&\multicolumn{2}{c}{Form of material (006/00)}\\
     \midrule
-    a&a, c, d or m&Books\\
-    a&b, i or s&Continuing Resources\\
-    t&&Books\\
-    c, d, i or j&&Music\\
-    e or f&&Maps\\
-    g, k, o or r&&Visual Materials\\
-    m&&Computer Files\\
-    p&&Mixed Materials\\
+    a&Language material&a&Monographic component part&Books&a&Language material\\
+    &&c&Collection&\\
+    &&d&Subunit&\\
+    &&m&Monograph/Item&\\
+    \midrule
+    a&Language material&b&Serial component part&Continuing Resources&s&Serial/Integrating resource\\
+    &&i&Integrating resource&\\
+    &&s&Serial&\\
+    \midrule
+    t&Manuscript language material&&&Books&t&Manuscript language material\\
+    \midrule
+    c&Notated music&&&Music&c&Notated music\\
+    d&Manuscript notated music&&&&d&Manuscript notated music\\
+    i&Nonmusical sound recording&&&&i&Nonmusical sound recording\\
+    j&Musical sound recording&&&&j&Musical sound recording\\
+    \midrule
+    e&Cartographic material&&&Maps&e&Cartographic material\\
+    f&Manuscript cartographic&&&&f&Manuscript cartographic\\
+    &material&&&&&material\\
+    \midrule
+    g&Projected medium&&&Visual Materials&g&Projected medium\\
+    k&Two-dimensional&&&&k&Two-dimensional\\
+    &nonprojectable graphic&&&&&nonprojectable graphic\\
+    o&Kit&&&&o&Kit\\
+    r&Three-dimensional artifact or&&&&r&Three-dimensional artifact or\\
+    &naturally occurring object&&&&&naturally occurring object\\
+    \midrule
+    m&Computer file&&&Computer Files&m&Computer file/Electronic resource\\
+    \midrule
+    p&Mixed materials&&&Mixed Materials&p&Mixed materials\\
   \bottomrule
 \end{tabular}
+\end{minipage}
 \end{table}
+    \end{landscape}
+    \clearpage% Flush page
+}
 
-Leader and fields 001-008 are so called control fields. Most of them are structurally similar to the Leader. The interpretation of 008 is dependent from the record type as defined by the combination mentioned above. Let's see the split of 008
+Leader and fields 001-008 are so called control fields. Most of them are structurally similar to the Leader. The interpretation of 008 is dependent from the record type as defined by the combination mentioned above. Let's see the split of 008.
 
-\begin{verbatim}
-0         1         2         3  
-0123456789012345678901234567890123456789
-801003s1958    ja       # ##00#0#0 jpn  
-      ||   |   |  |   | ||| |||||| |  || 
-.................._________________.....
-\end{verbatim}
+\begin{small}
+\begin{Verbatim}[samepage=true]
+0           1           2                3  
+012345 6 7890 1234 567 8901 2 3 4567 8 9 0 1 2 3 4 567 8 9
+031117 s 2003      gw                  0 0 0   0   ger   d
+......|.|....|....|...|____|_|_|____|_|_|_|_|_|_|_|...|.|.
+\end{Verbatim}
+\end{small}
 
-Here the first five (in position 0-17) and the last three subfields (35-30) are common for all types (denoted by dots), but the in-between part (18-34, denoted by underscores) are type-specific and does not only provide the meaning, but the internal structure as well (the number of portions and their positions)! This structure is quite fragile, one single character deletion from these fields would break the structure and mix the meaning of a position.
+Here the first five (in position 0-17: different dates and place of publication) and the last three subfields (35-39: language, is the record modified?, cataloging source) are common for all types (denoted by dots), but the in-between part (18-34, denoted by underscores) are type-specific (for a book: illustrations, target audience, form of item, nature of contents, government publication, conference publication, Festschrift, index, literary form, biography -- all encoded) and does not only provide the meaning, but the internal structure as well (the number of portions and their positions)! This structure is quite fragile, one single character deletion from these fields would break the structure and mix the meaning of a position.
 
-From 010 up until the end of the record are `datafields'. Their internal structure is different from that of the control fields. They have two indicators and one or more subfields. The indicators contain a single character to represent dictionary terms -- usually they are qualifiers of the subfields. The subfields start with a `\$' character, then comes a one or two characters 
-% TODO! check if there is any two character long subfield
-long subfield code, and finally the value of the subfield. The value could be
+From 010 up until the end of the record are `datafields'. Their internal structure is different from that of the control fields. They have two indicators and one or more subfields. The indicators contain a single character to represent dictionary terms -- usually they are qualifiers of the subfields. The subfields start with a `\$' character, then comes a character long subfield code, and finally the value of the subfield. The value could be
 
 \begin{itemize}
  \setlength{\parskip}{0pt}
@@ -119,6 +157,14 @@ long subfield code, and finally the value of the subfield. The value could be
 Both the field and the subfield can be repeatable or non-repeatable.
 
 \subsection{The validation tool}
+
+In order to validate MARC records I have developed a software. The core of the software is a data model, which records the whole MARC 21 Bibliographic documentation as a set of Java classes. In the model the main units are the fields (\emph{DataFieldDefinition} class), which have the code of the tag (such as 245), it's label (``Title Statement''), cardinality (repeatable or non repeatable), the URL of the definition at the Library of Congress page (\url{https://www.loc.gov/marc/bibliographic/bd245.html}). Then come the definition of the indicators, each having label, list of possible codes and their label. The last part of the field definition is the list of subfields: code, label, cardinality. The standard provides notes for obsolete elements, the Java class stores them as historical codes and subfields. Whenever it was possible I also recorded the BIBFRAME 2.0 equivalences based on the MARC 21 to BIBFRAME 2.0 Conversion Specifications\footnote{https://www.loc.gov/bibframe/mtbf/}. BIBFRAME names holds meaning (e.g. ``responsibilityStatement'' versus MARC's 245\$c, which is a language neutral notation) which could be uses in exporting data, because they don't contain spaces, so could be processed without problems in different software environments and self-describing. Since naturally there is no BIBFRAME equivalent for all MARC element, I have created a similar machine-readable tag. Some elements in MARC has a specially encoded value (e.g. the \$6 subfield in lots of field, which records linkage between parallel elements), so the model let us to attach content parsers. Several subfields should contain a term from a controlled dictionary and some of the subfields have formal rules to check whether they are valid or not. The tool contains all these dictionaries and validator classes have been implemented to check against these rules. Some rules are outside of MARC such as ISBN and ISSN rules. These identifiers are composite of a sequence of numbers, where the last one is a check digit, it should be equal of a result of a sequence of computations with all of the remaining numbers. It is also possible to connect external online tools to validate specific MARC element. I made some experiments with the automatic Universal Decimal Classification (UDC) analyser service developed by Attila Piros\footnote{\url{http://piros.udc-interpreter.hu/}}. The experience showed, that these kind of tools could be part of the validation process if they are fast enough, otherwise it is more advisable to extract data from the records (in this case the subfields containing UDC classification numbers) and run the UDC analysis asynchronously. As part of the FRBR works Tom Delsey created a mapping between the 12 functions and the MARC elements~\cite{delsey2003}. The Java model also built in this mapping.
+
+The tool works together with another Java library, Marc4j\footnote{\url{https://github.com/marc4j/marc4j}}. With the help of this library my tool can read from binary MARC and from MARCXML formats. In regards to parallel processing with Apache Spark, the tool can read from a special MARC binary format where the records are separated with line breaks.\footnote{See details at \url{http://pkiraly.github.io/2018/01/18/marc21-in-spark/}.}
+
+As a side effect, those knowledge built into the tool makes it useful for different other tasks, not just validation. One can use for formatting records, extracting information, index with Apache Solr, etc.
+
+Since it took long time to build this model, I thought it would be useful to make it exportable, so other MARC related projects could use it as a machine-readable MARC specification. Jakob Voß introduced Avram JSON schema\footnote{\url{http://format.gbv.de/schema/avram/specification}} to provide a language for creation of machine readable metadata specification. Due to the implementation of this schema the tool can export MARC into Avram schema.  
 
 \subsection{Addressing elements - MARCspec}
 
@@ -148,7 +194,7 @@ There are two big problems with versions
   \item The MARC versions and local extensions are not always properly documented.
 \end{enumerate}
 
-Therefore these fields could not be understood, and thus validated. The validation tool should report it, but can not decide if an undocumented element is correct or not, because the requirements are not clear.
+Without proper documentation these fields could not be understood, and thus validated. The validation tool should report it, but can not decide if an undocumented element is correct or not, because the requirements are not clear.
 
 The software has the following approaches to handle documented versions. The individual schema elements are represented by Java classes which have similar properties to their schema element pairs, e.g. a \emph{DataFieldDefinition} has \emph{Indicators} with \emph{Codes}, and \emph{Subfields} such as the standard's data fields. The MARC21 standard has special notes about the changing of the standard, and the model records them as \emph{historicalCodes} or \emph{historicalSubfields}. The same technique works for version specific codes and subfields. If a version does not extend a field, but introduces a new one or overwrites an existing one, a new \emph{DataFieldDefinition} class could be created in the version's dedicated name space, so it could not be mixed with the core MARC21 implementation. The user can specify the supposed version with \emph{--marcVersion [version]} parameter. The software tries to find the definition in its name space, and if does not find it (which means that particular field was not overwritten in that version), it checks if the core field definition has any version specific definition. If such a definition is found the software validates the element against that, otherwise it uses the default MARC21 definition. To illustrate the definition part, Listing \ref{code1} is a short example for 020 (ISBN) field definition.
 
@@ -243,10 +289,12 @@ This research covered the evaluation of 14 catalogues. They are\footnote{There a
   \item \emph{tor}: Toronto Public Library\footnote{https://opendata.tplcs.ca/. 2.5 million MARC21 records, Open Data Policy}
 \end{itemize}
 
-\begin{table*}
+\begin{table*}[!ht]
 \caption{Number of records in the catalogs (in millions)}
 \label{tab:number-of-records}
-\begin{minipage}{17.5cm} %{\columnwidth}
+%\begin{minipage}{\textwidth} %{17.5cm} %
+\hspace{-1cm}
+\begin{minipage}{\textwidth} %
 \begin{center}
 \begin{tabular}{rrrrrrrrrrrrrrrr}
   \toprule
@@ -263,10 +311,16 @@ This research covered the evaluation of 14 catalogues. They are\footnote{There a
 
 \subsection{Validation}
 
+\afterpage{%
+ \clearpage% Flush earlier floats (otherwise order might not be correct)
+    \thispagestyle{empty}% empty page style (?)
+    \begin{landscape}% Landscape page
 \begin{table*}
 \caption{The percentages of records with issues}
 \label{tab:proportion-of-issues}
-\begin{minipage}{17.5cm} %{\columnwidth}
+\hspace{-1cm}
+\begin{minipage}{\textwidth} %{17.5cm} %{\columnwidth}
+\begin{footnotesize}
 \begin{center}
 \begin{tabular}{lrrrrrrrrrrrrrrrr}
   \toprule
@@ -277,16 +331,25 @@ filtered issues & 18.8 & 76.1 & 2.8 & 66.0 & 0.2 & 27.3 & 97.3 & 29.3 & 67.5 & 5
   \bottomrule
 \end{tabular}
 \end{center}
+\end{footnotesize}
 % \bigskip
 \footnotesize
 Note: `filtered issues': issues excluding the undocumented tags and subfields
 \end{minipage}
 \end{table*}
+    \end{landscape}
+    \clearpage% Flush page
+}
 
+\afterpage{%
+ \clearpage% Flush earlier floats (otherwise order might not be correct)
+    \thispagestyle{empty}% empty page style (?)
+    \begin{landscape}% Landscape page
 \begin{table*}
 \caption{The percentages of typical structural issues}
 \label{tab:issue-types}
-\begin{minipage}{17.5cm} %{\columnwidth}
+\hspace{-1cm}
+\begin{minipage}{\columnwidth} %{\columnwidth}
 \begin{center}
 \begin{tabular}{lrrrrrrrrrrrrrrrr}
 \toprule
@@ -333,6 +396,9 @@ S8 format & 0.0 & 0.0 & 0.0 & 0.0 & 0.0 & 0.0 & 0.0 & 0.0 & 0.0 & 0.0 & -- & 0.0
 Note: The numbers in the columns represents the percentage of a given type for all issues in the catalog. Character `--' means that a given type does not occur in the catalog, while `0.0' means a percentage close to zero.
 \end{minipage}
 \end{table*}
+    \end{landscape}
+    \clearpage% Flush page
+}
 
 We detected the following issue types in each of the catalogues (see Table \ref{tab:proportion-of-issues} and \ref{tab:issue-types} for detailed distribution).
 
@@ -350,10 +416,15 @@ From Table \ref{tab:issue-types} it became clear that the most frequent issues a
 
 \subsection{Completeness}
 
+\afterpage{%
+    \clearpage% Flush earlier floats (otherwise order might not be correct)
+    \thispagestyle{empty}% empty page style (?)
+    \begin{landscape}% Landscape page
 \begin{table*}
 \caption{Percentage of records where different metadata types are available}
 \label{tab:completeness}
-\begin{minipage}{17.5cm} %{\columnwidth}
+\hspace{-1cm}
+\begin{minipage}{\columnwidth} %{\columnwidth}
 \begin{center}
 %\begin{tabular}{rrrrrrrrrrrrrrrr}
 \begin{tabular}{lrrrrrrrrrrrrrrrr}
@@ -382,6 +453,9 @@ oth & 0.0 & 0.0 & 0.0 & 0.0 & 71.1 & 100.0 & 0.0 & 0.0 & 0.0 & 59.7 & 0.0 & 0.0 
 01X-09X: Numbers and code, 1XX: Main entry, 20X: Title, 25X: Edition and imprint, 3XX: Physical description, 4XX: Series statement, 5XX: Note, 6XX: Subject access, 70X: Added entry, 76X: Linking entry, 80X: Series added entry, 84X: Holdings \& location \& alternate graphics, hol: holdings, oth: localized fields.
 \end{minipage}
 \end{table*}
+    \end{landscape}
+    \clearpage% Flush page
+}
 
 The completeness of the catalogues has been also analyzed, the result is shown at Table \ref{tab:completeness}. As in other metadata standards, there are different kind of information. Some fields contain technical information (such as identifiers, creation and modification dates of the MARC record), descriptive information (e.g. title, author, publisher, publishing date, dimensions), and contextual information, such as normalized name forms or subject headings. MARC groups individual fields into categories, the research followed it to show the completeness of them.
 
@@ -393,10 +467,15 @@ As expected the catalogues usually has high coverage in technical and descriptiv
 
 \subsection{Functional analysis}
 
+\afterpage{%
+    \clearpage% Flush earlier floats (otherwise order might not be correct)
+    \thispagestyle{empty}% empty page style (?)
+    \begin{landscape}% Landscape page
 \begin{table*}
 \caption{Functional analysis (average, scale: 0-100)}
 \label{tab:functional-analysis}
-\begin{minipage}{17.5cm} %{\columnwidth}
+\hspace{-1cm}
+\begin{minipage}{\columnwidth} %{\columnwidth}
 \begin{center}
 \begin{tabular}{lrrrrrrrrrrrrrrrr}
 \toprule
@@ -428,6 +507,9 @@ Display & 2.6 & 3.0 & 2.7 & 3.4 & 3.5 & 1.9 & 2.5 & 1.7 & 1.9 & 2.3 & 2.8 & 1.9 
 %Note: The numbers in the columns represents the percentage of a given type for all issues in the catalog. Character `--' means that a given type does not occur in the catalog, while `0.0' means a percentage close to zero.
 \end{minipage}
 \end{table*}
+    \end{landscape}
+    \clearpage% Flush page
+}
 
 % \cite{thompson-traill2017}
 

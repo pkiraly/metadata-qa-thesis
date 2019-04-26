@@ -1,8 +1,85 @@
 \chapter{Conclusion}
 
+\section{Conclusion}
+
+It is worth to retrospect shortly to my research plan~\cite{kiraly2015a}, which I wrote before starting this research. I wanted to implement as much metadata metrics defined by~\cite{bruce-hillmann2004, ochoa-duval2009} as possible. Some of these metrics would have required access to the full text of books or articles, which were not given in Europeana.
+
+During the research I had three tracks of activities
+
+\begin{enumerate}
+\item Planning and studying
+\item Engineering
+\item Dissemination
+\end{enumerate}
+
+In the first track I studied the metadata quality (some parts including data and information quality) literature. As far as it was possible I participated in or at least followed the activities of metadata quality projects or metadata quality related activities of digital libraries (among others Europeana, Deutsche Digitale Bibliothek, Digital Public Library of America). My interest was rather practical, and less theoretical. My special point of view was the question how the results of these papers could be turn into an Open Source software which could be used in different contexts. During the process -- together with members of Europeana Data Quality Committee -- we introduced a new metric for multilinguality.
+
+The main purpose of the engineering track was to create a general metadata quality measuring framework. It became a set of modules, such as a core API, an Europeana specific API, clients for it such as a REST API, a Spark interface, a web user interface, then a MARC 21 tool, a Wikidata-centric tool etc. each adding a specific purpose layer to the lower levels. The tool proved to be flexible (adaptable to different metadata schemas) and scalable.
+
+The third aspect of the research was the dissemination of the results which activity accumulated in the current dissertation. I presented results in the following events:
+
+\begin{enumerate}
+\item International Symposium on Information Science, Berlin, 2017. March 13-15. Presentation together with Juline Stiller. Paper was published as \cite{stiller-kiraly2017}
+\item \#dariahTeach, Lausanne, 2017. March 23-24. Poster
+\item SI & IT Workshop, Göttingen, 2017. May 10. Presentation together with Juline Stiller
+\item Linked Data Quality workshop 2017, Portorož, 2017. May 29. Invited keynote speech
+\item DATeCH 2017, Göttingen, 2017 June 1-2. Paper published as \cite{kiraly2017}
+\item ELAG 2017, Athens, 2017. June 6-9. Presentation
+\item Digital Humanities 2017, Montréal, 2017 August 7-11. Extended abstract was published in the Digital Humanities 2017 Conference Abstracts\footnote{\url{https://dh2017.adho.org/abstracts/DH2017-abstracts.pdf}}, cited by \cite{khan2018}.
+\item Linked Data Quality Workshop Semantics 2017, Amsterdam, 2017. September 14 -- as organizer and presenter.
+\item (Meta)-Data Quality Workshop (part of TPDL 2017), Thessaloniki, 2017. September 17-21. Presented by Juliane Stiller, the paper was published as \cite{charles2017}.
+\item ADOCHS meeting, Brussels, 2017 November 21
+\item LDCX at Stanford University, 2018 March. Leading workshop and presentation.
+\item ELAG 2018, Prague, 2018 June 5-7. Workshop together with Anette Strauch and Patrick Hochstenbach.
+\item MTSR 2018. 12th International Conference on Metadata and Semantics Research, Limassol, 2018 Oct 23-26. Presentation together with Juliane Stiller. Paper published as \cite{kiraly-et-al2018}.
+\item Open Research Knowledge Graph workshop, Hannover, 2018 November 22.
+\item ReIReS (Research Infrastructure on Religious Studies) Workshop on FAIR Principle for Digital Research Data Management, Mainz, 2018 November 28.
+\item Computational Archival Schience workshop (part of IEEE Big Data 2018), Seattle, 2018 December 10-13. Paper published as \cite{kiraly2018}.
+\end{enumerate}
+
+
+
+The main conclusions from the research.
+
+As we saw, metadata quality has multiple dimensions. For each data source we should select those which fit to them both theoretically and practically. The measures have their ``computational footprints'', the calculation require a given amounts of human and IT resources (and they are not always foreseeable). Another important aspect is the human condition: the metrics should not be something which is meaningful for the maintainer of data. The metrics should help a decision making process about the modification of the data. During the research it was the hardest point: to find the intersection of the interests with metadata experts. It happened several times, that what I could provide as a result was not useful from the cataloguers' perspective. It was a pleasant situation, that during the research I worked together with an expert group, the Europeana Data Quality Committee, who provide me constant feedback and requests, naturally. This collaboration started in 2016, but the work hasn't finished, we haven't reached a clear consensus. I plan to continue this research in the future, but only if I could do it in collaboration with institutions or experts.
+
+In Chapter 5 and 6 I described the core of a general measurement framework, and the steps to optimize some run time parameters. The framework has been tested on different JSON formatted data sources. A ``measurement catalog'' is part of the framework. The tool is customizable to different schemas. 
+
 \section{Future work}
 
 \subsection{Research data}
+
+CoreTrustSeal is a certification for research data repositories, based on the DSA-WDS Core Trustworthy Data Repositories Requirements\footnote{see Core Trustworthy Data Repositories Extended Guidance v1.1 (June, 2018) \url{https://www.coretrustseal.org/wp-content/uploads/2017/01/20180629-CTS-Extended-Guidance-v1.1.pdf}}. The certification is a successor of Data Seal of Approval. Its purpose is prove that the certified repositories are following best practices of the field. Organizations should explain their activities in 15 areas, such as data access, licences, workflow data integrity etc. There are two areas which as interesting from the aspect of metadata quality measurement: appraisal and data quality. The certificates contains the organization's answer and the certifying institution's notes, and they are publicly available\footnote{\url{https://www.coretrustseal.org/why-certification/certified-repositories/}}. At the time of writing there are 54 CoreTrustSeal certified repositories. The certifications are quite interesting documents, and together they provide a kind of cross section of the state of the art in the 15 areas if data repositories. It seems that their data and metadata quality activities concentrate on the following topics:
+
+\begin{itemize}
+  \setlength{\parskip}{0pt}
+  \setlength{\itemsep}{0pt plus 1pt}
+  \item setting the list of recommended and accepted file formats, and checking incoming files against it
+  \item documentation efforts on different levels (general, domain specific, national) creating manuals, and guides for the users and the maintainers of the repository
+  \item data curation by experts -- most of these repositories are not self-service, the deposited materials are carefully checked by human experts. They check both the archival aspects (formats, metadata) and domain aspects (content relevancy)
+  \item management of sensitive data (secure data management or excluding non anonymized data)
+  \item setting mandatory, recommended and optional fields regarding to the metadata records
+  \item online form validation -- when the metadata is created via an online user interface
+  \item some repositories apply XML validators when the metadata record is expected to be available in XML format
+\end{itemize}
+
+Among the traditional metadata quality dimensions only completeness is mentioned, and it is used as a synonym of the case when the mandatory fields are available in the metadata record (``Ensuring DDI fields are completed in the metadata ensures quality control of completeness.'' wrote the Australian Data Archive\footnote{\url{https://assessment.datasealofapproval.org/assessment_245/seal/html/}}). Only a small portion of repositories mentioned usage of controlled vocabulary, and in this preliminary research I found only one repository which named an independent tool used for automating the metadata quality check\footnote{FDAT, Tübingen uses docuteam packer see \url{https://wiki.docuteam.ch/doku.php?id=docuteam:packer}}. The Worldwide Protein Data Bank\footnote{\url{https://assessment.datasealofapproval.org/assessment_281/seal/html/}} mentioned that they created two kinds of representations of data quality assessment: one for specialists, and another for non-specialists. The later contains simple graphical depiction that ``highlights a small number of essential quality metrics''. Different repositories mentioned that they reuse good quality metadata records as examples in the documentation.
+
+It is worth to quote the checklist of Digital Repository of Ireland\footnote{\url{https://repository.dri.ie/catalog/sj13pg68d}} in which the describes the recommended steps to conduct regular metadata quality assessments:
+
+\begin{itemize}
+  \setlength{\parskip}{0pt}
+  \setlength{\itemsep}{0pt plus 1pt}
+  \item Designate one or a small team of information professionals to take responsibility for the audit.
+  \item Decide to what extent any mistakes found during the audit will be fixed within the live database.
+  \item On a quarterly or biannual basis, upload a sample set of records to the software application OpenRefine.
+  \item Use the Faceting and Cluster tools in OpenRefine to identify and record errors, such as misspellings, inconsistent use of capitalisation or blank cells.
+  \item Compile the documentation so that any changes in quality can be noted over a period of time. This will be particularly useful if the organisation has recently started using new cataloguing methods.
+\end{itemize}
+
+The most widely used general metadata schemas are the elements of Data Documentation Initiative (DDI)\footnote{\url{http://www.ddialliance.org/}} framework,\footnote{DDI Lifecycle (\url{http://www.ddialliance.org/Specification/DDI-Lifecycle/3.2/XMLSchema/FieldLevelDocumentation/}) and DDI Codebook (\url{http://www.ddialliance.org/Specification/DDI-Codebook/2.5/XMLSchema/field_level_documentation.html})} and The Dublin Core Metadata Initiative's DCMI Metadata Terms\footnote{\url{http://www.dublincore.org/specifications/dublin-core/dcmi-terms/}}. Regarding to domain specific metadata schemas CLARIN's Componen Metadata\footnote{\url{https://www.clarin.eu/content/component-metadata}} could be viewed as a domain specific standard in lingistic data repositories.
+
+An important conclusion from this preliminary survey is that there is a kind of ``market gap'' both in research and tool development in the domain of research data management. The elements of data quality mentioned in the certificates (completeness, format consistency, content relevancy, checking facets for errors etc.) are not different than those elements we can find in other metadata domains. There are elements which are existing, but apparently did not get so far the popularity they deserve, e.g. the ``frictionaless data'' data description metadata format~\cite{fowler2018} or FAIRmetrics~\cite{fairmetrics}. Not to mention general elements of the metadata quality research (dimensions, metrics and tools), which could be introduced into this domain, for the satisfaction of both parties.
 
 \subsection{Citation data}
 
@@ -101,7 +178,7 @@ Page number in DOI\footnote{\url{http://data.crossref.org/10.1097/NOR.0000000000
   <prism:endingPage>117</prism:endingPage>
 \end{lstlisting}
 
-As we can see the publisher's citation the page number contains the first part of the page number string of the Wikidata value, but not the ``; quiz 118-9'' part. With some search on at the table of content we can find another article\footnote{\url{https://journals.lww.com/orthopaedicnursing/Citation/2016/03000/Enhancing_Nurses__Pain_Assessment_to_Improve.11.aspx#print-article-link}, DOI: 10.1097/NOR.0000000000000236} at page 118-119 of the same issue. There are no authors but the title is the same. It is categorized under ``CE Tests'' (where CE means continuing education). The two articles don't link directly to each other. They are different, and have different DOIs. The DOI database neither contains any link between them.
+As we can see the publisher's citation the page number contains the first part of the page number string of the Wikidata value, but not the ``; quiz 118-9'' part. With some search on at the table of content we can find another article\footnote{\url{https://journals.lww.com/orthopaedicnursing/Citation/2016/03000/Enhancing_Nurses__Pain_Assessment_to_Improve.11.aspx#print-article-link}, DOI: {10.1097/NOR.0000000000000236}} at page 118-119 of the same issue. There are no authors but the title is the same. It is categorized under ``CE Tests'' (where CE means continuing education). The two articles don't link directly to each other. They are different, and have different DOIs. The DOI database neither contains any link between them.
 
 Wikidata should keep them separated, however it would require rather long time to investigate cases like this.
 
@@ -119,14 +196,24 @@ These two articles are not interlinked with distinct properties. We could suppos
 
 \subsection{Fixing issues -- is that possible?}
 
-The Swedish National Heritage Board just launched a project called \emph{Wikimedia Commons Data Roundtripping}\footnote{\url{https://outreach.m.wikimedia.org/wiki/GLAM/Newsletter/February_2019/Contents/Special_story}}. Roundtripping is the name of the workflow in which a cultural heritage institution publish their data in Wikimedia Commons, the users enrich these openly available media (such as adding translations of descriptive texts into other languages, identifying people, names and aliases, locations and subject matter or linking to authority data and using it to retrieve third party contributions from other memory organisations), then institutions ingest these data and update their original database.
+The Swedish National Heritage Board just launched a project called \emph{Wikimedia Commons Data Roundtripping}\footnote{\url{https://outreach.wikimedia.org/wiki/GLAM/Newsletter/February_2019/Contents/Special_story}}. \emph{Roundtripping} is the name of the workflow in which a cultural heritage institution publish their data in Wikimedia Commons, the users enrich these openly available media (such as adding translations of descriptive texts into other languages, identifying people, names and aliases, locations and subject matter or linking to authority data and using it to retrieve third party contributions from other memory organisations), then institutions ingest these data and update their original database.
 
-Wikidata doesn't seem to be the platform where the data are generated, but rather it is a place where data created elsewhere are imported and maybe enriched. Additionally, the bibliographical data in general seems to have their own data flow: from different sources they are duplicated into different targets, such as DOI database(s), commercial discovery interfaces (Scopus, Web of Science, Google Scholar, Microsoft x (?), Springer Knowledge), institutional repositories, open data platforms (Wikidata, Wikipedia, DBPedia) etc. It is clear, that it would be impossible to fix the data in each platform, and probably the best place to fix them in their origin.
+Wikidata doesn't seem to be the platform where the data are generated, but rather it is a place where data created elsewhere are imported and maybe enriched. Additionally, the bibliographical data in general seems to have their own data flow: from different sources they are duplicated into different targets, such as DOI database(s), commercial discovery interfaces (Scopus, Web of Science, Google Scholar, Microsoft x (?), Springer Knowledge), institutional repositories, open data platforms (Wikidata, Wikipedia, DBPedia) etc. It is clear, that it would be impossible to fix the data in each platform, and probably the best place to fix them in their origin. It seems that DOI database is a kind of central hub in this network.
 
 Who are responsible for metadata published in DOI database?
 
-According to eRA's DOI experts Timo Gnadt and Sven Bingert DOI data is updated by the data providers, which are the institutions behind the landing page, thus in our case there are the publishers of the journals.
+According to Göttingen eResearch Alliance's DOI experts Timo Gnadt and Sven Bingert DOI data is created and updated by the data providers, the institutions owns the data (usually they are the institutions behind the landing page of the metadata records), thus in our case they are the publishers of the journals.
 
-In one case I wrote a report to Springer Nature regarding to the page numbers for Wilkinson et al, \emph{The FAIR Guiding Principles for scientific data management and stewardship}. Scientific Data volume 3, Article number: 160018 (2016) \url{https://www.nature.com/articles/sdata201618}, but they did not reacted properly.
+In one case I wrote a report to Springer Nature regarding to the page numbers for Wilkinson et al, \emph{The FAIR Guiding Principles for scientific data management and stewardship}. Scientific Data volume 3, Article number: 160018 (2016) \url{https://www.nature.com/articles/sdata201618}, so far the discussion is about to clarify the problem, I do not have the publisher's opinion about the issue (and if they consider it as an issue).
 
-This project could provide Wikidata suggestions to fix the data in a format which could be used by bots to update the content. If such a fixing process is implemented, the Wikidata ingestion should be aware of the updated information, to be sure that they are not overwritten by a next ingestion process. Also these corrections should be sent to the publishers.
+This research could provide Wikidata suggestions to fix the data in a format which could be used by bots to update the content. If such a fixing process is implemented, Wikidata's ingestion process should be aware of the updated information, to be sure that they are not overwritten by a next ingestion process. Also these corrections should be sent to the publishers.
+
+\section{Acknowledgement}
+
+I would like to thank the help of Juliane Stiller, Zaveri Amrapali, Christina Harlow, Valentine Charles, Antoine Isaac, and those I already mentioned at the end of individual chapters. Thanks to the anonymous conference or journal reviewers who gave me important feedback.
+
+Thanks to Philipp Wieder (who convinced me to conduct a PhD research), and to Gerhard Lauer, Ramin Yahyapour and Marco Büchler for supervising this research.
+
+
+
+Külön köszönet Ildikónak, Zsófinak, Verának és Lucának szeretetükért és türelmükért.

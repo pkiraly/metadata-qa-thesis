@@ -1,0 +1,851 @@
+\chapter{Representing MARC 21 in Avram JSON schema}
+
+This listing shows fragments of the full export of MARC 21 Format for Bibliographic Data into Avram JSON schema described in Chapter 4. It contains examples for a simple control field (001), a complex control field (008) and a data field (245). The reader can access he full Avram export at \url{http://pkiraly.github.io/2018/01/28/marc21-in-json/}.
+
+%  caption={The part of Java client code which interacts with Spark API}
+\begin{scriptsize}
+\begin{lstlisting}[
+label=code:acram,
+ language=json]
+{
+ "$schema": "https://format.gbv.de/schema/avram/schema.json",
+ "title": "MARC 21 Format for Bibliographic Data.",
+ "description": "MARC 21 Format for Bibliographic Data.",
+ "url": "https://www.loc.gov/marc/bibliographic/",
+ "fields": {
+  ...
+  "001": {
+   "tag": "001",
+   "label": "Control Number",
+   "repeatable": false
+  },
+  ...
+  "008": {
+   "tag": "008",
+   "label": "General Information",
+   "repeatable": false,
+   "types": {
+    "All Materials": {
+     "positions": {
+      "00-05": {
+       "label": "Date entered on file",
+       "url": "https://www.loc.gov/marc/bibliographic/bd008a.html"
+      },
+      "06": {
+       "label": "Type of date/Publication status",
+       "url": "https://www.loc.gov/marc/bibliographic/bd008a.html",
+       "codes": {
+        "b": {
+         "label": "No dates given; B.C. date involved"
+        },
+        "c": {
+         "label": "Continuing resource currently published"
+        },
+        "d": {
+         "label": "Continuing resource ceased publication"
+        },
+        "e": {
+         "label": "Detailed date"
+        },
+        "i": {
+         "label": "Inclusive dates of collection"
+        },
+        "k": {
+         "label": "Range of years of bulk of collection"
+        },
+        "m": {
+         "label": "Multiple dates"
+        },
+        "n": {
+         "label": "Dates unknown"
+        },
+        "p": {
+         "label": "Date of distribution/release/issue and production/recording session when different"
+        },
+        "q": {
+         "label": "Questionable date"
+        },
+        "r": {
+         "label": "Reprint/reissue date and original date"
+        },
+        "s": {
+         "label": "Single known date/probable date"
+        },
+        "t": {
+         "label": "Publication date and copyright date"
+        },
+        "u": {
+         "label": "Continuing resource status unknown"
+        },
+        "|": {
+         "label": "No attempt to code"
+        }
+       }
+      },
+      "07-10": {
+       "label": "Date 1",
+       "url": "https://www.loc.gov/marc/bibliographic/bd008a.html"
+      },
+      "11-14": {
+       "label": "Date 2",
+       "url": "https://www.loc.gov/marc/bibliographic/bd008a.html"
+      },
+      "15-17": {
+       "label": "Place of publication, production, or execution",
+       "url": "https://www.loc.gov/marc/bibliographic/bd008a.html"
+      },
+      "35-37": {
+       "label": "Language",
+       "url": "https://www.loc.gov/marc/bibliographic/bd008a.html"
+      },
+      "38": {
+       "label": "Modified record",
+       "url": "https://www.loc.gov/marc/bibliographic/bd008a.html",
+       "codes": {
+        " ": {
+         "label": "Not modified"
+        },
+        "d": {
+         "label": "Dashed-on information omitted"
+        },
+        "o": {
+         "label": "Completely romanized/printed cards romanized"
+        },
+        "r": {
+         "label": "Completely romanized/printed cards in script"
+        },
+        "s": {
+         "label": "Shortened"
+        },
+        "x": {
+         "label": "Missing characters"
+        },
+        "|": {
+         "label": "No attempt to code"
+        }
+       },
+       "historical-codes": {
+        "u": {
+         "label": "Unknown [OBSOLETE] [CAN/MARC only]"
+        }
+       }
+      },
+      "39": {
+       "label": "Cataloging source",
+       "url": "https://www.loc.gov/marc/bibliographic/bd008a.html",
+       "codes": {
+        " ": {
+         "label": "National bibliographic agency"
+        },
+        "c": {
+         "label": "Cooperative cataloging program"
+        },
+        "d": {
+         "label": "Other"
+        },
+        "u": {
+         "label": "Unknown"
+        },
+        "|": {
+         "label": "No attempt to code"
+        }
+       },
+       "historical-codes": {
+        "a": {
+         "label": "National Agricultural Library [OBSOLETE, 1997] [USMARC only]"
+        },
+        "b": {
+         "label": "National Library of Medicine [OBSOLETE, 1997] [USMARC only]"
+        },
+        "l": {
+         "label": "Library of Congress cataloguing [OBSOLETE, 1997] [CAN/MARC only]"
+        },
+        "o": {
+         "label": "Other institution cataloguing [OBSOLETE, 1997] [CAN/MARC only]"
+        },
+        "n": {
+         "label": "Report to New serials titles [OBSOLETE, 1997] [USMARC only]"
+        },
+        "r": {
+         "label": "Reporting library [OBSOLETE, 1997] [CAN/MARC only]"
+        }
+       }
+      }
+     }
+    },
+    "Books": {
+     "positions": {
+      "18-21": {
+       "label": "Illustrations",
+       "url": "https://www.loc.gov/marc/bibliographic/bd008b.html",
+       "codes": {
+        " ": {
+         "label": "No illustrations"
+        },
+        "a": {
+         "label": "Illustrations"
+        },
+        "b": {
+         "label": "Maps"
+        },
+        "c": {
+         "label": "Portraits"
+        },
+        "d": {
+         "label": "Charts"
+        },
+        "e": {
+         "label": "Plans"
+        },
+        "f": {
+         "label": "Plates"
+        },
+        "g": {
+         "label": "Music"
+        },
+        "h": {
+         "label": "Facsimiles"
+        },
+        "i": {
+         "label": "Coats of arms"
+        },
+        "j": {
+         "label": "Genealogical tables"
+        },
+        "k": {
+         "label": "Forms"
+        },
+        "l": {
+         "label": "Samples"
+        },
+        "m": {
+         "label": "Phonodisc, phonowire, etc."
+        },
+        "o": {
+         "label": "Photographs"
+        },
+        "p": {
+         "label": "Illuminations"
+        },
+        "|": {
+         "label": "No attempt to code"
+        }
+       }
+      },
+      "22": {
+       "label": "Target audience",
+       "url": "https://www.loc.gov/marc/bibliographic/bd008b.html",
+       "codes": {
+        " ": {
+         "label": "Unknown or not specified"
+        },
+        "a": {
+         "label": "Preschool"
+        },
+        "b": {
+         "label": "Primary"
+        },
+        "c": {
+         "label": "Pre-adolescent"
+        },
+        "d": {
+         "label": "Adolescent"
+        },
+        "e": {
+         "label": "Adult"
+        },
+        "f": {
+         "label": "Specialized"
+        },
+        "g": {
+         "label": "General"
+        },
+        "j": {
+         "label": "Juvenile"
+        },
+        "|": {
+         "label": "No attempt to code"
+        }
+       },
+       "historical-codes": {
+        "u": {
+         "label": "School material at first level [OBSOLETE]"
+        },
+        "v": {
+         "label": "School material at second level [OBSOLETE]"
+        }
+       }
+      },
+      "23": {
+       "label": "Form of item",
+       "url": "https://www.loc.gov/marc/bibliographic/bd008b.html",
+       "codes": {
+        " ": {
+         "label": "None of the following"
+        },
+        "a": {
+         "label": "Microfilm"
+        },
+        "b": {
+         "label": "Microfiche"
+        },
+        "c": {
+         "label": "Microopaque"
+        },
+        "d": {
+         "label": "Large print"
+        },
+        "f": {
+         "label": "Braille"
+        },
+        "o": {
+         "label": "Online"
+        },
+        "q": {
+         "label": "Direct electronic"
+        },
+        "r": {
+         "label": "Regular print reproduction"
+        },
+        "s": {
+         "label": "Electronic"
+        },
+        "|": {
+         "label": "No attempt to code"
+        }
+       },
+       "historical-codes": {
+        "g": {
+         "label": "Punched paper tape [OBSOLETE, 1987]"
+        },
+        "h": {
+         "label": "Magnetic tape [OBSOLETE, 1987]"
+        },
+        "i": {
+         "label": "Multimedia [OBSOLETE, 1987]"
+        },
+        "z": {
+         "label": "Other form of reproduction [OBSOLETE, 1987]"
+        }
+       }
+      },
+      "24-27": {
+       "label": "Nature of contents",
+       "url": "https://www.loc.gov/marc/bibliographic/bd008b.html",
+       "codes": {
+        " ": {
+         "label": "No specified nature of contents"
+        },
+        "a": {
+         "label": "Abstracts/summaries"
+        },
+        "b": {
+         "label": "Bibliographies"
+        },
+        "c": {
+         "label": "Catalogs"
+        },
+        "d": {
+         "label": "Dictionaries"
+        },
+        "e": {
+         "label": "Encyclopedias"
+        },
+        "f": {
+         "label": "Handbooks"
+        },
+        "g": {
+         "label": "Legal articles"
+        },
+        "i": {
+         "label": "Indexes"
+        },
+        "j": {
+         "label": "Patent document"
+        },
+        "k": {
+         "label": "Discographies"
+        },
+        "l": {
+         "label": "Legislation"
+        },
+        "m": {
+         "label": "Theses"
+        },
+        "n": {
+         "label": "Surveys of literature in a subject area"
+        },
+        "o": {
+         "label": "Reviews"
+        },
+        "p": {
+         "label": "Programmed texts"
+        },
+        "q": {
+         "label": "Filmographies"
+        },
+        "r": {
+         "label": "Directories"
+        },
+        "s": {
+         "label": "Statistics"
+        },
+        "t": {
+         "label": "Technical reports"
+        },
+        "u": {
+         "label": "Standards/specifications"
+        },
+        "v": {
+         "label": "Legal cases and case notes"
+        },
+        "w": {
+         "label": "Law reports and digests"
+        },
+        "y": {
+         "label": "Yearbooks"
+        },
+        "z": {
+         "label": "Treaties"
+        },
+        "2": {
+         "label": "Offprints"
+        },
+        "5": {
+         "label": "Calendars"
+        },
+        "6": {
+         "label": "Comics/graphic novels"
+        },
+        "|": {
+         "label": "No attempt to code"
+        }
+       },
+       "historical-codes": {
+        "h": {
+         "label": "Handbooks [OBSOLETE]"
+        },
+        "x": {
+         "label": "Technical reports [OBSOLETE, 1997]"
+        },
+        "3": {
+         "label": "Discographies [OBSOLETE, 1997]"
+        },
+        "4": {
+         "label": "Filmographies [OBSOLETE, 1997]"
+        }
+       }
+      },
+      "28": {
+       "label": "Government publication",
+       "url": "https://www.loc.gov/marc/bibliographic/bd008b.html",
+       "codes": {
+        " ": {
+         "label": "Not a government publication"
+        },
+        "a": {
+         "label": "Autonomous or semi-autonomous component"
+        },
+        "c": {
+         "label": "Multilocal"
+        },
+        "f": {
+         "label": "Federal/national"
+        },
+        "i": {
+         "label": "International intergovernmental"
+        },
+        "l": {
+         "label": "Local"
+        },
+        "m": {
+         "label": "Multistate"
+        },
+        "o": {
+         "label": "Government publication-level undetermined"
+        },
+        "s": {
+         "label": "State, provincial, territorial, dependent, etc."
+        },
+        "u": {
+         "label": "Unknown if item is government publication"
+        },
+        "z": {
+         "label": "Other"
+        },
+        "|": {
+         "label": "No attempt to code"
+        }
+       },
+       "historical-codes": {
+        "n": {
+         "label": "Government publication-level undetermined [OBSOLETE]"
+        }
+       }
+      },
+      "29": {
+       "label": "Conference publication",
+       "url": "https://www.loc.gov/marc/bibliographic/bd008b.html",
+       "codes": {
+        "0": {
+         "label": "Not a conference publication"
+        },
+        "1": {
+         "label": "Conference publication"
+        },
+        "|": {
+         "label": "No attempt to code"
+        }
+       }
+      },
+      "30": {
+       "label": "Festschrift",
+       "url": "https://www.loc.gov/marc/bibliographic/bd008b.html",
+       "codes": {
+        "0": {
+         "label": "Not a festschrift"
+        },
+        "1": {
+         "label": "Festschrift"
+        },
+        "|": {
+         "label": "No attempt to code"
+        }
+       }
+      },
+      "31": {
+       "label": "Index",
+       "url": "https://www.loc.gov/marc/bibliographic/bd008b.html",
+       "codes": {
+        "0": {
+         "label": "No index"
+        },
+        "1": {
+         "label": "Index present"
+        },
+        "|": {
+         "label": "No attempt to code"
+        }
+       }
+      },
+      "33": {
+       "label": "Literary form",
+       "url": "https://www.loc.gov/marc/bibliographic/bd008b.html",
+       "codes": {
+        "0": {
+         "label": "Not fiction (not further specified)"
+        },
+        "1": {
+         "label": "Fiction (not further specified)"
+        },
+        "d": {
+         "label": "Dramas"
+        },
+        "e": {
+         "label": "Essays"
+        },
+        "f": {
+         "label": "Novels"
+        },
+        "h": {
+         "label": "Humor, satires, etc."
+        },
+        "i": {
+         "label": "Letters"
+        },
+        "j": {
+         "label": "Short stories"
+        },
+        "m": {
+         "label": "Mixed forms"
+        },
+        "p": {
+         "label": "Poetry"
+        },
+        "s": {
+         "label": "Speeches"
+        },
+        "u": {
+         "label": "Unknown"
+        },
+        "|": {
+         "label": "No attempt to code"
+        }
+       },
+       "historical-codes": {
+        " ": {
+         "label": "Non-fiction [OBSOLETE, 1997]"
+        },
+        "c": {
+         "label": "Comic strips [OBSOLETE, 2008]"
+        }
+       }
+      },
+      "34": {
+       "label": "Biography",
+       "url": "https://www.loc.gov/marc/bibliographic/bd008b.html",
+       "codes": {
+        " ": {
+         "label": "No biographical material"
+        },
+        "a": {
+         "label": "Autobiography"
+        },
+        "b": {
+         "label": "Individual biography"
+        },
+        "c": {
+         "label": "Collective biography"
+        },
+        "d": {
+         "label": "Contains biographical information"
+        },
+        "|": {
+         "label": "No attempt to code"
+        }
+       }
+      }
+     }
+    },
+    "Computer Files": {
+     "positions": {
+      "22": {
+       "label": "Target audience",
+       "url": "https://www.loc.gov/marc/bibliographic/bd008c.html",
+       "codes": {
+        " ": {
+         "label": "Unknown or not specified"
+        },
+        "a": {
+         "label": "Preschool"
+        },
+        "b": {
+         "label": "Primary"
+        },
+        "c": {
+         "label": "Pre-adolescent"
+        },
+        "d": {
+         "label": "Adolescent"
+        },
+        "e": {
+         "label": "Adult"
+        },
+        "f": {
+         "label": "Specialized"
+        },
+        "g": {
+         "label": "General"
+        },
+        "j": {
+         "label": "Juvenile"
+        },
+        "|": {
+         "label": "No attempt to code"
+        }
+       }
+      },
+      "23": {
+       "label": "Form of item",
+       "url": "https://www.loc.gov/marc/bibliographic/bd008c.html",
+       "codes": {
+        " ": {
+         "label": "Unknown or not specified"
+        },
+        "o": {
+         "label": "Online"
+        },
+        "q": {
+         "label": "Direct electronic"
+        },
+        "|": {
+         "label": "No attempt to code"
+        }
+       }
+      },
+      "26": {
+       "label": "Type of computer file",
+       "url": "https://www.loc.gov/marc/bibliographic/bd008c.html",
+       "codes": {
+        "a": {
+         "label": "Numeric data"
+        },
+        "b": {
+         "label": "Computer program"
+        },
+        "c": {
+         "label": "Representational"
+        },
+        "d": {
+         "label": "Document"
+        },
+        "e": {
+         "label": "Bibliographic data"
+        },
+        "f": {
+         "label": "Font"
+        },
+        "g": {
+         "label": "Game"
+        },
+        "h": {
+         "label": "Sound"
+        },
+        "i": {
+         "label": "Interactive multimedia"
+        },
+        "j": {
+         "label": "Online system or service"
+        },
+        "m": {
+         "label": "Combination"
+        },
+        "u": {
+         "label": "Unknown"
+        },
+        "z": {
+         "label": "Other"
+        },
+        "|": {
+         "label": "No attempt to code"
+        }
+       }
+      },
+      "28": {
+       "label": "Government publication",
+       "url": "https://www.loc.gov/marc/bibliographic/bd008c.html",
+       "codes": {
+        " ": {
+         "label": "Not a government publication"
+        },
+        "a": {
+         "label": "Autonomous or semi-autonomous component"
+        },
+        "c": {
+         "label": "Multilocal"
+        },
+        "f": {
+         "label": "Federal/national"
+        },
+        "i": {
+         "label": "International intergovernmental"
+        },
+        "l": {
+         "label": "Local"
+        },
+        "m": {
+         "label": "Multistate"
+        },
+        "o": {
+         "label": "Government publication-level undetermined"
+        },
+        "s": {
+         "label": "State, provincial, territorial, dependent, etc."
+        },
+        "u": {
+         "label": "Unknown if item is government publication"
+        },
+        "z": {
+         "label": "Other"
+        },
+        "|": {
+         "label": "No attempt to code"
+        }
+       }
+      }
+     }
+    },
+    ...
+   }
+  },
+  "245": {
+   "tag": "245",
+   "label": "Title Statement",
+   "url": "https://www.loc.gov/marc/bibliographic/bd245.html",
+   "repeatable": false,
+   "indicator1": {
+    "label": "Title added entry",
+    "codes": {
+     "0": {
+      "label": "No added entry"
+     },
+     "1": {
+      "label": "Added entry"
+     }
+    }
+   },
+   "indicator2": {
+    "label": "Nonfiling characters",
+    "codes": {
+     "0": {
+      "label": "No nonfiling characters"
+     },
+     "1-9": {
+      "label": "Number of nonfiling characters"
+     }
+    }
+   },
+   "subfields": {
+    "a": {
+     "label": "Title",
+     "repeatable": false
+    },
+    "b": {
+     "label": "Remainder of title",
+     "repeatable": false
+    },
+    "c": {
+     "label": "Statement of responsibility, etc.",
+     "repeatable": false
+    },
+    "f": {
+     "label": "Inclusive dates",
+     "repeatable": false
+    },
+    "g": {
+     "label": "Bulk dates",
+     "repeatable": false
+    },
+    "h": {
+     "label": "Medium",
+     "repeatable": false
+    },
+    "k": {
+     "label": "Form",
+     "repeatable": true
+    },
+    "n": {
+     "label": "Number of part/section of a work",
+     "repeatable": true
+    },
+    "p": {
+     "label": "Name of part/section of a work",
+     "repeatable": true
+    },
+    "s": {
+     "label": "Version",
+     "repeatable": false
+    },
+    "6": {
+     "label": "Linkage",
+     "repeatable": false
+    },
+    "8": {
+     "label": "Field link and sequence number",
+     "repeatable": true
+    }
+   },
+   "historical-subfields": {
+    "d": {
+     "label": "Designation of section/part/series (SE) [OBSOLETE, 1979]"
+    },
+    "e": {
+     "label": "Name of part/section/series (SE) [OBSOLETE, 1979]"
+    }
+   }
+  },
+  ...
+ }
+}
+\end{lstlisting}
+\end{scriptsize}
