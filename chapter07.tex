@@ -2,48 +2,72 @@
 
 \section{Conclusion}
 
-It is worth to retrospect shortly to my research plan~\cite{kiraly2015a}, which I wrote before starting this research. I wanted to implement as much metadata metrics defined by~\cite{bruce-hillmann2004, ochoa-duval2009} as possible. Some of these metrics would have required access to the full text of books or articles, which were not given in Europeana.
+It is worth to retrospect shortly to my research plan~\cite{kiraly2015a}, which was written before starting the actual research. I wanted to implement as much metadata metrics defined by~\cite{bruce-hillmann2004, ochoa-duval2009} as possible (some of these metrics would have required access to the full text of books or articles, which were not given in Europeana -- so it was not guaranteed that each metrics are implementable in the current context). The main research question was if it is possible to create an implementation of the metrics which is scalable (works both with large and small amount of metadata records) and flexible as well (adaptable to different metadata schemas).
 
 During the research I had three tracks of activities
 
 \begin{enumerate}
-\item Planning and studying
-\item Engineering
-\item Dissemination
+  \setlength{\parskip}{0pt}
+  \setlength{\itemsep}{0pt plus 1pt}
+\item Studying the metadata quality domain
+\item Engineering the tool
+\item Communicating about metadata quality and dissemination of the results
 \end{enumerate}
 
-In the first track I studied the metadata quality (some parts including data and information quality) literature. As far as it was possible I participated in or at least followed the activities of metadata quality projects or metadata quality related activities of digital libraries (among others Europeana, Deutsche Digitale Bibliothek, Digital Public Library of America). My interest was rather practical, and less theoretical. My special point of view was the question how the results of these papers could be turn into an Open Source software which could be used in different contexts. During the process -- together with members of Europeana Data Quality Committee -- we introduced a new metric for multilinguality.
+In the first track I studied the metadata quality literature (somewhat including including data and information quality literature). Since this domain is not a purely theoretical field, looking for current practice -- as far as it was possible -- I participated in or at least followed the activities of metadata quality projects or metadata quality related activities of digital libraries (among others Europeana, Deutsche Digitale Bibliothek, Digital Public Library of America). My interest was rather practical, and less theoretical. My special point of view was the question how the results of these papers could be turn into an Open Source software which could be used in different contexts, however during the process -- together with members of Europeana Data Quality Committee -- we introduced a new metric we haven't found in the literature, which measures the multilingual aspects of metadata.
 
 The main purpose of the engineering track was to create a general metadata quality measuring framework. It became a set of modules, such as a core API, an Europeana specific API, clients for it such as a REST API, a Spark interface, a web user interface, then a MARC 21 tool, a Wikidata-centric tool etc. each adding a specific purpose layer to the lower levels. The tool proved to be flexible (adaptable to different metadata schemas) and scalable.
 
-The third aspect of the research was the dissemination of the results which activity accumulated in the current dissertation. I presented results in the following events:
+The software packages created as part of the dissertation are:
+
+\begin{itemize}
+  \setlength{\parskip}{0pt}
+  \setlength{\itemsep}{0pt plus 1pt}
+\item Harvester client for Europeana's OAI-PMH server (\url{https://github.com/pkiraly/europeana-oai-pmh-client}). It turned out, that Europeana's OAI-PMH implementation is not robust enough to let clients to harvest the whole dataset. Later I was given access to a MongoDB server, and I use this directly instead of using the OAI-PMH protocol.
+\item General Metadata QA API. Source code: \url{https://github.com/pkiraly/metadata-qa-api},
+Maven artifact (binary Java library): \url{http://mvnrepository.com/artifact/de.gwdg.metadataqa/metadata-qa-api}
+\item The Europeana-specific Europeana QA API:
+Source code: \url{https://github.com/pkiraly/europeana-qa-api},
+Maven artifact: \url{http://mvnrepository.com/artifact/de.gwdg.metadataqa/europeana-qa-api}
+\item Measurement with Spark: \url{https://github.com/pkiraly/europeana-qa-spark}
+\item Analysis with R: \url{https://github.com/pkiraly/europeana-qa-r}. By the end of 2018 it became clear that the limitations of R as a language (mainly that could process as much data as the size of the available memory) blocks the targetted monthly cycle of data analysis, so the whole analysis was rewritten based on Spark API, which became part of the europeana-qa-spark codebase, and this R based code base will not have been updated in the future.
+\item Web interface: \url{https://github.com/pkiraly/europeana-qa-web}
+\item REST and command line interface: \url{https://github.com/pkiraly/europeana-qa-client}
+\item Apache Solr connector: \url{https://github.com/pkiraly/europeana-qa-solr}
+\item Cassandra connector: \url{https://github.com/pkiraly/europeana-qa-cassandra}
+\item Metadata assessment for MARC records. Source code: \url{https://github.com/pkiraly/metadata-qa-marc}, Maven artifacts: \url{https://mvnrepository.com/artifact/de.gwdg.metadataqa/metadata-qa-marc} 
+\item Single page web interface for searching MARC records \url{https://github.com/pkiraly/metadata-qa-marc-web}
+\item Quality assessment for the bibliographic records of Wikidata \url{https://github.com/pkiraly/metadata-qa-wikidata}
+\item Supplementary materials for paper submitted to EURO-PAR conference \url{https://github.com/pkiraly/euro-par}
+\end{itemize}
+
+The third aspect of the research was the communication and  dissemination of the results which activity accumulated in the current dissertation. I held the following presentations or participated in discussion as follows:
 
 \begin{enumerate}
-\item International Symposium on Information Science, Berlin, 2017. March 13-15. Presentation together with Juline Stiller. Paper was published as \cite{stiller-kiraly2017}
-\item \#dariahTeach, Lausanne, 2017. March 23-24. Poster
-\item SI & IT Workshop, Göttingen, 2017. May 10. Presentation together with Juline Stiller
-\item Linked Data Quality workshop 2017, Portorož, 2017. May 29. Invited keynote speech
-\item DATeCH 2017, Göttingen, 2017 June 1-2. Paper published as \cite{kiraly2017}
-\item ELAG 2017, Athens, 2017. June 6-9. Presentation
-\item Digital Humanities 2017, Montréal, 2017 August 7-11. Extended abstract was published in the Digital Humanities 2017 Conference Abstracts\footnote{\url{https://dh2017.adho.org/abstracts/DH2017-abstracts.pdf}}, cited by \cite{khan2018}.
+  \setlength{\parskip}{0pt}
+  \setlength{\itemsep}{0pt plus 1pt}
+\item \emph{Multilinguality of Metadata. Measuring the Multilingual Degree of Europeana‘s Metadata}\footnote{slides: \url{http://doi.org/10.13140/RG.2.2.30771.43047}} International Symposium on Information Science, Berlin, 2017. March 13-15. Presentation together with Juline Stiller. Paper was published as \cite{stiller-kiraly2017}
+\item \emph{Measuring metadata quality. A quick overview in the context of Europeana metadata}\footnote{\url{http://doi.org/10.13140/RG.2.2.36780.67207}} \#dariahTeach, Lausanne, 2017. March 23-24. Poster
+\item SI \& IT Workshop, Göttingen, 2017. May 10. Presentation together with Juline Stiller
+\item \emph{Measuring Metadata Quality and the Europeana use case}\footnote{slides: \url{http://bit.ly/metadata-ldq4}} Linked Data Quality workshop 2017, Portorož, 2017. May 29. Invited keynote speech
+\item \emph{Towards an extensible measurement of metadata quality}\footnote{slides: \url{http://bit.ly/way2datech}} DATeCH 2017, Göttingen, 2017 June 1-2. Paper published as \cite{kiraly2017}
+\item \emph{``Nothing is created, nothing is lost, everything changes''. Measuring and visualizing data quality in Europeana.}\footnote{slides: \url{http://bit.ly/mq-elag2017}} ELAG 2017, Athens, 2017. June 6-9. Presentation together with Valentine Charles
+\item \emph{Measuring completeness as metadata quality metric in Europeana}\footnote{slides: \url{http://bit.ly/mq-dh2017}} Digital Humanities 2017, Montréal, 2017 August 7-11. Extended abstract was published in the Digital Humanities 2017 Conference Abstracts\footnote{\url{https://dh2017.adho.org/abstracts/DH2017-abstracts.pdf}}, cited by \cite{khan2018}.
 \item Linked Data Quality Workshop Semantics 2017, Amsterdam, 2017. September 14 -- as organizer and presenter.
-\item (Meta)-Data Quality Workshop (part of TPDL 2017), Thessaloniki, 2017. September 17-21. Presented by Juliane Stiller, the paper was published as \cite{charles2017}.
-\item ADOCHS meeting, Brussels, 2017 November 21
+\item \emph{Evaluating Data Quality in Europeana: Metrics for Multilinguality} (Meta)-Data Quality Workshop (part of TPDL 2017), Thessaloniki, 2017. September 17-21. Presented by Juliane Stiller, the paper was published as \cite{charles2017}.
+\item \emph{Measuring Metadata Quality in Europeana}\footnote{\url{http://bit.ly/adochs-europeana}} and \emph{Measuring library catalogs}\footnote{\url{http://bit.ly/adochs-marc}} ADOCHS meeting, Brussels, 2017 November 21
 \item LDCX at Stanford University, 2018 March. Leading workshop and presentation.
-\item ELAG 2018, Prague, 2018 June 5-7. Workshop together with Anette Strauch and Patrick Hochstenbach.
-\item MTSR 2018. 12th International Conference on Metadata and Semantics Research, Limassol, 2018 Oct 23-26. Presentation together with Juliane Stiller. Paper published as \cite{kiraly-et-al2018}.
-\item Open Research Knowledge Graph workshop, Hannover, 2018 November 22.
-\item ReIReS (Research Infrastructure on Religious Studies) Workshop on FAIR Principle for Digital Research Data Management, Mainz, 2018 November 28.
-\item Computational Archival Schience workshop (part of IEEE Big Data 2018), Seattle, 2018 December 10-13. Paper published as \cite{kiraly2018}.
+\item \emph{Data Quality Workshop}\footnote{\url{http://bit.ly/elag2018-data-quality-workshop}} ELAG 2018, Prague, 2018 June 5-7. Workshop together with Anette Strauch and Patrick Hochstenbach with contribution from Mark Phillips\footnote{Mark Philipps: ``UNT Libraries Metadata Quality Interfaces'' (video) \url{https://www.youtube.com/watch?v=ATM3EwixnW8}}.
+\item \emph{Evaluating Data Quality in Europeana:
+Metrics for Multilinguality}. MTSR 2018. 12th International Conference on Metadata and Semantics Research, Limassol, 2018 Oct 23-26. Presentation together with Juliane Stiller. Paper published as \cite{kiraly-et-al2018}.
+\item \emph{Researching metadata quality}\footnote{slides: \url{http://bit.ly/qa-orkg2018}}. Open Research Knowledge Graph workshop, Hannover, 2018 November 22.
+\item \emph{Metadata quality in cultural heritage institutions}\footnote{slides: \url{http://bit.ly/qa-relres-fair}} ReIReS (Research Infrastructure on Religious Studies) Workshop on FAIR Principle for Digital Research Data Management, Mainz, 2018 November 28.
+\item \emph{Measuring Completeness as Metadata Quality Metric in Europeana}\footnote{slides: \url{http://bit.ly/qa-cas2018}} Computational Archival Science workshop (part of IEEE Big Data 2018), Seattle, 2018 December 10-13. Paper published as \cite{kiraly2018}.
 \end{enumerate}
 
+As we saw, metadata quality has multiple dimensions. For each data source we should select those which fit to them both theoretically and practically. The measures have their ``computational footprints'': the calculation require a given amounts of human and IT resources (and they are not always foreseeable) we should take into account both in research and non-research projects. Another important aspect is the human condition: the metrics should not be something which is meaningful from statistical viewpoint, they should be meaningful for the maintainer of data as well. The metrics should help a decision making process about the modification of the data. During the research it was the hardest point: to find the intersection of the interests with metadata experts. It happened several times, that what I could have provided as a result was not useful from the cataloguers' perspective. It was a pleasant situation, that during the research I worked together with an expert group, the Europeana Data Quality Committee, whose members provided me constant feedback (and requests, naturally). This collaboration started in 2016, but the work hasn't yet finished, since we haven't reached a clear consensus.
 
-
-The main conclusions from the research.
-
-As we saw, metadata quality has multiple dimensions. For each data source we should select those which fit to them both theoretically and practically. The measures have their ``computational footprints'', the calculation require a given amounts of human and IT resources (and they are not always foreseeable). Another important aspect is the human condition: the metrics should not be something which is meaningful for the maintainer of data. The metrics should help a decision making process about the modification of the data. During the research it was the hardest point: to find the intersection of the interests with metadata experts. It happened several times, that what I could provide as a result was not useful from the cataloguers' perspective. It was a pleasant situation, that during the research I worked together with an expert group, the Europeana Data Quality Committee, who provide me constant feedback and requests, naturally. This collaboration started in 2016, but the work hasn't finished, we haven't reached a clear consensus. I plan to continue this research in the future, but only if I could do it in collaboration with institutions or experts.
-
-In Chapter 5 and 6 I described the core of a general measurement framework, and the steps to optimize some run time parameters. The framework has been tested on different JSON formatted data sources. A ``measurement catalog'' is part of the framework. The tool is customizable to different schemas. 
+I plan to continue this kind of research in the future, however a similar collaboration with institutions or experts is a strong necessity.
 
 \section{Future work}
 
@@ -210,10 +234,8 @@ This research could provide Wikidata suggestions to fix the data in a format whi
 
 \section{Acknowledgement}
 
-I would like to thank the help of Juliane Stiller, Zaveri Amrapali, Christina Harlow, Valentine Charles, Antoine Isaac, and those I already mentioned at the end of individual chapters. Thanks to the anonymous conference or journal reviewers who gave me important feedback.
+I would like to thank the help of Juliane Stiller, Zaveri Amrapali, Christina Harlow, Valentine Charles, Antoine Isaac. Thanks to the anonymous conference or journal reviewers who gave me important feedback.
 
-Thanks to Philipp Wieder (who convinced me to conduct a PhD research), and to Gerhard Lauer, Ramin Yahyapour and Marco Büchler for supervising this research.
+Thanks to Philipp Wieder who encouraged me to conduct a PhD research, and to Gerhard Lauer, Ramin Yahyapour and Marco Büchler for supervising this research.
 
-
-
-Külön köszönet Ildikónak, Zsófinak, Verának és Lucának szeretetükért és türelmükért.
+Köszönet Ildikónak, Zsófinak, Verának és Lucának szeretetükért és türelmükért.
