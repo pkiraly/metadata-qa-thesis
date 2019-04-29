@@ -70,7 +70,7 @@ Using the positions as the key, the meaning of the individual portions should be
 
 In this document I will use the term `subfield' for these information (the standard does not have a term for this).
 
-Different library materials require different descriptive element sets, however in MARC -- maybe due to the necessity of compressing information -- there is not a single ``record type'' field. Instead its value comes from the combination of two subfields of the Leader: the Type of Record, and the Bibliographic level (see Table \ref{tab:record_type}). Several other elements of the schema depend on the value of this combination, however -- as we will see -- there are examples where the combination returns an undefined value.
+Different library materials require different descriptive element sets, however in MARC -- maybe due to the necessity of compressing information -- there is not a single ``record type'' field. Instead its value comes from the combination of two subfields of the Leader: the Type of Record, and the Bibliographic level (see Table \ref{table:record_type}). Several other elements of the schema depend on the value of this combination, however -- as we will see -- there are examples where the combination returns an undefined value.
 
 \afterpage{%
  \clearpage% Flush earlier floats
@@ -78,7 +78,7 @@ Different library materials require different descriptive element sets, however 
     \begin{landscape}% Landscape page
 \begin{table}
   \caption{Record type}
-  \label{tab:record_type}
+  \label{table:record_type}
   \hspace{-2cm}
   \begin{minipage}{\textwidth}
   \begin{tabular}{lllllll}
@@ -196,11 +196,11 @@ There are two big problems with versions
 
 Without proper documentation these fields could not be understood, and thus validated. The validation tool should report it, but can not decide if an undocumented element is correct or not, because the requirements are not clear.
 
-The software has the following approaches to handle documented versions. The individual schema elements are represented by Java classes which have similar properties to their schema element pairs, e.g. a \emph{DataFieldDefinition} has \emph{Indicators} with \emph{Codes}, and \emph{Subfields} such as the standard's data fields. The MARC21 standard has special notes about the changing of the standard, and the model records them as \emph{historicalCodes} or \emph{historicalSubfields}. The same technique works for version specific codes and subfields. If a version does not extend a field, but introduces a new one or overwrites an existing one, a new \emph{DataFieldDefinition} class could be created in the version's dedicated name space, so it could not be mixed with the core MARC21 implementation. The user can specify the supposed version with \emph{--marcVersion [version]} parameter. The software tries to find the definition in its name space, and if does not find it (which means that particular field was not overwritten in that version), it checks if the core field definition has any version specific definition. If such a definition is found the software validates the element against that, otherwise it uses the default MARC21 definition. To illustrate the definition part, Listing \ref{code1} is a short example for 020 (ISBN) field definition.
+The software has the following approaches to handle documented versions. The individual schema elements are represented by Java classes which have similar properties to their schema element pairs, e.g. a \emph{DataFieldDefinition} has \emph{Indicators} with \emph{Codes}, and \emph{Subfields} such as the standard's data fields. The MARC21 standard has special notes about the changing of the standard, and the model records them as \emph{historicalCodes} or \emph{historicalSubfields}. The same technique works for version specific codes and subfields. If a version does not extend a field, but introduces a new one or overwrites an existing one, a new \emph{DataFieldDefinition} class could be created in the version's dedicated name space, so it could not be mixed with the core MARC21 implementation. The user can specify the supposed version with \emph{--marcVersion [version]} parameter. The software tries to find the definition in its name space, and if does not find it (which means that particular field was not overwritten in that version), it checks if the core field definition has any version specific definition. If such a definition is found the software validates the element against that, otherwise it uses the default MARC21 definition. To illustrate the definition part, Listing \ref{code:code1} is a short example for 020 (ISBN) field definition.
 
 \lstset{language=Java, basicstyle=\footnotesize\ttfamily}
 
-\begin{lstlisting}[float, caption=Subfield definition in Java, label=code1]
+\begin{lstlisting}[float, caption=Subfield definition in Java, label=code:code1]
 // core MARC21
 setSubfieldsWithCardinality(
   "a", "International Standard Book Number", "NR",
@@ -241,9 +241,9 @@ At time of writing this paper the following versions are defined (fully or parti
 
 \subsection{Validating individual records}
 
-The tool has a command line interface (\emph{./validator}) which iterates over one or more MARC or MARCXML records. There are two kinds of output: one which reports all issues with its record identifier (see Listing \ref{detailed-report}), and a summary, which reports similar issue types together without individual ids (Listing \ref{summary-report}). Both contain URL of element definition if available.
+The tool has a command line interface (\emph{./validator}) which iterates over one or more MARC or MARCXML records. There are two kinds of output: one which reports all issues with its record identifier (see Listing \ref{code:detailed-report}), and a summary, which reports similar issue types together without individual ids (Listing \ref{code:summary-report}). Both contain URL of element definition if available.
 
-\begin{lstlisting}[float, caption=Detailed report, label=detailed-report]
+\begin{lstlisting}[float, caption=Detailed report, label=code:detailed-report]
 ./validator [parameters] [file]
 
 recordId,MarcPath,type,message,url
@@ -252,7 +252,7 @@ recordId,MarcPath,type,message,url
   " ",https://www.loc.gov/marc/.../bd008b.html
 \end{lstlisting}
 
-\begin{lstlisting}[float, caption=Summarized report, label=summary-report]
+\begin{lstlisting}[float, caption=Summarized report, label=code:summary-report]
 ./validator --summary [file]
 
 MarcPath,type,message,url,count
@@ -291,7 +291,7 @@ This research covered the evaluation of 14 catalogues. They are\footnote{There a
 
 \begin{table*}[!ht]
 \caption{Number of records in the catalogs (in millions)}
-\label{tab:number-of-records}
+\label{table:number-of-records}
 %\begin{minipage}{\textwidth} %{17.5cm} %
 \hspace{-1cm}
 \begin{minipage}{\textwidth} %
@@ -317,7 +317,7 @@ This research covered the evaluation of 14 catalogues. They are\footnote{There a
     \begin{landscape}% Landscape page
 \begin{table*}
 \caption{The percentages of records with issues}
-\label{tab:proportion-of-issues}
+\label{table:proportion-of-issues}
 \hspace{-1cm}
 \begin{minipage}{\textwidth} %{17.5cm} %{\columnwidth}
 \begin{footnotesize}
@@ -347,7 +347,7 @@ Note: `filtered issues': issues excluding the undocumented tags and subfields
     \begin{landscape}% Landscape page
 \begin{table*}
 \caption{The percentages of typical structural issues}
-\label{tab:issue-types}
+\label{table:issue-types}
 \hspace{-1cm}
 \begin{minipage}{\columnwidth} %{\columnwidth}
 \begin{center}
@@ -400,9 +400,9 @@ Note: The numbers in the columns represents the percentage of a given type for a
     \clearpage% Flush page
 }
 
-We detected the following issue types in each of the catalogues (see Table \ref{tab:proportion-of-issues} and \ref{tab:issue-types} for detailed distribution).
+We detected the following issue types in each of the catalogues (see Table \ref{table:proportion-of-issues} and \ref{table:issue-types} for detailed distribution).
 
-On the record level it appeared that the `linkage' between fields could be invalid or ambiguous. Linkage is a special MARC feature, using subfield \$6, containing  a ``data that links fields that are different script representations of each other'', mainly used for transcription of foreign language titles.\footnote{https://www.loc.gov/marc/bibliographic/ecbdcntf.html}. \emph{Ambiguous linkage} (R1) occurs when the link's target is unclear, \emph{invalid linkage} (R2) occurs when the link itself is missing or its target is not existing in the record. Sometimes \emph{type error} (R3) occurs: the values mentioned in Table \ref{tab:record_type} are missing, invalid or their combination is invalid.
+On the record level it appeared that the `linkage' between fields could be invalid or ambiguous. Linkage is a special MARC feature, using subfield \$6, containing  a ``data that links fields that are different script representations of each other'', mainly used for transcription of foreign language titles.\footnote{https://www.loc.gov/marc/bibliographic/ecbdcntf.html}. \emph{Ambiguous linkage} (R1) occurs when the link's target is unclear, \emph{invalid linkage} (R2) occurs when the link itself is missing or its target is not existing in the record. Sometimes \emph{type error} (R3) occurs: the values mentioned in Table \ref{table:record_type} are missing, invalid or their combination is invalid.
 
 Control subfield's \emph{invalid code} (C1) denotes the case when a control field's code is outside of the provided dictionary, while an \emph{invalid value} (C2) occurs when the code is not a dictionary term, but should match some rule. For example 008/00-05 represents the date the record was created as six digits matching the ``yymmdd'' (year, month, day) pattern. ``993006'' is an invalid value, because the middle part ``30'' could not be interpreted as a month. The software reports ``Invalid content: `993006'. Text `993006' could not be parsed: Invalid value for MonthOfYear (valid values 1 - 12): 30''.
 
@@ -412,7 +412,7 @@ The indicators have 3 types of issues. \emph{Invalid value} (I1) means that the 
 
 Finally we come to the issues with the data subfields. \emph{Classification} (S1) is the problem of specifying an information source (typically a classification scheme). In several fields if the second indicator contains `7', subfield \$2 should point to a dictionary term. If the subfield is missing this issue is reported. \emph{invalid ISBN} (S2) and \emph{invalid ISSN} (S3) occurs if the ISBN or ISSN field does not contain any string which looks like an ISBN or ISSN identifier, or the found string doesn't fit the rules (the last character of these identifiers is a check value, it should match the result of some calculations on all previous characters). \emph{Invalid length} (S4) issue occurs when the value is shorter or longer than a specified length, \emph{invalid value} (S5) happens when the value is not a dictionary term, \emph{non-repeatable} (S6) happens when a non-repeatable subfield occurs more than once, while \emph{undefined subfield} (S7) refers to unavailable subfield definition. \emph{Non well-formatted field} (S8) is a formatting issue and is similar to what we have seen at the date parsing: the content does not match a predefined format. 
 
-From Table \ref{tab:issue-types} it became clear that the most frequent issues are the usage of undocumented schema elements. The next large source of issues are the invalid codes and values in the control fields. One can think it might be due to the fragility of those fields we discussed earlier, but there might be other sources. Several libraries uses MARC only as a data exchange format, they export MARC from converting some other format. It must be a deeper investigation to separate the transformation and the original issues, which already exist in the source record. The indicator-issues also represents a surprisingly large proportion, while there are relatively less issues in data subfields.   
+From Table \ref{table:issue-types} it became clear that the most frequent issues are the usage of undocumented schema elements. The next large source of issues are the invalid codes and values in the control fields. One can think it might be due to the fragility of those fields we discussed earlier, but there might be other sources. Several libraries uses MARC only as a data exchange format, they export MARC from converting some other format. It must be a deeper investigation to separate the transformation and the original issues, which already exist in the source record. The indicator-issues also represents a surprisingly large proportion, while there are relatively less issues in data subfields.   
 
 \subsection{Completeness}
 
@@ -422,7 +422,7 @@ From Table \ref{tab:issue-types} it became clear that the most frequent issues a
     \begin{landscape}% Landscape page
 \begin{table*}
 \caption{Percentage of records where different metadata types are available}
-\label{tab:completeness}
+\label{table:completeness}
 \hspace{-1cm}
 \begin{minipage}{\columnwidth} %{\columnwidth}
 \begin{center}
@@ -457,7 +457,7 @@ oth & 0.0 & 0.0 & 0.0 & 0.0 & 71.1 & 100.0 & 0.0 & 0.0 & 0.0 & 59.7 & 0.0 & 0.0 
     \clearpage% Flush page
 }
 
-The completeness of the catalogues has been also analyzed, the result is shown at Table \ref{tab:completeness}. As in other metadata standards, there are different kind of information. Some fields contain technical information (such as identifiers, creation and modification dates of the MARC record), descriptive information (e.g. title, author, publisher, publishing date, dimensions), and contextual information, such as normalized name forms or subject headings. MARC groups individual fields into categories, the research followed it to show the completeness of them.
+The completeness of the catalogues has been also analyzed, the result is shown at Table \ref{table:completeness}. As in other metadata standards, there are different kind of information. Some fields contain technical information (such as identifiers, creation and modification dates of the MARC record), descriptive information (e.g. title, author, publisher, publishing date, dimensions), and contextual information, such as normalized name forms or subject headings. MARC groups individual fields into categories, the research followed it to show the completeness of them.
 
 01X-09X: Numbers and code (standard numbers, classification numbers, codes)\footnote{https://www.loc.gov/marc/bibliographic/bd01x09x.html}. 1XX: Main entry, name or a uniform title heading used as main entry\footnote{https://www.loc.gov/marc/bibliographic/bd1xx.html}, 20X-24X: Title and title-related fields (variant and former titles, uniform title)\footnote{https://www.loc.gov/marc/bibliographic/bd20x24x.html}, 25X-28X: Edition, imprint, etc. (descriptive fields other than titles)\footnote{https://www.loc.gov/marc/bibliographic/bd25x28x.html}, 3xx: Physical description (physical characteristics, graphic representation, physical arrangement, publication frequency, and security information),\footnote{https://www.loc.gov/marc/bibliographic/bd3xx.html} 4XX: Series Statement (information about series the publication is part of),\footnote{https://www.loc.gov/marc/bibliographic/bd4xx.html} 5XX: bibliographic notes,\footnote{https://www.loc.gov/marc/bibliographic/bd5xx.html} 6xx: Subject access field, description of the (topical, geographical, chronological etc.) subjects typically terms coming from subject heading systems/thesauri\footnote{https://www.loc.gov/marc/bibliographic/bd6xx.html}, 70X-75X: Added entry (additional name or a uniform title headings),\footnote{1XX records the agents chiefly responsible for the work, while 70X records contributors. 
 %. The distinction between the chief author and the rest is governed by the cataloguing rules, not the MARC standard. 
@@ -467,13 +467,59 @@ As expected the catalogues usually has high coverage in technical and descriptiv
 
 \subsection{Functional analysis}
 
+In 2003 Tom Delsey created a comparative analysis of MARC, FRBR and AACR (Functional Analysis of the MARC 21 Bibliographic and Holdings Formats \cite{delsey2003}, which has been revised by the Library of Congress in 2006 \cite{loc2006}). An interesting part of this work is a mapping of MARC data elements to user tasks. There are 12 such tasks defined, groupped into three main categories. The definitions of the tasks are the following:
+
+Resource Discovery
+\begin{itemize}
+ \setlength{\parskip}{0pt}
+ \setlength{\itemsep}{0pt plus 1pt}
+  \item Search -- Search for a resource corresponding to stated criteria (i.e., to search either a single entity or a set of entities using an attribute or relationship of the entity as the search criteria).
+  \item Identify -- Identify a resource (i.e., to confirm that the entity described or located corresponds to the entity sought, or to distinguish between two or more entities with similar characteristics).
+  \item Select -- Select a resource that is appropriate to the user’s needs (i.e., to choose an entity that meets the user’s requirements with respect to content, physical format, etc., or to reject an entity as being inappropriate to the user’s needs).
+  \item Obtain -- Access a resource either physically or electronically through an online connection to a remote computer, and/or acquire a resource through purchase, licence, loan, etc.
+\end{itemize}
+
+Resource Use
+\begin{itemize}
+ \setlength{\parskip}{0pt}
+ \setlength{\itemsep}{0pt plus 1pt}
+ \item Restrict -- Control access to or use of a resource (i.e., to restrict access to and/or use of an entity on the basis of proprietary rights, administrative policy, etc.).
+ \item Manage -- Manage a resource in the course of acquisition, circulation, preservation, etc.
+ \item Operate -- Operate a resource (i.e., to open, display, play, activate, run, etc. an entity that requires specialized equipment, software, etc. for its operation).
+ \item Interpret -- Interpret or assess the information contained in a resource. 
+\end{itemize}
+
+Data Management
+\begin{itemize}
+ \setlength{\parskip}{0pt}
+ \setlength{\itemsep}{0pt plus 1pt}
+ \item IdentifyIdentify a record, segment, field, or data element (i.e., to differentiate one logical data component from another).
+ \item Process -- Process a record, segment, field, or data element (i.e., to add, delete, replace, output, etc. a logical data component by means of an automated process).
+ \item Sort -- Sort a field for purposes of alphabetic or numeric arrangement.
+ \item Display -- Display a field or data element (i.e., to display a field or data element with the appropriate print constant or as a tracing).
+\end{itemize}
+
+The software's above mentioned data model provides a field to register these user tasks or functions to each type of MARC elements. Following the 2006 revision of the mapping the majority of the default MARC 21 element registered one or more functions, and a separate analysis method has been written to calculate the coverage of the individual functions per catalogs. The average scores can be find in Table \ref{table:functional-analysis}, and its visualization in Figure \ref{figure:functions-by-catalogs} and \ref{figure:functions-by-functions}. The numbers should be interpret in the scale of 0 to 100 and shows the proprtion of fields available per record from the totality of fields supporting a given function. In her 2007 paper Miksa ~\cite{miksa2007} evaluated four functions in OCLC catalog containing 50 million records. She applied a threshold to filter results, and get significantly larger numbers. We saw previously that MARC 21 is a quite fine grained metadata schema, there are more than 3400 data elements defined, and more than 1800 of them has a function attached to it (number of data elements supporting individual functions: \emph{resource discovery}: search--464, identify--976, select--360, obtain--466, \emph{resource use}: restrict--24, manage--107, operate--67, interpret--118, \emph{data management}: identify--491, process--529, sort--26, display--80). On the other hand the average record contains about 100 of such elements. It is not a big surprise that on a scale which makes the bar high the average score is very low. It would make sense to set some kind of filtering mechanism to normalize these result. The critics of these functional mapping \cite{miksa2007, harej2013} mention, that instead of individual elements it would be better to define a combination of elements which together support a function. The current result shows that four functions have real discriminative effects, so they reveal distinctions between catalogs: resource discovery/select, resource use/manage and operate, and data management/sort. From these manage and sort are among those functions which are supported by a low number of fields, however resource use/restrict is also low, however it is not very discriminative. These numbers require additional investigation to draw important conclusions from them.
+
+\begin{figure}
+\includegraphics[width=\textwidth]{images/chapter04/functional-analysis-of-catalogs-by-catalogs.png}
+\caption{Support of user tasks per catalogs I. Comparison per catalog}
+\label{figure:functions-by-catalogs}
+\end{figure}
+
+\begin{figure}
+\includegraphics[width=\textwidth]{images/chapter04/functional-analysis-of-catalogs-by-functions.png}
+\caption{Support of user tasks per catalogs II. Comparison per function}
+\label{figure:functions-by-functions}
+\end{figure}
+
 \afterpage{%
     \clearpage% Flush earlier floats (otherwise order might not be correct)
     \thispagestyle{empty}% empty page style (?)
     \begin{landscape}% Landscape page
 \begin{table*}
-\caption{Functional analysis (average, scale: 0-100)}
-\label{tab:functional-analysis}
+\caption{Support of user tasks (average score, scale: 0-100)}
+\label{table:functional-analysis}
 \hspace{-1cm}
 \begin{minipage}{\columnwidth} %{\columnwidth}
 \begin{center}
@@ -494,8 +540,8 @@ Restrict & 0.0 & 0.0 & 0.0 & 0.0 & 0.0 & 0.6 & 0.0 & 0.0 & 0.1 & 0.1 & 0.0 & 0.0
 Manage & 0.6 & 0.6 & 5.9 & 5.0 & 1.0 & 6.5 & 0.8 & 0.9 & 2.4 & 1.1 & 2.6 & 0.9 & 1.2 & 1.8 & 0.1 & 0.9 \\
 Operate & 2.1 & 2.0 & 6.8 & 3.1 & 4.5 & 1.6 & 5.8 & 7.2 & 8.3 & 6.3 & 1.4 & 6.4 & 5.5 & 5.0 & 0.0 & 4.5 \\
 Interpret & 0.1 & 0.9 & 0.2 & 0.9 & 0.8 & 0.1 & 0.2 & 0.2 & 0.2 & 1.2 & 0.4 & 0.2 & 0.2 & 0.1 & 0.1 & 0.1 \\
-Identify & 1.3 & 1.2 & 1.8 & 1.0 & 2.3 & 1.2 & 1.4 & 1.6 & 0.9 & 1.6 & 1.2 & 1.2 & 1.4 & 0.9 & 1.3 & 1.6 \\
 \multicolumn{17}{c}{Data management} \\
+Identify & 1.3 & 1.2 & 1.8 & 1.0 & 2.3 & 1.2 & 1.4 & 1.6 & 0.9 & 1.6 & 1.2 & 1.2 & 1.4 & 0.9 & 1.3 & 1.6 \\
 Process & 2.0 & 2.2 & 2.8 & 1.9 & 3.2 & 1.6 & 2.2 & 2.4 & 1.6 & 2.2 & 1.9 & 2.0 & 2.4 & 1.7 & 1.7 & 2.3 \\
 Sort & 9.7 & 9.0 & 11.7 & 9.9 & 8.8 & 9.1 & 11.3 & 11.1 & 10.3 & 12.0 & 11.8 & 9.6 & 11.0 & 10.6 & 6.3 & 11.0 \\
 Display & 2.6 & 3.0 & 2.7 & 3.4 & 3.5 & 1.9 & 2.5 & 1.7 & 1.9 & 2.3 & 2.8 & 1.9 & 2.2 & 2.4 & 2.1 & 2.3 \\
@@ -520,7 +566,7 @@ MARC is an evolving standard, its new rules should be implemented in the newer v
 
 \section{Note about reproducibility}
 
-This research analyzed mostly freely available data sources. The download links, format, and license information of each are provided in section 3.2. The analysis software is an open source tool that is available under the GPL-3.0 license. The binary versions are distributed via Maven Central, a repository for Java libraries. The software is properly documented, and provides helper scripts. Continuous integration (via Travis CI) and automatically generated transparent code coverage reports help to maintain the quality of the software. For every research software project it is a crucial point whether the tool could escape the confines of the laboratory walls. The author is happy to cooperate with libraries to improve the software, and thus the quality of the catalogues. The generated reports behind Table \ref{tab:proportion-of-issues} and \ref{tab:issue-types} are available as supplemental materials\footnote{https://doi.org/10.25625/AMF8JC}.
+This research analyzed mostly freely available data sources. The download links, format, and license information of each are provided in section 3.2. The analysis software is an open source tool that is available under the GPL-3.0 license. The binary versions are distributed via Maven Central, a repository for Java libraries. The software is properly documented, and provides helper scripts. Continuous integration (via Travis CI) and automatically generated transparent code coverage reports help to maintain the quality of the software. For every research software project it is a crucial point whether the tool could escape the confines of the laboratory walls. The author is happy to cooperate with libraries to improve the software, and thus the quality of the catalogues. The generated reports behind Table \ref{table:proportion-of-issues} and \ref{table:issue-types} are available as supplemental materials\footnote{https://doi.org/10.25625/AMF8JC}.
 
 \section{Acknowledgement}
 Thanks for Johann Rolschewski and Phú for their help in collecting the list of published library catalog, Jakob Voß for the Avram specification and for his help in exporting MARC schema to Avram, Carsten Klee for the MARCspec. I would like to thank the early users of the software, Patrick Hochstenbach (Gent), Osma Suominen and Tuomo Virolainen (FNL), Kokas Károly and Bernátsky László (SZTE), Sören Auer and Berrit Genat (TIB), Shelley Doljack, Darsi L Rueda, and Philip E. Schreur (Stanford), Marian Lefferts (CERL), Alex Jahnke and Maike Kittelmann (SUB) who provided data, suggestions or other kinds of feedback, Justin Christoffersen for language assistance. Special thanks to Reinhold Heuvelmann (DNB) for terminological and language suggestions.
