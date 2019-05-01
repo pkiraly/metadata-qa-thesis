@@ -2,20 +2,20 @@
 
 In the cultural heritage section there is a long tradition of building catalogues. During the centuries museums, archives and libraries developed different systems to record their collections.
 
-There is no a good definition for the quality, but the literature agree that quality should somehow be in line with the `fitness for purpose'. The main purposes of the cultural heritage metadata are registering the collection and helping users in discovery. The famous functional analysis of MARC 21 format (the most popular metadata  schema for bibliographic records) goes further and sets up functional groups, such as search, identity, select, manage, process and classifies the underlying schema elements to these categories~\cite{frbr1998, loc2006}. So by analysing the fields of the individual records, we can more precisely tell which aspects of the quality are good or bad.
+There is no good definition for the quality, but much of the literature agrees that quality should somehow be in line with the `fitness for purpose', i.e. the quality of an object should be measured as how much the object supports a given purpose. The main purposes of the cultural heritage metadata are registering the collection and helping users in discovery. The functional analysis of MARC 21 format (the most popular metadata  schema for bibliographic records) goes further and sets up functional groups, such as search, identity, select, manage, process and classifies the underlying schema elements to these categories~\cite{frbr1998, delsey2003, loc2006}. So by analysing the fields of the individual records, we can more precisely tell which aspects of the quality are good or bad.
 
-These records are not only for registration and helping discovery of the materials, they are also the sources of additional researches in the Humanities. The catalogue contains lots of factual information, which are not available in other sources (or not in organised way), and therefore before the age of digitasion one could have found the printed catalogues of the most important collections (e.g. British Library, Library of Congress etc.) in the reading rooms of research institutions. In the past two decades several research projects attached existing library metadata to different types of full text datasets (optical character recognised or XML encoded versions), to provide additional facets for the analysis process such as personal or institutional names (creators, publishers), geographical information (places of publication), time span and so on.
+These records are not only for registration and helping discovery of the materials, they are also the sources of additional researches in the Humanities. The catalogue contains lots of factual information, which are not available in other sources (or not in organised way), and therefore before the age of digitisation one could have found the printed catalogues of the most important collections (e.g. British Library, Library of Congress etc.) in the reading rooms of research institutions. In the past two decades several research projects attached existing library metadata to different types of full text datasets (optical character recognised or XML encoded versions), to provide additional facets for the analysis process such as personal or institutional names (creators, publishers), geographical information (places of publication), time span and so on.
 
-Just a few examples: KOLIMO (Corpus of Literary Modernism)\footnote{\url{https://kolimo.uni-goettingen.de/index.html}} uses TEI headers containing catalogue information as well as other metadata, for extracting literature and language features specific to a given time period, or to a particular author. OmniArt is research project~\cite{strezoski2017}, based on the metadata of Rijksmuseum, Met and the Web Gallery of Art. They collected 432,217 digital images with curated metadata, which is the largest collection of that kind. Benjamin Schmidt uses the HathiTrust digital library and its metadata records to test machine learning classification algorithms, where he can compare the results with the Library of Congress subject headings available in the metadata records~\cite{smith2017}. The common features of these project is that they use cultural heritage institutions’ catalogue data as primary sources in their own research. It is self evident, that quality of those data might have effect on the conclusions of the research, and on the other hand it is over the task and possibilities of a researcher (or even a research group) to validate the records one by one, and fix them as needed.
+Just a few examples: KOLIMO (Corpus of Literary Modernism)\footnote{\url{https://kolimo.uni-goettingen.de/index.html}} uses TEI headers containing catalogue information as well as other metadata, for extracting literature and language features specific to a given time period, or to a particular author. OmniArt~\cite{strezoski2017} is a research project, based on the metadata of Rijksmuseum (Amsterdam), the Metropolitan Museum of Arts (New York) and the Web Gallery of Art\footnote{\url{https://www.wga.hu/}}. They collected 432,217 digital images with curated metadata (which is the largest collection of that kind) to run categorical analysis. Benjamin Schmidt uses the HathiTrust\footnote{\url{https://www.hathitrust.org/}} digital library and its metadata records to test machine learning classification algorithms, where he can compare the results with the Library of Congress subject headings available in the metadata records~\cite{smith2017}. The common features of these project is that they use cultural heritage institutions’ catalogue data as primary sources in their own research. It is self evident, that quality of those data might have effect on the conclusions of the research, and on the other hand it is beyond the responsibilities and possibilities of a researcher (or even a research group) to validate the records one by one, and fix them as needed.
 
-This third use case of cultural heritage data become so frequent recently, that two years ago it lead to coining a new phrase: ``collections as data''. As the Santa Barbara Statement on Collections as Data~\cite{santabarbarastatement2017} summarises: ``For decades, cultural heritage institutions have been building digital collections. Simultaneously, researchers have drawn upon computational means to ask questions and look for patterns. This work goes under a wide variety of names including but not limited to text mining, data visualisation, mapping, image analysis, audio analysis, and network analysis. With notable exceptions [...], cultural heritage institutions have rarely built digital collections or designed access with the aim to support computational use. Thinking about collections as data signals an intention to change that.'' While collections as data movement emphasises the importance of re-usability of cultural heritage data, and we expect that this great and important movement will help organisations to think more about the scientific usage or their metadata,\footnote{A 2016 report which analyses the usage of two important British cultural heritage collections mentions that ``The citation evidence that is available shows a growing literature that mentions using EEBO or HCPP'' (the abbreviations of the two database), and ``Shifts to humanities data science and data-driven research are of growing interest to scholars''.~\cite{meyer2016}} their principles are focusing on access, and get rid of current barriers, however misses the aspects of quality. The quality assessment aspect we propose in this project would be a complementary element next to the other principles.
+This third use case of cultural heritage data become so frequent recently, that two years ago it lead to coining a new phrase: ``collections as data''. As the Santa Barbara Statement on Collections as Data~\cite{santabarbarastatement2017} summarises: ``For decades, cultural heritage institutions have been building digital collections. Simultaneously, researchers have drawn upon computational means to ask questions and look for patterns. This work goes under a wide variety of names including but not limited to text mining, data visualisation, mapping, image analysis, audio analysis, and network analysis. With notable exceptions [...], cultural heritage institutions have rarely built digital collections or designed access with the aim to support computational use. Thinking about collections as data signals an intention to change that.'' While collections as data movement emphasises the importance of re-usability of cultural heritage data, and we expect that this great and important movement will help organisations to think more about the scientific usage or their metadata,\footnote{A 2016 report which analyses the usage of two important British cultural heritage collections mentions that ``The citation evidence that is available shows a growing literature that mentions using EEBO [Early English Books Online] or HCPP [House of Commons Parliamentary Papers]'', and ``Shifts to humanities data science and data-driven research are of growing interest to scholars''.~\cite{meyer2016}} their principles are focusing on access, and get rid of current barriers, however misses the aspects of quality. The quality assessment aspect we propose in this project would be a complementary element next to the other principles.
 
 %%%
 \section{Metadata quality}
 
-\quote{``We know [metadata quality] when we see it, but conveying the full bundle of assumptions and experience that allow us to identify it is a different matter.'' (Bruce and Hillmann)~\cite{bruce-hillmann2004}.}
+\quote{``We know it [i.e. metadata quality] when we see it, but conveying the full bundle of assumptions and experience that allow us to identify it is a different matter.'' (Bruce and Hillmann)~\cite{bruce-hillmann2004}.}
 
-The (American) National Information Standards Organization (NISO) provides a definition for metadata, which is ``structured information that describes, explains, locates, or otherwise represents something else.''~\cite{framework2007} The interesting thing in this definition is the list of verbs. It is not a static entity, the metadata has multiple different functions and should be in context of other entities! That is in harmony with the famous the quality assurance slogan `fitness for purpose'. There are different definitions of the slogan, some of them are
+The (US) National Information Standards Organization (NISO) provides a definition for metadata, which is ``structured information that describes, explains, locates, or otherwise represents something else.''~\cite{framework2007} The interesting thing in this definition is the list of verbs: describes, explains, locates, and represents. Metadata is not a static entity, it has multiple different functions and should be in context of other entities! That is in harmony with the famous the quality assurance slogan `fitness for purpose'. There are different definitions of the slogan, some of them are
 
 \begin{itemize}
  \setlength{\parskip}{0pt}
@@ -33,25 +33,25 @@ From these definitions we can draw two important conclusions:
 
 NISO's definition of metadata nicely fits into this framework, as it highlights the multi-faceted and contextual nature of metadata.
 
-In an aggregated metadata collection such as Europeana, the main purpose of the metadata is to provide access points to the objects which the metadata describe (and stored in the providing cultural heritage institutions, outside of Europeana). If the metadata stored in Europeana is of low quality or missing, the service will not be able to provide access points, and the user will not use the object.
+In an aggregated metadata collection such as Europeana, the main purpose of the metadata is to provide access points to the objects which the metadata describe (and stored remotely in the providing cultural heritage institutions, outside of Europeana). If the metadata stored in Europeana is of low quality or missing, the service will not be able to provide access points, and the user will not use the object.
 
 % more explanation:
 % Data on the Web Best Practices
 % W3C Working Draft, https://www.w3.org/TR/dwbp/
 
-As Bruce and Hillmann states, an expert could recognise if a given metadata record is ``good'' or ``bad'', but what we would like to achieve is to formalise this knowledge by setting up the dimensions of the quality, and establishing metrics and measurement methods.
+As Bruce and Hillmann states, an expert could recognise if a given metadata record is ``good'' or ``bad''. What we would like to achieve is to formalise this knowledge by setting up the dimensions of the quality, and establishing metrics and measurement methods.
 
 \section{Metrics in the literature}
 
-In the literature of metadata quality assessment (see Appendix A) there are number of metrics definition. In this section I will review some which proved to be relevant in my research.
+In the literature of metadata quality assessment (see Appendix A) one can find a number of metric definitions. In this section I review some of them which proved to be relevant in my research.
 
-Regarding to the cultural heritage context Bruce and Hillmann's above cited seminal paper (\cite{bruce-hillmann2004}) defines the data quality metrics as follows:
+Regarding to the cultural heritage context Bruce and Hillmann's above cited seminal paper (\cite{bruce-hillmann2004}) defines the data quality metrics. Palavitsinis in his PhD thesis \cite{palavitsinis2014} summarises them as follows:
 
-\emph{Completeness}: Number of metadata elements filled out by the annotator in comparison to the total number of elements in the AP
+\emph{Completeness}: Number of metadata elements filled out by the annotator in comparison to the total number of elements in the application profile
 
 \emph{Accuracy}: In an accurate metadata record, the data contained in the fields, correspond to the resource that is being described
 
-\emph{Consistency}: Consistency measures the degree to which the metadata values provided are compliant to what is defined by the metadata AP
+\emph{Consistency}: Consistency measures the degree to which the metadata values provided are compliant to what is defined by the metadata application profile
 
 \emph{Objectiveness}: Degree in which the metadata values provided, describe the resource in an unbiased way, without undermining or promoting the resource
 
@@ -59,7 +59,7 @@ Regarding to the cultural heritage context Bruce and Hillmann's above cited semi
 
 \emph{Correctness}: The degree to which the language used in the metadata is syntactically and grammatically correct
 
-Nikos Palavitsinis in his PhD thesis~\cite{palavitsinis2014} analysing the metadata quality literature -- focusing on the Learning Object Repositories metadata -- lists the following additional dimensions proposed by different authors: accessibility, conformance, correctness, currency, intelligibility, objectiveness, presentation, provenance, relevancy and timeliness. He also repeats \cite{lee2002}’s categorisation regarding to the quality dimensions:
+The same author -- analysing the metadata quality literature focusing mainly on the Learning Object Repositories metadata -- lists the following additional dimensions proposed by different authors: accessibility, conformance, currency, intelligibility, objectiveness, presentation, provenance, relevancy and timeliness. He also repeats the categorisation of Lee et al. \cite{lee2002} regarding to the quality dimensions:
 
 Intrinsic Metadata Quality: represents dimensions that recognise that metadata may have innate correctness regardless of the context in which it is being used. For example, metadata for a digital object may be more or less ‘accurate’ or ‘unbiased’ in its own right,
 
@@ -69,11 +69,11 @@ Representational Metadata Quality: addresses the degree to which the metadata be
 
 Accessibility Metadata Quality: references the ease with which the metadata is obtained, including the availability of the metadata and timeliness of its receipt.
 
-Zaveri Amrapali and her colleagues surveyed the Linked Data Quality literature in 2015~\cite{zaveri2015}. This paper became the most cited one regarding to data quality. They investigated what quality dimensions and metrics were suggested by other authors and grouped individual metrics into the following dimensions:
+Zaveri Amrapali and her colleagues surveyed the Linked Data Quality literature in 2015~\cite{zaveri2015}. Their work became the most cited paper regarding to data quality. They investigated what quality dimensions and metrics were suggested by other authors and grouped individual metrics into the following dimensions:
 
 \emph{Accessibility dimensions}
 
-Availability -- the extent to which data (or some portion of it) is present, obtainable, and ready for use. Metrics:
+Availability -- the extent to which data (or some portion of it) is present, obtainable, and ready for use. The metrics this dimension are:
 \begin{itemize}
  \setlength{\parskip}{0pt}
  \setlength{\itemsep}{0pt plus 1pt}
@@ -257,7 +257,7 @@ Versatility -- the availability of the data in different representations and in 
  \item V2 provision of the data in various languages
 \end{itemize}
 
-However some of these metrics are relevant in Linked Data context, there are lots of metrics which are useful for non-linked metadata as well. For example we will see in Chapter 2 that there is a tendency to add misinterpretable ad-hoc values into a placeholder (``+++EMPTY+++'' to quote an extreme case) when the value is missing. `V2 provision of the data in various languages' is similar concept than the multilinguality I'll describe in Chapter 3.
+Some of these metrics are relevant only in Linked Data context (those which are LD technology specific, such as SPARQL endpoint or RDF dump). On the other hand there are lots of metrics which are useful for non-linked metadata as well. For example we will see in Chapter 2 that there is a tendency to add misinterpretable ad-hoc values into a placeholder (``+++EMPTY+++'' to quote an extreme case) when the value is missing. `V2 provision of the data in various languages' is similar concept than the multilinguality I'll describe in Chapter 3. Downloadable dumps are also very useful even it is not in a specific (e.g. RDF) format.
 
 \subsection{FAIR metrics}
 
@@ -275,9 +275,9 @@ The authors suggested, that good metrics in general should have the following pr
  \item universal
 \end{itemize}
 
-There are 14 FAIR principles, and for each there is a metric. Each metric should have an answer to questions, such as `What is being measured?', `Why should we measure it?', `How do we measure it?', `What is a valid result?', `For which digital resource(s) is this relevant?' etc.
+There are 14 FAIR principles, and for each there is a metric. Each metric answers questions, such as `What is being measured?', `Why should we measure it?', `How do we measure it?', `What is a valid result?', `For which digital resource(s) is this relevant?' etc.
 
-The creators published the individual metrics as nanopublications and they are working on an implementation. There are `Maturity Indicator tests' which are available as REST API backed by a Ruby based software called FAIR Evaluator. Maturity Indicators are an open set of metrics. Above the core set (which presented by the FAIRMetrics), the creators invited the research communities to create their own indicators. As they emphasise: ``we view FAIR as a continuum of `behaviors' exhibited by a data resource that increasingly enable machine discoverability and (re)use.''
+The creators published the individual metrics as nanopublications and they are working on an implementation. Besides the metrics they defined `Maturity Indicator tests' which are available as REST API backed by a Ruby based software called FAIR Evaluator. Maturity Indicators are an open set of metrics. Above the core set (which presented by the FAIRMetrics), the creators invited the research communities to create their own indicators. As they emphasise: ``we view FAIR as a continuum of `behaviors' exhibited by a data resource that increasingly enable machine discoverability and (re)use.''
 
 The FAIRmetrics are as follows:
 
@@ -304,11 +304,11 @@ My impression is that most of these metrics rather measure the data repository, 
 
 \subsection{Vocabularies for validating Linked Data}
 
-The domain of Linked Data (or semantic web) is based on `Open World assumption', which means that objects (entities) and statements about them are separated, different agents could create a statement about an object. Practically it means that there is no concept as ``record'', since the object does not have clear boundaries. The traditional record based systems have schemas, which describe what kind of statements could be done about an entity. For example the Doblin Core Metadata Element Set consists of 15 metadata element. If we would like to record a color of a book in this schema, we can not do it directly. Of course we can put this information into a semantically more generic field, such as ``format'', but then we will loose the specificity. In Linked Data context the situation is different: we can easily introduce a new property, and create a statement, however we loose the control of the schema. We can not tell if the new property is valid or not.
+The domain of Linked Data (or semantic web) is based on `Open World assumption', which means that objects (entities) and statements about them are separated, different agents could create a statement about an object. Practically it means that there is no concept as ``record'', since the object does not have clear boundaries. The traditional record based systems have schemas, which describe what kind of statements could be done about an entity. For example the Doblin Core Metadata Element Set consists of 15 metadata element. If we would like to record a color of a book in this schema, we can not do it directly. Of course we can put this information into a semantically more generic field, such as ``format'', but then we will loose specificity, and color will be stored together with other features such as size, dimensions etc. In Linked Data context the situation is different: we can easily introduce a new property, and create a statement, however we loose the control of the schema. We can not tell if the new property is valid or not.
 
-To solve this problem W3C set up RDF Data Shapes working group ``to produce a language for defining structural constraints on RDF graphs''\footnote{\url{https://www.w3.org/2014/data-shapes/charter}}. One of the results came from this approach is Shapes Constraint Language ( SHACL)\footnote{\url{https://www.w3.org/TR/shacl/}. We should note that there is another approach for the same problem: Shape Expressions (ShEx) available at \url{http://shex.io}.}
+To solve this problem W3C set up RDF Data Shapes working group ``to produce a language for defining structural constraints on RDF graphs''\footnote{\url{https://www.w3.org/2014/data-shapes/charter}}. One of the results came from this approach is Shapes Constraint Language (SHACL)\footnote{\url{https://www.w3.org/TR/shacl/}. We should note that there is another approach for the same problem: Shape Expressions (ShEx) available at \url{http://shex.io}.}
 
-SHACL defined a vocabulary (see Table \ref{table:shacl}) upon which one can create validation rules. It does not set metrics directly, but these constraint definitions are very useful building block of data quality measurement system. The implementation of SHACL is based on Linked Data, but the definitions are meaningful in other contexts as well.
+SHACL defined a vocabulary (see Table \ref{table:shacl}) upon which one can create validation rules. It does not set metrics directly, but these constraint definitions are very useful building blocks of a data quality measurement system. The implementation of SHACL is based on Linked Data, but the definitions are meaningful in other contexts as well.
 
 \begin{table}[h]
 \caption{Core constraints in SHACL}
@@ -333,9 +333,11 @@ Qualified shapes & qualifiedValueShape, qualifiedMinCount,\\  & qualifiedMaxCoun
 \end{tabular}
 \end{table}
 
+Within Europeana Data Quality Committee we plan to define frequently occurring metadata problems (or `anti-patterns') with SHACL.
+
 \subsection{Organising issues per responsible actors}
 
-Christopher Groskopf writing a guide for data journalist how to recognise data issues~\cite{groskopf2015} followed a different approach. He wrote a practical guide, not an academic paper, so he organised issues based on who could fix them. His main take-away messages are
+Christopher Groskopf who wrote a guide for data journalists how to recognise data issues~\cite{groskopf2015} followed a different approach. He wrote a practical guide, not an academic paper, so he organised issues based on who could fix them. His main take-away messages are
 \begin{itemize}
  \setlength{\parskip}{0pt}
  \setlength{\itemsep}{0pt plus 1pt}
@@ -344,7 +346,9 @@ Christopher Groskopf writing a guide for data journalist how to recognise data i
  \item check it early, check it often
 \end{itemize}
 
-Issues that your source should solve
+His categorisation is the following:
+
+\emph{Issues that your source should solve}
 
 \begin{itemize}
  \setlength{\parskip}{0pt}
@@ -368,7 +372,7 @@ Issues that your source should solve
  \item Text has been converted to numbers
 \end{itemize}
 
-Issues that you should solve
+\emph{Issues that you should solve}
 \begin{itemize}
  \setlength{\parskip}{0pt}
  \setlength{\itemsep}{0pt plus 1pt}
@@ -388,7 +392,7 @@ Issues that you should solve
  \item Frame of reference has been manipulated
 \end{itemize}
 
-Issues a third-party expert should help you solve
+\emph{Issues a third-party expert should help you solve}
 \begin{itemize}
  \setlength{\parskip}{0pt}
  \setlength{\itemsep}{0pt plus 1pt}
@@ -402,7 +406,7 @@ Issues a third-party expert should help you solve
  \item It’s too good to be true
 \end{itemize}
 
-Issues a programmer should help you solve
+\emph{Issues a programmer should help you solve}
 \begin{itemize}
  \setlength{\parskip}{0pt}
  \setlength{\itemsep}{0pt plus 1pt}
@@ -410,18 +414,18 @@ Issues a programmer should help you solve
  \item Data are in scanned documents
 \end{itemize}
 
-Groskopf's list we created in reflection to the data journalism context, and it implies that -- comparing to cultural heritage data -- these  project are smaller in both the number of contributors and the number of records. On the other hand, the sole purpose of these data is to be used in data analysis so during the data cleaning process the maintainer has more freedom that that of a librarian, who should keep in mind multiple data reuse scenarios. Despite of these differences cultural heritage projects also get inspirations from Groskopf's list.
+Groskopf's list is not a definition of general metrics, it is a catalogue of anti-patterns. It was created in reflection to the data journalism context, and it implies that -- comparing to cultural heritage data -- these  project are smaller in both the number of contributors and the number of records. On the other hand, the sole purpose of these data is to be used in data analysis so during the data cleaning process the maintainer has more freedom that that of a librarian, who should keep in mind multiple data reuse scenarios. Despite of these differences cultural heritage projects also get inspirations from Groskopf's list.
 
-\section{Measuring the quality of individual objects}
+\section{Measuring the quality in this research}
 
-In the previous section I revised some of the metrics. I did not follow any particular methodology in the research. What I found useful is a mix of them. The main types of data quality measurement in this dissertation are the following:
+In the previous section I revised some of the metrics. I did not follow any particular methodology in the current research. What I found useful is a mix of them. The main types of data quality measurement in this dissertation are the following:
 
 \emph{General structural and semantic metrics}. These measurements are the most well known in the literature, and following the seminal articles of this research domain~\cite{bruce-hillmann2004, ochoa-duval2009}: \emph{completeness} (the existence of the defined fields in the records), \emph{accuracy} (comparison of a full data object and its metadata), \emph{conformance to expectations} (schema rule validation and information value), \emph{logical consistency and coherence}, \emph{accessibility} (how easy is to understand the text of the record), and \emph{provenance} (the relationship between other metrics and the creator of the data).
 
-\emph{Support of functional requirements}. Each data schema is created for supporting a set of functionalities, such as searching, identifying or describing objects. The data elements support one or more of these functionalities, and their existence and content has an impact of these functionalities. An example: a timeline widget expects a specific date format; if the field value is in another format the widget will ignore it. This family of metrics gives measures the scale of support of the functional requirement. To apply these metrics we should take the functional requirement analysis of the data schema and map the individual data elements (classes and properties) to the functionalities. The result will be a report which tells how the data support the intended functions. Following the terminology established in~\cite{gavrilis2015} we call these scores `sub-dimensions’. The Europeana Data Quality Committee defined a number of sub-dimensions (such as searchability, descriptiveness, identification, contextualisation, browsing etc.) which could be reused in other metadata domains. The Library of Congress defined 12 user tasks, and created a mapping between them and MARC 21 data elements~\cite{delsey2003, loc2006}.
+\emph{Support of functional requirements}. Each data schema is created for supporting a set of functionalities, such as searching, identifying or describing objects. The data elements support one or more of these functionalities, and their existence and content has an impact of these functionalities. An example: a timeline widget expects a specific date format; if the field value is in another format the widget will ignore it. This family of metrics gives measures the scale of support of the functional requirement. To apply these metrics we should take the functional requirement analysis of the data schema and map the individual data elements (classes and properties) to the functionalities. The result will be a report which tells how the data support the intended functions. Following the terminology established in~\cite{gavrilis2015} we call these scores `sub-dimensions’. The Europeana Data Quality Committee defined a number of sub-dimensions (such as searchability, descriptiveness, identification, contextualisation, browsing etc.) which could be reused in other metadata domains. Regarding to MARC 21 schema the Library of Congress defined 12 user tasks, and created a mapping between them and the schema's data elements~\cite{delsey2003, loc2006}.
 
 \emph{Existence of known data patterns}. These are schema- and domain-specific patterns which occur frequently in the datasets. There are good patterns which detect good data creation practices, and anti-patterns, which should be avoided (such as data repetition, meaningless data etc.). For some domains there are existing pattern catalogues (e.g. the Europeana Data Quality Committee works on a Europeana specific pattern catalogue, while~\cite{suominen2012}  examined three SKOS validation criteria catalogs). In Chapter 4 we will see some of anti-patterns in MARC 21 records.
 
 \emph{Multilinguality}. RDF provides an easily adaptable technique to add a language tag to literal values, and multilinguality has become a key aspect in the Linked Open Data world. In cultural heritage databases the translation of the descriptive fields (such as title, description) might be quite a resource-intensive task. On the other hand reusing existing multilingual dictionaries for subject headings is a relatively simple and cheap process. On the measurement side the nice thing is that generally the multilingual layer in metadata schemas (even in those not built on top of RDF) are similar, so the implementation can be abstracted. The big problem is how to handle the biases generated by the different cardinality and importance of the data elements. Imagine that we have a subject heading which is accessible in several language, but it is attached to a great portion of records, so its information value or distinctive power is low. See more about multilinguality in Chapter 3.
 
-The common point in these metrics is that they can be implemented as generic functions where input parameters are specific elements of a data schema. The functions themselves should not know about the details of the schema; that is to say they should be schema-independent. In other words: the only thing we should need to create on a schema by schema basis is a method which takes care of mapping the schema elements and measurement functions and feeds these generic functions with the appropriate metadata elements.
+The common point in these metrics is that they can be implemented as generic functions where input parameters are specific elements of a data schema. The functions themselves should not know about the details of the schema; that is to say they should be schema-independent. In other words: the only thing we should create on a schema by schema basis is a method which takes care of mapping the schema elements and measurement functions and feeds these generic functions with the appropriate metadata elements.
